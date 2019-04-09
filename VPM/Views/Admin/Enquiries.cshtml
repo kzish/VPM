@@ -9,15 +9,17 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form class="form-inline" action="/Admin/Enquiries" method="get">
-            <div class="form-group">
+        <form class="form-inline" action="/Admin/Enquiries" method="get" style="width:100%;">
+            <div class="input-group">
                 <select class="form-control" id="filterstatus" name="status">
                     <option value="">Filter Status (All)</option>
                     <option value="open" selected="@(ViewBag.status=="open")">Open</option>
                     <option value="closed" selected="@(ViewBag.status=="closed")">Closed</option>
                 </select>
+                <div class="input-group-append">
+                    <input type="submit" class="btn btn-outline-danger _active" value="Filter" />
+                </div>
             </div>
-            <input type="submit" class="btn btn-primary" value="Filter" />
         </form>
     </div>
 </div>
@@ -25,7 +27,7 @@
 <div class="row">
 
     <div class="col-md-12">
-        <div class="card ">
+        <div class="card bshadow">
             <div class="card-header ">
                 <h4 class="card-title">Enquiries</h4>
             </div>
