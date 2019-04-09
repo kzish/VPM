@@ -16,7 +16,8 @@
 <script src="~/assets/libs/busyload/bl.js"></script>
 <link href="~/assets/libs/busyload/bl.css" rel="stylesheet" />
 
-<link href="~/account/assets/css/imageHoverSmall.css" rel="stylesheet" />
+<link href="~/template_themes/sidebar_/css/imageHoverSmall.css" rel="stylesheet" />
+
 
 
 @*jalert*@
@@ -32,19 +33,18 @@
 
 @*zebradatepicker*@
 <script src="~/assets/libs/zebra_datepicker/zebra_datepicker.min.js"></script>
-<link href="~/assets/libs/zebra_datepicker/css/bootstrap/zebra_datepicker.css" rel="stylesheet" />
-
-
+<link href="~/assets/libs/zebra_datepicker/css/default/zebra_datepicker.css" rel="stylesheet" />
+<link href="~/assets/libs/zebra_datepicker/css/bootstrap/zebra_datepicker.css." rel="stylesheet" />
 
 
 
 <div class="row">
     <div class="col-md-12">
         <h4 style="color:@(property.adminApproved?"green":"red")">
-            This Property is @(property.adminApproved ? "Aprroved" : "Rejected")
+            This Property is @(property.adminApproved ? "Approved" : "Rejected")
             @if (!property.adminApproved)
             {
-                <p>@property.rejectionReason</p>
+                <small>@property.rejectionReason</small>
             }
         </h4>
         <br />
@@ -52,249 +52,265 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Property Name</label>
-            <br />
-            <label>@property.propertyName</label>
-        </div>
+<div class="card bshadow">
+    <div class="card-header _active">Basic Details</div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Property Name</label>
+                    <br />
+                    <input type="text" readonly class="form-control" value="@property.propertyName" />
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Property Type</label>
+                    <br />
+                    <input type="text" readonly class="form-control" value="@property.propertyType" />
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Country</label>
+                    <br />
+                    <input type="text" readonly class="form-control" value="@property.propertyCountry" />
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">State/Province</label>
+                    <br />
+                    <input type="text" readonly class="form-control" value="@property.stateOrPorvince" />
+                </div>
+            </div>
+
+
+        </div>@*ROW*@
     </div>
+</div>
 
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Property Type</label>
-            <br />
-            <label>@property.propertyType</label>
-        </div>
+<br />
+<br />
+
+<div class="card bshadow">
+    <div class="card-header">More Information</div>
+    <div class="card-body">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Suburb</label>
+                    <br />
+                    <input type="text" value="@property.suburb" readonly class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Street Address</label>
+                    <br />
+                    <input type="text" class="form-control" readonly value="@ViewBag.streetAddress" />
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Billing Rate</label>
+                    <br />
+                    <label>@property.billingRate</label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Price</label>
+                    <br />
+                    <label>@property.price</label>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Description</label>
+                    <br />
+                    <small>@property.description</small>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="black">Eligibility form</label>
+                    <br />
+                    @if (property.eligibilityFormLink != null)
+                    {
+                        <a href="@property.eligibilityFormLink" target="_blank" class="btn btn-primary">@property.eligibilityFormLink</a>
+                    }
+                    else
+                    {
+                        <p>N/A</p>
+                    }
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label><a href="/Admin/WaitingList?pid=@property._id">Waiting list</a></label>
+                    <br />
+                    <a href="/Admin/WaitingList?pid=@property._id">@property.waitingList.Count()</a>
+                </div>
+            </div>
+
+        </div>@*ROW*@
     </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Country</label>
-            <br />
-            <label>@property.propertyCountry</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">State/Province</label>
-            <br />
-            <label>@property.stateOrPorvince</label>
-        </div>
-    </div>
-
-
-</div>@*ROW*@
-<hr />
-
-<div class="row">
+</div>
 
 
 
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">City/Town</label>
-            <br />
-            <label>@property.cityOrTown</label>
-        </div>
-    </div>
-
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Suburb</label>
-            <br />
-            <label>@property.suburb</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Street Address</label>
-            <br />
-            <label>@ViewBag.streetAddress</label>
-        </div>
-    </div>
-
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Billing Rate</label>
-            <br />
-            <label>@property.billingRate</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Price</label>
-            <br />
-            <label>@property.price</label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Description</label>
-            <br />
-            <label> @property.description </label>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label class="black">Eligibility form</label>
-            <br />
-            @if (property.eligibilityFormLink != null)
-            {
-                <a href="@property.eligibilityFormLink" target="_blank" class="btn btn-primary">@property.eligibilityFormLink</a>
-            }
-            else
-            {
-                <p>N/A</p>
-            }
-        </div>
-    </div>
-
-
-    <div class="col-md-3">
-        <div class="form-group">
-            <label><a href="/Admin/WaitingList?pid=@property._id">Waiting list</a></label>
-            <br />
-            <a href="/Admin/WaitingList?pid=@property._id">@property.waitingList.Count()</a>
-        </div>
-    </div>
-
-
-
-
-</div>@*ROW*@
-<hr />
+<br />
+<br />
 
 
 <form id="fdate" action="/Admin/SaveNextDate" method="post">
 
-    <div class="row">
+    <div class="card bshadow">
+        <div class="card-header _active">More Information</div>
+        <div class="card-body">
+            <div class="row">
 
-        <div class="col-md-2">
-            <div class="form-group">
-                <label class="black">Property Status</label>
-                <br />
-                <input type="hidden" name="pid" value="@property._id" />
-                <select name="PropertyStatus" id="PropertyStatus" class="">
-                    <option value="Available" selected="@(property.PropertyStatus=="Available")">Available</option>
-                    <option value="Not Available" selected="@(property.PropertyStatus=="Not Available")">Not Available</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="form-group">
-                <label class="black">Next Available Date</label>
-                <br />
-                <div class="input-group">
-                    <input type="text" id="nextAvailableDate" name="nextAvailableDate" class="form-control" style="font-size:12px!important;" value="@(property.nextAvailableDate==null?"":property.nextAvailableDate.Value.AddDays(1).ToString("yyyy-MM-dd"))" />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-warning" onclick="clearDate();">
-                            <span class="fa fa-trash"></span>
-                        </button>
-                    </span>
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-warning">
-                            SAVE
-                        </button>
-                    </span>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="black">Property Status</label>
+                        <br />
+                        <input type="hidden" name="pid" value="@property._id" />
+                        <select name="PropertyStatus" id="PropertyStatus_" class="form-control">
+                            <option value="Available" selected="@(property.PropertyStatus=="Available")">Available</option>
+                            <option value="Not Available" selected="@(property.PropertyStatus=="Not Available")">Not Available</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="black">Next Available Date</label>
+                        <div class="input-group mb-3">
+                            <input type="text" id="nextAvailableDate" name="nextAvailableDate" class="form-control" style="font-size:12px!important;" value="@(property.nextAvailableDate==null?"":property.nextAvailableDate.Value.AddDays(1).ToString("yyyy-MM-dd"))" />
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-outline-danger _active" onclick="clearDate();">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                            </div>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-danger _active">
+                                    SAVE
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="black">&nbsp;</label>
+                    <br />
+                    <a href="/admin/approvalProperty?pid=@property._id" class="btn btn-success btn-block">Approve</a>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="black">&nbsp;</label>
+                    <br />
+                    <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalRejection" type="button">Reject</button>
+                </div>
+
             </div>
+
         </div>
-
-
-
-        <div class="col-md-3">
-            <label class="black">&nbsp;</label>
-            <br />
-            <a href="/admin/approvalProperty?pid=@property._id" class="btn btn-success btn-block">Approve</a>
-        </div>
-
-        <div class="col-md-3">
-            <label class="black">&nbsp;</label>
-            <br />
-            <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#modalRejection" type="button">Reject</button>
-        </div>
-
     </div>
 
 </form>
 
+<br />
+<br />
 
-<div class="row">
 
-    @*col-md-6 for right column*@
-    <div class="col-md-6" style="border-right: 1px solid #000000;">
+
+<div class="card bshadow">
+    <div class="card-header">Identification Documents</div>
+    <div class="card-body">
         <div class="row">
-            <div class="col-md-12">
-                 Property Images
-            </div>
-        </div>
-        @*gallery images*@
-        <div class="row" id="pimages">
 
-           
-
-            @foreach (var i in property.PImages)
-            {
-                <div class="col-md-4" id="@i._id">
-                    <div class="divImageHolder">
-                        <a href="javascript:void(0);">
-                            <div class="divImageItem firstProduct">
-                                <img src="@i.path" style="object-fit:cover" />
-                                <span class="text-content">
-                                </span>
-                            </div>
-                        </a>
+            @*col-md-6 for right column*@
+            <div class="col-md-6" style="border-right: 1px solid #000000;">
+                <div class="row">
+                    <div class="col-md-12">
+                        Property Images
                     </div>
                 </div>
-            }
+                @*gallery images*@
+                <div class="row" id="pimages">
 
-        </div><!-- /.row -->
+
+
+                    @foreach (var i in property.PImages)
+                    {
+                        <div class="col-md-4" id="@i._id">
+                            <div class="divImageHolder">
+                                <a href="javascript:void(0);">
+                                    <div class="divImageItem firstProduct">
+                                        <img src="@i.path" style="object-fit:cover" />
+                                        <span class="text-content">
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                </div><!-- /.row -->
+            </div>
+            @*col-md-6 for left column*@
+
+            @*col-md-6 for right column*@
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        Title Deed Images
+                    </div>
+                </div>
+
+                @*gallery images*@
+                <div class="row" id="tdfiles">
+
+
+
+
+                    @foreach (var i in property.TdFiles)
+                    {
+                        <div class="col-md-4" id="@i._id">
+                            <div class="divImageHolder">
+                                <a href="javascript:void(0);">
+                                    <div class="divImageItem firstProduct">
+                                        <img src="@i.path" style="object-fit:cover" />
+                                        <span class="text-content">
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>@*col-md-6 for right column*@
+        </div>
+
     </div>
-    @*col-md-6 for left column*@
-
-    @*col-md-6 for right column*@
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-md-12">
-                 Title Deed Images
-            </div>
-        </div>
-
-        @*gallery images*@
-        <div class="row" id="tdfiles">
-
-           
-
-
-            @foreach (var i in property.TdFiles)
-            {
-                <div class="col-md-4" id="@i._id">
-                    <div class="divImageHolder">
-                        <a href="javascript:void(0);">
-                            <div class="divImageItem firstProduct">
-                                <img src="@i.path" style="object-fit:cover" />
-                                <span class="text-content">
-                                </span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>@*col-md-6 for right column*@
 </div>
 
+<br />
+<br />
 
 
 @*modal for rejection*@
@@ -319,7 +335,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button type="submit" class="btn btn-outline-danger _active">Submit</button>
                 </div>
             </form>
         </div>

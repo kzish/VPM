@@ -12,13 +12,12 @@
 
 
 @*imagehover*@
-<link href="~/account/assets/css/imageHover.css" rel="stylesheet" />
-
+<link href="~/template_themes/sidebar_/css/imageHover.css" rel="stylesheet" />
 
 @*row*@
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default" style="padding:10px;">
+        <div class="" style="padding:10px;">
             <form class="form" action="/Admin/Properties" method="get">
                 <div class="row">
                     <div class="input-group mb-3">
@@ -71,10 +70,6 @@
        asp-controller="Account"
        asp-route-keyword="" />
 <div class="row">
-
-
-
-
     @foreach (var p in property)
     {
         <div class="col-md-3">
@@ -84,10 +79,11 @@
                         @if (p.PImages.Count > 0)
                         {
                             <img src="@p.PImages[0].path" style="object-fit:cover" />
+                            
                         }
                         else
                         {
-                            <img src="~/account/assets/img/placeholder_property.png" style="object-fit:cover" />
+                            <img src="~/assets/img/placeholder_property.png" style="object-fit:cover" />
                         }
                         <span class="text-content">
                             <span style="text-align:left!important;">

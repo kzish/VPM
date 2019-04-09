@@ -106,7 +106,7 @@ using PagedList;
             WriteLiteral("\r\n\r\n\r\n\r\n\r\n");
             EndContext();
             BeginContext(372, 76, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "8552944ff9b24087af93ef391e49e4a9", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "13e7c5538ec4491eaf2c64572bd87724", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -125,7 +125,7 @@ using PagedList;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(450, 72, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b6202a14a23c4e6cab0a982348e002a0", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fa577b3cf85a4df689558484a02f0e60", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -143,7 +143,7 @@ using PagedList;
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(542, 68, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "57a21545ffd5435f9db1cdec72a996c4", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4e198be305464a9cb7e640d03641ea79", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -161,7 +161,7 @@ using PagedList;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(612, 82, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "77699ade3a2845d3b4b0dd9dd0ef44fa", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "ed428a84d3ee40f0b58bd41e295ffcbc", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -183,7 +183,7 @@ using PagedList;
             WriteLiteral("    <div class=\"row\">\r\n        <div class=\"col-md-12\">\r\n            <div class=\"panel panel-default\" style=\"padding:10px;\">\r\n                ");
             EndContext();
             BeginContext(989, 723, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f30c1eac72f647119139620eec8ba7b2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "23925cd43f2d4f5a93c82a20fe01dcf3", async() => {
                 BeginContext(1047, 240, true);
                 WriteLiteral("\r\n                    <div class=\"row\">\r\n                        <div class=\"input-group col-md-12\">\r\n                            <input type=\"text\" class=\"form-control\" name=\"param\" placeholder=\"state, city, address, description, job type\"");
                 EndContext();
@@ -239,7 +239,7 @@ WriteAttributeValue("", 1295, ViewBag.param, 1295, 14, false);
             WriteLiteral("        <div class=\"\" style=\"background-color:lightgray;border-radius:2px;margin-bottom:20px;\">\r\n            <div class=\"container houses_\">\r\n\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-12\">\r\n\r\n\r\n                        ");
             EndContext();
             BeginContext(2061, 344, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "8dc6ca04fcd64d77a05db93e33f0aaae", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "2dfe4b05bd5841fa916fa55af463aca9", async() => {
             }
             );
             __PagedList_Core_Mvc_PagerTagHelper = CreateTagHelper<global::PagedList.Core.Mvc.PagerTagHelper>();
@@ -303,7 +303,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
             WriteLiteral("                                            ");
             EndContext();
             BeginContext(2962, 112, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "728451b4ce024ac9802e6a7c2a800100", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "88f0043e41524403844ed615d77569bf", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -574,7 +574,7 @@ WriteAttributeValue("", 5012, p._id, 5012, 6, false);
             WriteLiteral("\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-12\">\r\n\r\n                        ");
             EndContext();
             BeginContext(6977, 344, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "8f08c6e4a8c44716b88bf453826bb6fa", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "5152b0b2d15b441eab41b3b29ac0ce8e", async() => {
             }
             );
             __PagedList_Core_Mvc_PagerTagHelper = CreateTagHelper<global::PagedList.Core.Mvc.PagerTagHelper>();
@@ -655,7 +655,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                 ");
             EndContext();
             BeginContext(7989, 3952, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e748551e757d42399c9a8728f548b444", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "10b335510e664e178424a5f46440a4eb", async() => {
                 BeginContext(8068, 2352, true);
                 WriteLiteral(@"
                     <div class=""row"">
@@ -692,7 +692,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                                     ");
                 EndContext();
                 BeginContext(10420, 44, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c2bc2d04dc1d4fb08e397f463975e35f", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f747c3bfe6d04494ac1ddab6bab09206", async() => {
                     BeginContext(10446, 9, true);
                     WriteLiteral("Whole Job");
                     EndContext();
@@ -714,7 +714,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                 WriteLiteral("\r\n                                    ");
                 EndContext();
                 BeginContext(10502, 42, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6d91fbfb24f245cfbd7ddcd104ea473c", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0cbdc82856db48ab8b65d0535fa07271", async() => {
                     BeginContext(10527, 8, true);
                     WriteLiteral("Per Hour");
                     EndContext();
@@ -736,7 +736,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                 WriteLiteral("\r\n                                    ");
                 EndContext();
                 BeginContext(10582, 40, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b56f690e4ce045f080eb520a1f662424", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "581709ed171245a1aa8b2a9336547c1b", async() => {
                     BeginContext(10606, 7, true);
                     WriteLiteral("Per Day");
                     EndContext();
@@ -758,7 +758,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                 WriteLiteral("\r\n                                    ");
                 EndContext();
                 BeginContext(10660, 42, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eaf0efcb6fb34e75b8d17d8e6260c788", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d04709566ec3484b9023e8502b8a1715", async() => {
                     BeginContext(10685, 8, true);
                     WriteLiteral("Per Week");
                     EndContext();
@@ -780,7 +780,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                 WriteLiteral("\r\n                                    ");
                 EndContext();
                 BeginContext(10740, 44, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "821ab29404eb4d53b2df3e5d391b44df", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4015a22a33c546f5838fcdc2baa35143", async() => {
                     BeginContext(10766, 9, true);
                     WriteLiteral("Per Month");
                     EndContext();
@@ -802,7 +802,7 @@ __PagedList_Core_Mvc_PagerTagHelper.Options = PagedList.Core.Mvc.PagedListRender
                 WriteLiteral("\r\n                                    ");
                 EndContext();
                 BeginContext(10822, 42, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fd2013f2b6164d91bc6ffd00f74352a7", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2f58cd6d873a4f5c9dda4a58692245fc", async() => {
                     BeginContext(10847, 8, true);
                     WriteLiteral("Per Year");
                     EndContext();
