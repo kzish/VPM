@@ -1,0 +1,53 @@
+﻿@{ Layout = "_Layout";}
+
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+@*dash cards for the pricing table like items*@
+<link href="~/assets/css/dashCards.css" rel="stylesheet" />
+
+<div class="row">
+
+    <div class="col-md-12">
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background:#000;color:#fff;">Enquiries ()</div>
+            <div class="panel-body" style="margin:0px!important;padding:0px!important;">
+                <table class="table table-condensed tblsm table-striped">
+                    <tr>
+                        <td>Date</td>
+                        <td>Message</td>
+                        <td>Action</td>
+                    </tr>
+                   
+                </table>
+
+               
+            </div>
+            @*panel body*@
+
+            @*<div class="panel-footer">
+                <pager class="pager-container"
+                       list=""
+                       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                       asp-action="Properties"
+                       asp-controller="Admin"
+                       asp-route-keyword="" />
+                *@
+            </div>
+            @*pnel footer*@
+        </div>
+        @*panel*@
+
+
+           
+
+        </div>@*col-md-12*@
+    </div>@*row*@
+
+
+@*row*@

@@ -1,0 +1,148 @@
+﻿@{ Layout = "_Layout";}
+@{ var user = (VPM.Models.mClient)ViewBag.user;}
+@*js validater*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+<script src="~/assets/libs/validate/jquery_validator/additional-methods.js"></script>
+@*page script*@
+
+<form class="login-form" method="post" action="/Client/ClientUpdateDetails" id="flog0">
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">Basic Details</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="black">Name<span style="color:red;"> *</span></label>
+                                <input type="text" value="@user.name" placeholder="name" name="name" id="name" required class="black form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="black">Surname<span style="color:red;"> *</span></label>
+                                <input type="text" value="@user.surname" placeholder="surname" name="surname" id="surname" required class="black form-control" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="black">mobile<span style="color:red;"> *</span></label>
+                                <input type="number" value="@user.mobile" placeholder="mobile" name="mobile" id="mobile" required class="black form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">Email & Next of Kin</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Email<span style="color:red;"> </span></label>
+                                <input type="email" value="@user.email" placeholder="email" name="email" id="emial" class="black form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Next of Kin<span style="color:red;"> *</span></label>
+                                <input type="text" value="@user.nextOfKin" placeholder="next of kin" name="nextOfKin" id="nextOfKin" required class="black form-control" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Next of Kin Mobile<span style="color:red;"> *</span></label>
+                                <input type="number" value="@user.nextOfKinMobile" placeholder="next of kin mobile" name="nextOfKinMobile" id="nextOfKin" required class="black form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">Occupation & Address</div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Occupation<span style="color:red;"> *</span></label>
+                                <input type="text" value="@user.occupation" placeholder="occupation" name="occupation" id="occupation" required class="black form-control" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Your Address<span style="color:red;"> *</span></label>
+                                <textarea type="text" placeholder="address" name="address" id="address" required class="black form-control">@user.address</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/Client/ChangePassword">Change password >></a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-outline-success btn-block">SAVE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+
+<script>
+
+    $("#flog0").validate({
+
+    });
+
+
+    $("#flog0").on("submit", function (e) {
+        var valid = $("#flog0").valid();
+        if (valid) {
+            $.busyLoadFull("show");
+        }
+    });
+
+</script>

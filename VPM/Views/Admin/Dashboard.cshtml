@@ -1,0 +1,252 @@
+﻿@{ Layout = "_Layout";}
+@{var en = (IPagedList<VPM.Models.mEnquiry>)ViewBag.enqs;}
+@{var props = (IPagedList<VPM.Models.mProperty>)ViewBag.props;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+<div class="row">
+
+    @*property left panel*@
+    <div class="col-md-6">
+        <div class="card " style="height:500px">
+            <div class="card-header">
+                <h4 class="card-title">Properties</h4>
+                <table>
+                    <tr>
+                        <td>
+                            <select name="stateOrPorvince" class="">
+
+                            </select>
+                        </td>
+                        <td> 
+                            <select name="cityOrTown" class="">
+
+                            </select> 
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed table-striped tblsmdash">
+                        <tr>
+                            <th>Approved</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>State</th>
+                            <th>City</th>
+                            <th>Action</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var p in props)
+                            {
+                                <tr>
+                                    <td>@p.adminApproved</td>
+                                    <td>@p.dateCreated.ToString("d MMM yyyy")</td>
+                                    <td>@p.propertyName</td>
+                                    <td>@p.propertyType</td>
+                                    <td>@p.stateOrPorvince</td>
+                                    <td>@p.cityOrTown</td>
+                                    <td><a href="/Admin/ViewProperty?pid=@p._id">View</a></td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>@*table responsive*@
+
+                Showing top 8
+                <a href="/Admin/Properties">View All...</a>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+    @*end property left panel*@
+
+
+    @*div enquiries right panel*@
+    <div class="col-md-6">
+        <div class="card" style="height:500px">
+            <div class="card-header">
+                <h4 class="card-title">Properties</h4>
+            </div>
+            <div class="card-body">
+                <div id="propch1"></div>
+            </div>
+        </div>
+    </div>
+    @*end property right panel*@
+
+</div>@*end row properties*@
+<hr />
+
+
+@*enquiries*@
+<div class="row">
+
+    @*enquiries left panel*@
+    <div class="col-md-6">
+        <div class="card " style="height:500px">
+            <div class="card-header ">
+                <h4 class="card-title">Enquiries</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-condensed table-striped tblsmdash">
+                        <tr>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Action</th>
+                        </tr>
+                        <tbody>
+                            @foreach (var e in en)
+                            {
+                                <tr>
+                                    <td>@e.getStatus()</td>
+                                    <td>@e.date.ToString("d MMM yyyy")</td>
+                                    <td>@e.name</td>
+                                    <td>@e.mobile</td>
+                                    <td>@e.email</td>
+                                    <td>@e.enquiry</td>
+                                    <td><a href="/Admin/ViewEnquiry?eid=@e._id">View</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>@*table responsive*@
+
+                Showing top 8
+                <a href="/Admin/Enquiries">View All...</a>
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+    @*end enquiries left panel*@
+
+
+    @*div enquiries right panel*@
+    <div class="col-md-6">
+        <div class="card" style="height:500px">
+            <div class="card-header">
+                <h4 class="card-title">Enquiries</h4>
+            </div>
+            <div class="card-body">
+                <div id="enqch1"></div>
+            </div>
+        </div>
+    </div>
+    @*end enquirie right panel*@
+
+</div>@*end row enquiries*@
+<hr />
+
+
+
+
+
+
+@*enquiries pie chart*@
+<script>
+    Highcharts.chart('enqch1', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: ''
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+        },
+        credits: {
+            enabled: false
+        },
+    series: [{
+        name: 'Enquiries',
+        colorByPoint: true,
+        data: [{
+            name: 'Open',
+            y: @ViewBag.e_open,
+        }, {
+            name: 'Closed',
+            y: @ViewBag.e_closed
+        }, {
+            name: 'Rejected',
+            y: @ViewBag.e_rejected
+        }, {
+            name: 'Accepted',
+            y: @ViewBag.e_accepted
+        }, {
+            name: 'Under Admin Review',
+            y: @ViewBag.e_underAdminReview
+        }, {
+            name: 'Under LandLord Review',
+            y: @ViewBag.e_underLandLordReview
+        }]
+    }]
+});
+</script>
+
+@*properties chart*@
+<script>
+    Highcharts.chart('propch1', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['Available', 'Not Available']
+    },
+    credits: {
+        enabled: false
+    },
+    series: [{
+        name: 'Properties',
+        data: [
+            @ViewBag.p_available,
+            @ViewBag.p_notavailable
+        ]
+    }]
+});
+</script>
+
+
+

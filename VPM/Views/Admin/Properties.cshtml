@@ -1,0 +1,183 @@
+﻿@{ Layout = "_Layout";}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var property = (IPagedList<VPM.Models.mProperty>)ViewBag.props;}
+@{var countrys = (List<VPM.Models.mCountry>)ViewBag.countrys;}
+
+
+
+@*imagehover*@
+<link href="~/account/assets/css/imageHover.css" rel="stylesheet" />
+
+
+@*row*@
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default" style="padding:10px;">
+            <form class="form" action="/Admin/Properties" method="get">
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select name="propertyType" id="propertyType" class="form-control">
+                                <option value="">All</option>
+                                <option value="@(VPM.Models.PropertyType.house)" selected="@(ViewBag.propertyType=="house")">House</option>
+                                <option value="@(VPM.Models.PropertyType.office)" selected="@(ViewBag.propertyType=="office")">Office</option>
+                                <option value="@(VPM.Models.PropertyType.cottage)" selected="@(ViewBag.propertyType=="cottage")">Cottage</option>
+                                <option value="@(VPM.Models.PropertyType.boarding_house)" selected="@(ViewBag.propertyType=="boarding_house")">Boarding House</option>
+                                <option value="@(VPM.Models.PropertyType.apartment)" selected="@(ViewBag.propertyType=="apartment")">Apartment</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label class="black">Country</label>
+                        <br />
+                        <select name="propertyCountry" id="propertyCountry" class="">
+                            @foreach (var c in countrys)
+                            {
+                                <option value="@c.name" selected="(@ViewBag.propertyCountry)">@c.name</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>State/Province</label>
+                            <input type="text" class="form-control" name="stateOrPorvince" value="@ViewBag.stateOrPorvince" />
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>City/Town</label>
+                            <input type="text" class="form-control" id="cityOrTown" name="cityOrTown" value="@ViewBag.cityOrTown" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="adminApproved" id="adminApproved" class="form-control">
+                                <option value="">All</option>
+                                <option value="approved" selected="@(ViewBag.adminApproved=="approved")">Approved</option>
+                                <option value="rejected" selected="@(ViewBag.adminApproved=="rejected")">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>&nbsp;</label><br />
+                            <button class="btn btn-facebook" type="submit">
+                                <span class="glyphicon glyphicon-search"> search</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+</div>
+@*row*@
+
+
+<pager class="pager-container"
+       list="@property"
+       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+       asp-action="Properties"
+       asp-controller="Account"
+       asp-route-keyword="" />
+<div class="row">
+
+
+
+
+    @foreach (var p in property)
+    {
+        <div class="col-md-3">
+            <div class="divImageHolder">
+                <a href="/Admin/ViewProperty?pid=@p._id">
+                    <div class="divImageItem firstProduct">
+                        @if (p.PImages.Count > 0)
+                        {
+                            <img src="@p.PImages[0].path" style="object-fit:cover" />
+                        }
+                        else
+                        {
+                            <img src="~/account/assets/img/placeholder_property.png" style="object-fit:cover" />
+                        }
+                        <span class="text-content">
+                            <span style="text-align:left!important;">
+                                <table class="table" style="width:100%!important;padding-left:5px!important;">
+                                    <tr>
+                                        <td>Created</td>
+                                        <td>@p.dateCreated.ToString("d MMM yyyy")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Property Name</td>
+                                        <td>@p.propertyName</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Property Status</td>
+                                        <td> @p.PropertyStatus</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Waiting List</td>
+                                        <td>@p.waitingList.Count()</td>
+
+                                    </tr>
+
+                                </table>
+                            </span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+
+<pager class="pager-container"
+       list="@property"
+       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+       asp-action="Properties"
+       asp-controller="Account"
+       asp-route-keyword="" />
+<script>
+
+    $("#stateOrPorvince").selectize();
+    $("#propertyCountry").selectize();
+    $("#type").selectize();
+
+    var availableTags = [];
+
+    $("#cityOrTown").on("keyup", function () {
+        var country_ = $("#country").val();
+        var state_ = $("#state").val();
+        $.getJSON("/Account/getcities?country=" + country_ + "&state=" + state_, function (data) {
+            availableTags = data;
+            console.log()
+            $("#cityOrTown").autocomplete({
+                source: availableTags
+            });
+
+        });
+
+    });
+</script>

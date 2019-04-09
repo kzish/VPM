@@ -1,0 +1,165 @@
+﻿
+
+@{ Layout = "_Layout";}
+@{ var ass = (VPM.Models.mAssignments)ViewBag.ass;}
+
+@*validate*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+@*bl*@
+<script src="~/assets/libs/busyload/bl.js"></script>
+<link href="~/assets/libs/busyload/bl.css" rel="stylesheet" />
+
+
+
+@*tomtom maps*@
+<link href="~/assets/libs/tomtomMaps/map.css" rel="stylesheet" />
+<script src="~/assets/libs/tomtomMaps/tomtom.min.js"></script>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body"></div>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        @if (ass != null)
+                        {
+
+                            <table class="table">
+                                <tr>
+                                    <td>Amount Payed</td>
+                                    <td>@(globals.getLocalCurrencyNG(ass.amountPayed))</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Date Created</td>
+                                    <td>
+                                        @ass.date.ToString("dd MMM yyyy")
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Assignment Status</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <form action="/Artisan/UpdateAssignmentStatus" method="post">
+                                                <input type="hidden" value="@ass._id" name="aid" />
+                                                <select class="form-control" name="status">
+                                                    <option value="pending" selected="@(ass.getAssignmentStatus()=="pending")">Pending</option>
+                                                    <option value="started" selected="@(ass.getAssignmentStatus()=="started")">Started</option>
+                                                    <option value="completed" selected="@(ass.getAssignmentStatus()=="completed")">Completed</option>
+                                                </select>
+                                                <br />
+                                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                            </form>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        @ass.description
+                                    </td>
+                                </tr>
+
+
+                            </table>
+                        }
+                    </div>@*col-md-6*@
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map" style="height:200px;width:100%;border:1px solid black;"></div>
+        </div>
+    </div>
+    <br />
+    <br />
+    @*images*@
+    <div class="row">
+
+        @if (ass != null)
+        {
+            @foreach (var i in ass.images)
+            {
+                <div class="col-md-4">
+                    <img src="@i" style="object-fit:cover;max-height:200px!important;width:100%!important;" />
+                </div>
+            }
+        }
+    </div>@*co-md-6*@
+    <br />
+    <br />
+
+</div>
+
+
+
+<script>
+
+    var map, marker;
+    tomtom.setProductInfo('VPM', '4.44.7');
+    tomtom.key('kDBGrc2tROkfTL2jlCBl26GLscDVhEZL');
+    tomtom.searchKey('kDBGrc2tROkfTL2jlCBl26GLscDVhEZL');
+
+    map = tomtom.map('map', {
+        basePath: '/assets/libs/tomtomMaps/',
+    }).setView([@ass.lat, @ass.lon], 12);
+
+    var markerOptions = {
+        icon: tomtom.L.icon({
+            iconUrl: '/assets/img/map_marker.png',
+            iconSize: [25, 25],
+            iconAnchor: [25, 25]
+        })
+    };
+
+
+
+</script>
+
+
+@if (ass.images.Count == 0)
+{
+    <script>
+        marker = tomtom.L.marker([@ass.lat, @ass.lon], markerOptions).bindPopup(
+            '<table style="color:black;">' +
+            '<tr><td><img src="/assets/img/hlogo.jpg" height="25" width="25"></td></tr>'+
+                '<tr>'+
+                    '<td> @ass.state</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@ass.city</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@ass.streetaddress</td>'+
+                '</tr>'+
+            '</table>'
+        ).addTo(map);
+    </script>
+}
+else
+{
+    <script>
+        marker = tomtom.L.marker([@ass.lat, @ass.lon], markerOptions).bindPopup(
+            '<table style="color:black;">' +
+            '<tr><td><img src="@ass.images[0]" height="25" width="25"></td></tr>'+
+                '<tr>'+
+                    '<td> @ass.state</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@ass.city</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@ass.streetaddress</td>'+
+                '</tr>'+
+            '</table>'
+        ).addTo(map);
+    </script>
+}

@@ -1,0 +1,443 @@
+﻿@{Layout = "_Layout";}
+@{ var skills = (List<VPM.Models.mSkills>)ViewBag.skills;}
+@{ var countrys = (List<VPM.Models.mCountry>)ViewBag.countrys;}
+@{ var a = (VPM.Models.mArtisan)ViewBag.user;}
+@*bs multiselect*@
+
+<link href="~/assets/libs/boostrapmultiselect/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/assets/libs/boostrapmultiselect/js/bootstrap-multiselect.js"></script>
+
+@*alidate*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.min.js"></script>
+
+
+@*alerts*@
+<link href="~/assets/libs/jconfirm/jquery-confirm.min.css" rel="stylesheet" />
+<script src="~/assets/libs/jconfirm/jquery-confirm.min.js"></script>
+
+@*busy load*@
+<script src="~/assets/libs/busyload/bl.js"></script>
+<link href="~/assets/libs/busyload/bl.css" rel="stylesheet" />
+
+
+@*bar rating*@
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+
+
+@*chosen*@
+<link href="~/assets/libs/chosen/chosen.css" rel="stylesheet" />
+<script src="~/assets/libs/chosen/chosen.jquery.min.js"></script>
+
+<style>
+    .glyphicon {
+        margin-right: 10px;
+    }
+
+
+
+    .panel-body table tr td {
+        padding-left: 15px
+    }
+
+    .panel-body .table {
+        margin-bottom: 0px;
+    }
+
+    label span {
+        color: red;
+    }
+</style>
+
+
+
+
+
+<div class="container">
+
+
+
+    <form id="fregister" action="/Artisan/UpdateSkills" method="post" style="color:red;">
+
+        <div class="row">
+            @*skills panel*@
+            <div class="col-md-12">
+                <div class="card bshadow">
+                    <div class="card-header _active">Select Your Skills</div>
+                    <div class="card-body" style="padding:0px!important;margin:0px!important;">
+                        <div class="row">
+                            <div class="col-md-12" style="padding:20px!important;">
+                                <select multiple class="chosen form-control" name="myskills">
+                                    @foreach (var s in skills)
+                                    {
+                                        if (a.skills_list.Contains(s._id))
+                                        {
+                                            <option selected value="@s._id">@s.skill</option>
+                                        }
+                                        else
+                                        {
+
+                                            <option value="@s._id">@s.skill</option>
+                                        }
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*col-md-4*@
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="card bshadow" style="min-height:370px;">
+                    <div class="card-header _active">Picture</div>
+                    <div class="card-body">
+                        <input id="profpicFile" type="file" style="visibility:hidden;" accept="image/*" />
+                        <center>
+                            @if (String.IsNullOrEmpty(a.image)||a.image=="image")
+                            {
+                                <img id="pimg" src="/assets/img/user-profile.png" style="height:auto;width:150px;object-fit:cover;cursor:pointer;" onclick="openProfPicker();" />
+                            }
+                            else
+                            {
+                                <img id="pimg" src="@a.image" alt="image" style="height:auto;width:100%;object-fit:cover;cursor:pointer;" onclick="openProfPicker();" />
+                            }
+                            <br />
+                            <small style="cursor:pointer;" onclick="openProfPicker();">click to change profile picture</small>
+                            <br />
+                            <select class="brating" disabled>
+                                <option selected="@(a.getRating()==1)">1</option>
+                                <option selected="@(a.getRating()==2)">2</option>
+                                <option selected="@(a.getRating()==3)">2</option>
+                                <option selected="@(a.getRating()==4)">4</option>
+                                <option selected="@(a.getRating()==5)">5</option>
+                            </select>
+                            <br />
+                            <a href="/Artisan/changePassword"><small>Change Password >></small></a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bshadow" style="min-height:370px!important;">
+                            <div class="card-header">Personal Details</div>
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="black">Name<span> *</span></label>
+                                            <input type="text" required class="form-control" name="name" id="name" value="@a.name" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="black">Surname<span> *</span></label>
+                                            <input type="text" required class="form-control" name="surname" id="surname" value="@a.surname" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="black">Mobile<span> *</span></label>
+                                            <input type="number" required class="form-control" name="mobile" id="mobile" value="@a.mobile" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="black">Email</label>
+                                            <input type="email" class="form-control" name="email" id="email" value="@a.email" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="black">Employment Type<span> *</span></label>
+                                            <select class="form-control" name="employmentType">
+                                                <option value="@VPM.Models.EmploymentType.fullTime" selected="@(a.employmentType==VPM.Models.EmploymentType.fullTime)">Full Time</option>
+                                                <option value="@VPM.Models.EmploymentType.partTime" selected="@(a.employmentType==VPM.Models.EmploymentType.partTime)">Part Time</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="black">Rate/Hour <span>*</span></label>
+                                            <br />
+                                            <input type="number" step="any" name="hourlyRate" id="hourlyRate" class="form-control" required value="@a.hourlyRate" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <br />
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bshadow">
+                            <div class="card-header _active">Country & State</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Country <span>*</span></label>
+                                            <br />
+                                            <select name="country" id="country" class="form-control" style="height:38px!important;">
+                                                @foreach (var c in countrys)
+                                                {
+                                                    <option value="@c.name" selected="(@c.name==@a.country)">@c.name</option>
+
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">State/Province <span>*</span></label>
+                                            <br />
+                                            <select name="stateOrPorvince" id="stateOrPorvince" class="form-control" placeholder="Select State..." style="height:38px!important;">
+                                                @foreach (var c in countrys[0].stateOrPorvince)
+                                                {
+                                                    <option value="@c.name" selected="(@c.name==@a.stateOrPorvince)">@c.name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">City/Town <span>*</span></label>
+                                            <br />
+                                            <input type="text" class="form-control" id="cityOrTown" name="cityOrTown" value="@a.cityOrTown" />
+                                        </div>
+                                    </div>
+                                </div>@*ROW*@
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="black">Street Address <span>*</span></label>
+                                            <br />
+                                            <textarea type="text" name="streetAddress" id="streetAddress" class="form-control" required>@a.streetAddress</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>@*col-md-8*@
+                </div>@*row*@
+
+                <br />
+                <br />
+                <br />
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card bshadow">
+                            <div class="card-header">Refereess Details</div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Referee1 Name <span>*</span></label>
+                                            <input name="referees[0].refname" id="refn1" type="text" class="form-control" required value="@a.referees[0].refname" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Referee1 Mobile <span>*</span></label>
+                                            <input name="referees[0].refmobile" id="refmobile1" type="number" class="form-control" required value="@a.referees[0].refmobile" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Referee1 Email <span></span></label>
+                                            <input name="referees[0].refemail" id="refemail1" type="text" class="form-control" value="@a.referees[0].refemail" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Referee2 Name <span>*</span></label>
+                                            <input name="referees[1].refname" id="refname2" type="text" class="form-control" required value="@a.referees[1].refname" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Referee2 Mobile <span>*</span></label>
+                                            <input name="referees[1].refmobile" id="refmobile2" type="number" class="form-control" required value="@a.referees[1].refmobile" />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="black">Referee2 Email <span></span></label>
+                                            <input name="referees[1].refemail" id="refemail2" type="text" class="form-control" value="@a.referees[1].refemail" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+            </div>@*col-md-8*@
+
+
+
+        </div>@*row*@
+
+
+        <div class="row">
+            <div class="col-md-8 offset-4">
+                <input id="btnsignup" type="submit" value="SAVE" class="btn btn-block _active bshadow" />
+            </div>
+        </div>
+
+    </form>
+</div>@*container*@
+
+<br />
+<br />
+<br />
+
+
+
+
+
+
+<!-- Initialize the plugin: -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#skills_select').multiselect();
+    });
+
+    $(".chosen").chosen({
+        width: "100%"
+    });
+</script>
+
+
+<script>
+    var availableTags = [];
+
+    $("#cityOrTown").on("keyup", function () {
+        var country_ = $("#country").val();
+        var state_ = $("#state").val();
+        $.getJSON("/Account/getcities?country=" + country_ + "&state=" + state_, function (data) {
+            availableTags = data;
+            console.log(data);
+            try {
+                $("#cityOrTown").autocomplete({
+                    source: availableTags
+                });
+            } catch (e) {
+                console.log("error" + e);
+
+            }
+
+        });
+
+    });
+
+    $(document).ready(function () {
+
+        // $("#country").selectize();
+        // $("#stateOrPorvince").selectize();
+
+        $("#fregister").validate({
+
+            rules: {
+                password: "required",
+                p2: {
+                    equalTo: "#password"
+                }
+            }
+
+        });
+
+    });
+
+
+    function openProfPicker() {
+
+        $("#profpicFile").click();
+
+    }
+
+
+
+
+    //upload profile pic
+
+    $("#profpicFile").on("change", function (e) {
+        var img_file = $("#profpicFile")[0].files[0];
+        //var img_file = document.getElementById("profpicFile").files[0]
+        console.log(img_file);
+        var formData = new FormData();
+        formData.append('fimg', img_file);
+        $.busyLoadFull('show');
+        $.ajax({
+            method: "POST",
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            url: "/Artisan/uploadProfilePicture",
+            success: function (jres) {
+                $.busyLoadFull('hide');
+                $('#profpicFile').val('');
+                $("#pimg").attr('src', jres.msg);
+                console.log(jres);
+            },
+            error: function () {
+                $.busyLoadFulll('hide');
+                $('#profpicFile').val('');
+                $.alert({
+                    title: "Oops!",
+                    content: "Something went wrong...",
+                    type: "orange"
+                });
+
+            },
+
+        });
+
+    });
+
+    $(".brating").barrating({
+        theme: 'fontawesome-stars',
+        readonly: true
+    });
+
+</script>

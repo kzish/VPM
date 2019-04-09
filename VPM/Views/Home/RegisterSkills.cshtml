@@ -1,0 +1,354 @@
+﻿@{Layout = "_Layout";}
+@{ var skills = (List<VPM.Models.mSkills>)ViewBag.skills;}
+@{ var countrys = (List<VPM.Models.mCountry>)ViewBag.countrys;}
+@{ var a = (VPM.Models.mArtisan)ViewBag.a;}
+@*bs multiselect*@
+
+<link href="~/assets/libs/boostrapmultiselect/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/assets/libs/boostrapmultiselect/js/bootstrap-multiselect.js"></script>
+
+
+@*chosen*@
+<link href="~/assets/libs/chosen/chosen.css" rel="stylesheet" />
+<script src="~/assets/libs/chosen/chosen.jquery.min.js"></script>
+
+<div id="bg_" style="min-height:100vh;min-width:100%;background-image:linear-gradient(gray,white);">
+    <div class="container" style="padding:30px!important;" >
+        <form id="fregister" action="/Home/RegisterSkills" method="post" style="width:100%;color:red;font-size:13px!important;min-height:100vh!important;">
+            <div class="row" style="clear: both;">
+                <div class="col-md-6" style="background-image: linear-gradient(to bottom , yellow,orange)!important;padding:0!important;clear:both;">
+                    @*details panel*@
+                    <div class="card-mb-3">
+                        <div class="card-header" style="background:#000;color:#fff;">Select Your Skills</div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <select multiple class="chosen" name="myskills">
+                                        @foreach (var s in skills)
+                                        {
+                                            if (a.skills_list.Contains(s._id))
+                                            {
+                                                <option selected value="@s._id">@s.skill</option>
+
+                                            }
+                                            else
+                                            {
+
+                                                <option value="@s._id">@s.skill</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <br />
+                                    <center>
+                                        <img src="~/assets/img/h_man_2.png" height="400" />
+                                        <h1 style="text-shadow: black 2px 2px;color:white;"><b>Join our team of <br />Professionals</b></h1>
+                                        <h4 style="text-shadow: black 2px 2px;color:white;"><b>( 5k + ) artisans like you </b></h4>
+                                    </center>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    @*col-md-4*@
+                </div>@*col-md-6*@
+
+
+
+
+            @*</div>
+            <br />
+            <br />
+            <br />
+            <div class="row" style="clear: both;">*@
+                <div class="col-md-6" style="min-height:100vh!important;background-image: linear-gradient(orange, yellow)!important;padding:0!important;clear:both;">
+                    @*details panel*@
+                    <div class="card-mb-3">
+                        <div class="card-header" style="background:#000;color:#fff;">Register Your Details</div>
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="black">Name<span style="color:red"> *</span></label>
+                                        <input type="text" required class="form-control" name="name" id="name" value="@a.name" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="black">Surname<span style="color:red"> *</span></label>
+                                        <input type="text" required class="form-control" name="surname" id="surname" value="@a.surname" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="black">Mobile<span style="color:red"> *</span></label>
+                                        <input type="number" required class="form-control" name="mobile" id="mobile" value="@a.mobile" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="black">Email</label>
+                                        <input type="email" class="form-control" name="email" id="email" value="@a.email" />
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="black">Employment Type<span style="color:red"> *</span></label>
+                                        <select class="form-control" name="employmentType">
+                                            <option value="@VPM.Models.EmploymentType.fullTime" selected="@(a.employmentType==VPM.Models.EmploymentType.fullTime)">Full Time</option>
+                                            <option value="@VPM.Models.EmploymentType.partTime" selected="@(a.employmentType==VPM.Models.EmploymentType.partTime)">Part Time</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="black">Rate/Hour <span style="color:red">*</span></label>
+                                        <br />
+                                        <input type="number" min="0" step="any" name="hourlyRate" id="hourlyRate" class="form-control" required value="@a.hourlyRate" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Country <span style="color:red">*</span></label>
+                                        <br />
+                                        <select name="country" id="country" class="form-control">
+                                            @foreach (var c in countrys)
+                                            {
+                                                <option value="@c.name" selected="@(c.name==a.country)">@c.name</option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                              
+                               <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">State/Province <span style="color:red">*</span></label>
+                                        <br />
+                                        <select name="stateOrPorvince" id="stateOrPorvince" class="form-control" placeholder="Select State...">
+                                            @foreach (var c in countrys[0].stateOrPorvince)
+                                            {
+                                                <option value="@c.name" selected="(@c.name==@a.stateOrPorvince)">@c.name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">City/Town<span style="color:red">*</span></label>
+                                        <br />
+                                        <input type="text" class="form-control" id="cityOrTown" name="cityOrTown" value="@a.cityOrTown" />
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>@*ROW*@
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="black">Street Address<span style="color:red">*</span></label>
+                                        <br />
+                                        <textarea type="text" name="streetAddress" id="streetAddress" class="form-control" required>@a.streetAddress</textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Referee1 Name<span style="color:red">*</span></label>
+                                        <input name="referees[0].refname" id="refn1" type="text" class="form-control" required value="@(a.referees[0].refname)"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Referee1 Mobile<span style="color:red">*</span></label>
+                                        <input name="referees[0].refmobile" id="refmobile1" type="number" class="form-control" required value="@(a.referees[0].refmobile)" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Referee1 Email <span></span></label>
+                                        <input name="referees[0].refemail" id="refemail1" type="text" class="form-control" value="@(a.referees[0].refemail)" />
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Referee2 Name <span style="color:red">*</span></label>
+                                        <input name="referees[1].refname" id="refname2" type="text" class="form-control" required value="@(a.referees[1].refname)" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Referee2 Mobile<span style="color:red">*</span></label>
+                                        <input name="referees[1].refmobile" id="refmobile2" type="number" class="form-control" required value="@(a.referees[1].refmobile)" />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Referee2 Email <span></span></label>
+                                        <input name="referees[1].refemail" id="refemail2" type="text" class="form-control" value="@(a.referees[1].refemail)"/>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Password <span></span></label>
+                                        <input name="password" id="password" type="password" class="form-control" required />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="black">Confirm Password<span style="color:red">*</span></label>
+                                        <input id="p2" name="p2" type="password" class="form-control" required />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="checkbox" id="chk_terms" onclick="enable_disable_registration(this)"  /><b style="color:#000;"> I agree to the <a href="/ArtisanPolicy">Terms and Conditions</a></b>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input id="btnsignup" disabled="true" type="submit" value="Register" class="btn btn-primary" />
+                                    <br /><small id="lbl_info_1" style="color:red">First agree to <a href="/ArtisanPolicy">terms and conditions</a></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*end details panel*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.msg != null && ViewBag.msg != "")
+{
+    <script>
+
+        $.alert({
+            content: "@ViewBag.msg",
+            title: "Information",
+            type:"@ViewBag.type"
+        });
+
+    </script>
+
+}
+
+
+
+
+<script>
+
+    //check if agreed
+    function enable_disable_registration(cbox) {
+        if (cbox.checked) {
+            $("#btnsignup").removeAttr("disabled");
+            $("#lbl_info_1").hide();
+        }
+        else {
+            $("#btnsignup").attr("disabled", true);
+            $("#lbl_info_1").show();
+        }
+        
+
+    }
+
+
+    var availableTags = [];
+    $("#cityOrTown").on("keyup", function () {
+        var country_ = $("#country").val();
+        var state_ = $("#state").val();
+        $.getJSON("/Account/getcities?country=" + country_ + "&state=" + state_, function (data) {
+            availableTags = data;
+            console.log(data);
+            try {
+                $("#cityOrTown").autocomplete({
+                    source: availableTags
+                });
+            } catch (e) {
+                console.log("error" + e);
+
+            }
+
+        });
+
+    });
+
+    (function ($) {
+
+        // $("#country").selectize();
+        // $("#stateOrPorvince").selectize();
+
+        $("#fregister").validate({
+
+            rules: {
+                password: "required",
+                p2: {
+                    equalTo: "#password"
+                }
+            }
+
+        });
+
+    })(jQuery);
+
+    $.backstretch("/assets/img/bg_services.jpg");
+    //$("#bg").backstretch("/assets/img/bg_services.jpg");
+    $(".chosen").chosen({
+        width: "100%"
+    });
+</script>

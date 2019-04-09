@@ -1,0 +1,89 @@
+﻿@{Layout = "_Layout";}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var artisans = (IPagedList<VPM.Models.mArtisan>)ViewBag.artisans;}
+
+
+@*bar rating*@
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background:#000;color:#fff;">Result (@artisans.Count)</div>
+            <div class="panel-body">
+                <form action="/Admin/Artisans" method="post">
+                    <table class="table tblsm">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <select style="width:100%;" name="registered">
+                                        <option selected="@(ViewBag.registered=="notregistered")" value="notregistered">not registered</option>
+                                        <option selected="@(ViewBag.registered=="registered")" value="registered">registered</option>
+                                    </select>
+                                </th>
+                                <th><input type="text" name="name" value="@ViewBag.name" /></th>
+                                <th><input type="text" name="surname" value="@ViewBag.surname" /></th>
+                                <th><input type="text" name="mobile" value="@ViewBag.mobile" /></th>
+                                <th><input type="text" name="city" value="@ViewBag.city" /></th>
+                                <th><button value="search" type="submit" style="height:20px"> &nbsp;&nbsp; search &nbsp;&nbsp;</button></th>
+                            </tr>
+
+                            <tr>
+                                <th>Enabled</th>
+                                <th>Name</th>
+                                <th>Surname</th>
+                                <th>Mobile</th>
+                                <th>City</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in artisans)
+                            {
+                                <tr>
+                                    <td title="@a.registered">@a.registered</td>
+                                    <td title="@a.name">@a.name</td>
+                                    <td title="@a.surname">@a.surname</td>
+                                    <td title="@a.mobile">@a.mobile</td>
+                                    <td title="@a.cityOrTown">@a.cityOrTown</td>
+                                    <td>
+                                        <a href="/Admin/ViewArtisanFullProfile?aid=@a._id">View Profile</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    @{
+                        var dic = new Dictionary<string, string>();
+                        dic.Add("name", ViewBag.name);
+                        dic.Add("surname", ViewBag.surname);
+                        dic.Add("mobile", ViewBag.mobile);
+                        dic.Add("city", ViewBag.city);
+                    }
+
+                    <pager class="pager-container"
+                           list="@artisans"
+                           options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                           asp-action="Artisans"
+                           asp-controller="Admin"
+                           asp-all-route-data="dic"
+                           asp-route-keyword="" />
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

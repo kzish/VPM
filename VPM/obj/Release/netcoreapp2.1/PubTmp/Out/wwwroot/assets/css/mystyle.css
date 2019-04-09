@@ -1,0 +1,502 @@
+﻿@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.content {
+    background-color: #fff !important;
+    height: 100vh !important;
+}
+
+.container-fluid {
+    background-color: #fff !important;
+}
+
+html,
+body {
+    height: 100% !important;
+    min-height: 100vh !important; /*or 100vh */
+    position: relative;
+}
+
+body, html {
+    color: #5a5a5a;
+    overflow-x: hidden;
+    height: 100% !important;
+    height: 100%;
+}
+
+.overlay {
+    color: #fff;
+    position: absolute;
+    z-index: 12;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+}
+
+
+/* CUSTOMIZE THE NAVBAR
+-------------------------------------------------- */
+
+/* Special class on .container surrounding .navbar, used for positioning it into place. */
+.navbar-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+    margin-bottom: 60px;
+}
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+    z-index: 1;
+}
+
+/* Declare heights because of positioning of img element */
+.carousel .item {
+    height: 400px;
+    background-color: #555;
+}
+
+.carousel img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 400px;
+}
+
+
+
+
+
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (min-width: 768px) {
+
+    /* Navbar positioning foo */
+    .navbar-wrapper {
+        margin-top: 20px;
+        margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+    }
+        /* The navbar becomes detached from the top, so we round the corners */
+        .navbar-wrapper .navbar {
+            border-radius: 4px;
+        }
+
+    /* Bump up size of carousel content */
+    .carousel-caption p {
+        margin-bottom: 20px;
+        font-size: 21px;
+        line-height: 1.4;
+    }
+}
+
+
+footer {
+    /*position: relative;
+    width: 100%;
+   
+    
+    margin-top: 100px;
+    /*clear:both;
+    height:100%;
+    margin-top:-100px;*/
+    font-size: 15px !important;
+    clear: both;
+    background: #222222;
+    position: relative;
+    clear: both;
+    left: 0;
+    right: 0;
+    bottom: 0 !important;
+    color: #fff;
+}
+
+
+#social {
+    margin: 20px 10px;
+    text-align: center;
+}
+
+.smGlobalBtn { /* global button class */
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0 2px 2px #999;
+    padding: 0px;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    font-weight: normal;
+    line-height: 2em;
+    border-radius: 25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+}
+
+/* facebook button class*/
+.facebookBtn {
+    background: #4060A5;
+}
+
+    .facebookBtn:before { /* use :before to add the relevant icons */
+        font-family: "FontAwesome";
+        content: "\f09a"; /* add facebook icon */
+    }
+
+    .facebookBtn:hover {
+        color: #4060A5;
+        background: #fff;
+    }
+
+/* twitter button class*/
+.twitterBtn {
+    background: #00ABE3;
+}
+
+    .twitterBtn:before {
+        font-family: "FontAwesome";
+        content: "\f099"; /* add twitter icon */
+    }
+
+    .twitterBtn:hover {
+        color: #00ABE3;
+        background: #fff;
+    }
+
+/* google plus button class*/
+.googleplusBtn {
+    background: #e64522;
+}
+
+    .googleplusBtn:before {
+        font-family: "FontAwesome";
+        content: "\f0d5"; /* add googleplus icon */
+    }
+
+    .googleplusBtn:hover {
+        color: #e64522;
+        background: #fff;
+    }
+
+/* linkedin button class*/
+.linkedinBtn {
+    background: #0094BC;
+}
+
+    .linkedinBtn:before {
+        font-family: "FontAwesome";
+        content: "\f0e1"; /* add linkedin icon */
+    }
+
+    .linkedinBtn:hover {
+        color: #0094BC;
+        background: #fff;
+    }
+
+/* pinterest button class*/
+.pinterestBtn {
+    background: #cb2027;
+}
+
+    .pinterestBtn:before {
+        font-family: "FontAwesome";
+        content: "\f0d2"; /* add pinterest icon */
+    }
+
+    .pinterestBtn:hover {
+        color: #cb2027;
+        background: #fff;
+    }
+
+/* tumblr button class*/
+.tumblrBtn {
+    background: #3a5876;
+}
+
+    .tumblrBtn:before {
+        font-family: "FontAwesome";
+        content: "\f173"; /* add tumblr icon */
+    }
+
+    .tumblrBtn:hover {
+        color: #3a5876;
+        background: #fff;
+    }
+
+/* rss button class*/
+.rssBtn {
+    background: #e88845;
+}
+
+    .rssBtn:before {
+        font-family: "FontAwesome";
+        content: "\f09e"; /* add rss icon */
+    }
+
+    .rssBtn:hover {
+        color: #e88845;
+        background: #fff;
+    }
+
+
+.black {
+    color: #000 !important;
+}
+
+.intro {
+    padding: 20px;
+    text-align: center;
+    width: 100% !important;
+    margin: auto;
+    font-size: 18px !important;
+    color: #000 !important;
+    background: #fff !important;
+    min-height: 200px !important;
+    -o-padding: 20px;
+    -o-text-align: center;
+    -o-width: 100% !important;
+    -o-margin: auto;
+    -o-font-size: 18px !important;
+    -o-color: #000 !important;
+    -o-background: #fff !important;
+    -o-min-height: 200px !important;
+}
+
+.carousel-caption {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', 'Arial, sans-serif';
+    font-size: 23px;
+    color: #fff;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.houses_ {
+    max-width: 700px;
+    margin: auto;
+}
+
+.tblsm, .tblsmdash {
+    line-height: 10px;
+    font-size: 10px;
+}
+
+    .tblsm td {
+        max-width: 200px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .tblsmdash td {
+        max-width: 50px !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+.gallery-house {
+    margin: 20px !important;
+}
+
+.carousel-caption {
+    font-weight: 100 !important;
+}
+
+.artisan_avatar {
+    height: 150px;
+    width: 150px;
+    padding: 20px;
+    background-color: rgba(255,255,255,0.7);
+    border-radius: 30px;
+    margin-bottom: 20px;
+    -o-height: 150px;
+    -o-width: 150px;
+    -o-padding: 20px;
+    -o-background-color: rgba(255,255,255,0.7);
+    -o-border-radius: 30px;
+    -o-margin-bottom: 20px;
+}
+
+.klogo {
+    /*position: absolute;
+    z-index: 90;
+    float: left;
+    height: 90px;
+        */
+}
+
+
+.nav-item {
+    font-size: 20px !important;
+}
+
+.footer-ul {
+    list-style: none;
+    text-decoration: none;
+}
+
+.footer-ul a {
+    text-decoration: none !important;
+}
+
+.header-ul {
+    list-style: none;
+    text-decoration: none;
+}
+
+.header-ul a {
+    text-decoration: none !important;
+    line-height:40px!important;
+}
+
+#menu-outer {
+    height: 84px;
+    background: url(images/bar-bg.jpg) repeat-x;
+}
+
+.table_ {
+    display: table; /* Allow the centering to work */
+    margin: 0 auto;
+}
+
+ul#horizontal-list {
+    min-width: 696px;
+    list-style: none;
+    padding-top: 20px;
+}
+
+    ul#horizontal-list li {
+        display: inline;
+        margin-left: 30px;
+        margin-right: 30px;
+        text-align: center !important;
+    }
+
+
+/*
+.btn_center {
+    font-size: 20px !important;
+    width: 200px !important;
+    height: 57px !important;
+    background-color: rgba(255, 0, 0, 0.6);
+    opacity: 0.6;
+}
+
+    */
+.btn_center {
+    background-color: rgba(255, 0, 0, 0.6);
+    opacity: 0.6;
+}
+
+
+@media(min-width: 200px) {
+    .btn_center, .sbox {
+        font-size: 18px !important;
+        width: 80px !important;
+        height: 50px !important;
+    }
+}
+
+
+@media (min-width: 500px) {
+    .btn_center, .sbox {
+        font-size: 20px !important;
+        width: 100px !important;
+        height: 57px !important;
+    }
+}
+
+
+@media(min-width: 800px) {
+    .btn_center, .sbox {
+        font-size: 20px !important;
+        width: 150px !important;
+        height: 57px !important;
+    }
+}
+
+
+.less{
+    height:400px!important;
+}
+
+.more{
+    height:100%!important;
+}
+
+.desc_property {
+    width: 100% !important;
+    color: #fff !important;
+    font-weight: 400 !important;
+    font-size:13px!important;
+    position:absolute;
+    bottom:0!important;
+
+}
+    .desc_property td {
+        padding-left: 3px !important;
+        text-transform:capitalize;
+        line-height:14px!important;
+        padding-bottom:3px!important;
+    }
+
+.property_search {
+    margin: 3px !important;
+    width: 0% !important;
+    height: 200px !important;
+    width: 100% !important;
+}
+.padding-0 {
+    padding-right: 0;
+    padding-left: 0;
+    border-left:1px solid black;
+}
+
+@media(min-width: 990px) {
+
+    .login_form {
+        left: -300px !important;
+    }
+}
+
+footer a{
+    color:wheat!important;
+}
+
+/*remove livezilla copy right link*/
+#lz_chat_cl, .lz_overlay_chat_options_link {
+    display: none !important;
+}
+
+._active {
+
+    background-image:linear-gradient(red,orange)!important;
+    color:white!important;
+
+}
+
+.bshadow{
+    box-shadow:2px 2px 9px 3px rgba(0,0,0,0.05);
+}

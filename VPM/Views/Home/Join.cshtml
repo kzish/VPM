@@ -1,0 +1,117 @@
+﻿@{ Layout = "_Layout";}
+@*toast message*@
+<link href="~/assets/libs/toast/jquery.toast.min.css" rel="stylesheet" />
+<script src="~/assets/libs/toast/jquery.toast.min.js"></script>
+
+<style>
+    .img_ {
+        height: 100px;
+        width: 100px;
+        background-color: rgba(0,0,0,0.1);
+        padding: 10px;
+        border: 1px solid black;
+        align-content: center;
+        -moz-box-shadow: 0px 6px 5px #ccc;
+        -webkit-box-shadow: 0px 6px 5px #ccc;
+        box-shadow: 0px 6px 5px #ccc;
+        -moz-border-radius: 190px;
+        -webkit-border-radius: 190px;
+        border-radius: 190px;
+    }
+
+    .hassan {
+        text-shadow: 1px 1px 2px black, 0 0 1em blue, 0 0 0.2em darkblue;
+        color: white;
+        font-size: 30px;
+    }
+</style>
+
+@*tilt animation*@
+<script src="~/assets/libs/tilt/tilt.jquery.min.js"></script>
+
+@if (ViewBag.msg != null && ViewBag.msg != "")
+{
+    <script>
+        $.toast({
+            heading: 'Information',
+            text: '@ViewBag.msg',
+            icon: 'error',
+            loader: false,        // Change it to false to disable loader
+            loaderBg: '#F00'  // To change the background
+        });
+    </script>
+
+}
+
+<div class="container">
+    <br />
+    <div>
+        <div class="row" id="bg">
+            <div class="col-md-12">
+                <center>
+                    <h3 style="text-transform:capitalize;" class="hassan">
+                        Select an option to continue
+                    </h3>
+                </center>
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="row">
+            <div class="col-md-4 js-tilt">
+                <a href="/Home/RegisterProperty" style="text-decoration:none!important;">
+                    <center>
+                        <img src="~/assets/img/landlord.png" class="img_" />
+                        <h4 class="hassan">Property Owner</h4>
+                        <p style="color:white;">
+                            I want to lease my property and have it managed for me.<br />
+                            I want to sell my property
+                        </p>
+                    </center>
+                </a>
+            </div>
+            <div class="col-md-4 js-tilt">
+                <a href="/Home/ClientSignUp" style="text-decoration:none!important;">
+                    <center>
+                        <img src="~/assets/img/user-profile.png" class="img_" />
+                        <h4 class="hassan">I'm a Client</h4>
+                        <p style="color:white;">
+                            I'm looking for a house, office or apartment to rent.<br />
+                            I need something around my home or office to be fixed
+                        </p>
+                    </center>
+                </a>
+            </div>
+            <div class="col-md-4 js-tilt">
+                <a href="/Home/RegisterSkills" style="text-decoration:none!important;">
+                    <center>
+                        <img src="~/assets/img/h1.png" class="img_" />
+                        <h4 class="hassan">I'm a Professional</h4>
+                        <p style="color:white;">
+                            I am a handy man, I fix things around the home
+                        </p>
+                    </center>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const tilt1 = $('.js-tilt').tilt({
+        maxTilt: 20,
+        perspective: 600,   // Transform perspective, the lower the more extreme the tilt gets.
+        easing: "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
+        scale: 1,      // 2 = 200%, 1.5 = 150%, etc..
+        speed: 300,    // Speed of the enter/exit transition.
+        transition: true,   // Set a transition on enter/exit.
+        disableAxis: null,   // What axis should be disabled. Can be X or Y.
+        reset: true,   // If the tilt effect has to be reset on exit.
+        glare: false,  // Enables glare effect
+        maxGlare: 1       // From 0 - 1.
+    });
+    //$("#bg").backstretch("/assets/img/cloudbg.jpg");
+    $("#bg").backstretch("/assets/img/bgprofile.png");
+
+</script>

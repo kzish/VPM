@@ -1,0 +1,88 @@
+﻿@{ Layout = "_Layout";}
+
+@{var en = (IPagedList<VPM.Models.mEnquiry>)ViewBag.enqs;}
+@{var p = (List<VPM.Models.mProperty>)ViewBag.propertys;}
+@{var m = (List<VPM.Models.mMessages>)ViewBag.msgs;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+@*dash cards for the pricing table like items*@
+<link href="~/assets/css/dashCards.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card bshadow">
+            <div class="card-header _active">Enquiries (@en.Count)</div>
+            <div class="card-body" style="margin:0px!important;padding:0px!important;">
+                <table class="table table-condensed tblsm table-striped">
+                    <tr>
+                        <td>name</td>
+                        <td>mobile</td>
+                        <td>email</td>
+                        <td>date</td>
+                        <td>enquiry</td>
+                        <td>state</td>
+                        <td>action</td>
+                    </tr>
+                    @foreach (var e in en)
+                    {
+                        <tr>
+                            <td>@e.name</td>
+                            <td>@e.mobile</td>
+                            <td>@e.email</td>
+                            <td>@e.date.ToString("d MMM yyyy")</td>
+                            <td>@e.getStatus()</td>
+                            <td>@e.enquiry</td>
+                            <td><a href="/Account/ViewEnquiry?eid=@e._id">open</a></td>
+                        </tr>
+                    }
+                </table>
+
+
+            </div>
+            @*panel body*@
+            <pager class="pager-container"
+                   list="@en"
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                   asp-action="Properties"
+                   asp-controller="Admin"
+                   asp-route-keyword="" />
+            @*pnel footer*@
+        </div>
+    </div>@*col-md-12*@
+</div>@*row*@
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card bshadow" style="min-height:300px!important;">
+            <div class="card-header _active">Properties</div>
+            <div class="card-body" style="text-align:center;"><h3>@p.Count</h3></div>
+            <div class="card-footer">
+                <ul style="text-decoration:none;list-style:none;">
+                    <li><strong>@p.Where(x => x.adminApproved).Count()</strong> Approved</li>
+                    <li><strong>@p.Where(x => x.adminApproved == false).Count()</strong> Pending</li>
+                    <li><strong>@p.Where(x => x.PropertyStatus == "Available" && x.adminApproved).Count()</strong> Vacant</li>
+                    <li><strong>@p.Where(x => x.PropertyStatus != "Available").Count()</strong> Not Vacant</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="card bshadow" style="min-height:300px!important;">
+            <div class="card-header _active">Expected revenue</div>
+            <div class="card-body">
+                <h1 style="font-size:100px!important;">@globals.getLocalCurrencyNG(0)</h1>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+@*row*@

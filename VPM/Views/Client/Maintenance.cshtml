@@ -1,0 +1,202 @@
+﻿@{Layout = "_Layout";}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var ass = (IPagedList<VPM.Models.mAssignments>)ViewBag.ass;}
+
+@*bar rating*@
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card bshadow">
+            <div class="card-header _active">Maintanence (@ViewBag.countOpenAssignments) &nbsp;&nbsp;&nbsp;<a href="/Client/Support" style="color:black!important;">Click Here: to Report issue</a></div>
+            <div class="panel-body">
+                <table class="table tblsm">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Number of bids</th>
+                            <th>Status</th>
+                            <th>Amount Payed</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in ass)
+                        {
+                            <tr>
+                                <td title="@a.date.ToString("dd MMM yyyy")">@a.date.ToString("dd MMM yyyy")</td>
+                                <td title="@a.description">@a.description</td>
+                                <td title="@a.getNumBids()">@a.getNumBids()</td>
+                                <td title="@a.getAssignmentStatus()">@a.getAssignmentStatus()</td>
+                                <td title="@(globals.getLocalCurrencyNG(a.amountPayed))">@(globals.getLocalCurrencyNG(a.amountPayed))</td>
+                                <td>
+                                    @if (a.getAssignmentStatus() == "pending")
+                                    {
+                                        <a href="/Client/Support?aid=@a._id">Open |</a>
+                                        <a href="javascript:void(0);" onclick="deleteAssignment('@a._id');">Delete</a>
+                                    }
+                                    @if (a.getAssignmentStatus() == "completed")
+                                    {
+                                        <a href="javascript:void(0);" onclick="signeoff('@a._id')">Sign off |</a>
+                                        <a href="javascript:void(0);" onclick="openDispute('@a._id');" style="color:red;">Open Dispute</a>
+                                    }
+                                    @if (a.getAssignmentStatus() == "dispute")
+                                    {
+                                        <a href="javascript:void(0);" onclick="closeDispute('@a._id')">Close Dispute</a>
+                                    }
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*modal dispute*@
+<!-- Modal -->
+<div id="modaldispute" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Open a dispute</h4>
+            </div>
+            <form action="/Client/OpenDispute" method="post" id="disp" style="color:red;">
+                <div class="modal-body">
+                    <input type="hidden" value="" name="aid" id="aid_" />
+                    <div class="form-group">
+                        <label style="color:black;">Enter dispute description <span style="color:red;">*</span></label>
+                        <textarea class="form-control" style="min-height:80px;" placeholder="describe what the problem is" required name="description"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+@*modal rating*@
+<!-- Modal -->
+<div id="modalrating" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Service Rating</h4>
+            </div>
+            <div class="modal-body">
+                <form action="/Client/SignoffAssignment" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Kindly take the time to rate this Service</label>
+                                <input type="hidden" name="aid" id="__aid" />
+                                <select class="brating" name="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="4">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+
+            </div>
+            
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+    $("#disp").validate();
+    $("#disp").on("submit", function () {
+
+        var valid = $("#disp").valid();
+        if (valid) {
+            $.busyLoadFull("show");
+        }
+    });
+    function deleteAssignment(id) {
+
+        $.confirm({
+            title: "Confirmation",
+            content: "Delete this Assignment?",
+            type: "orange",
+            buttons: {
+                "Delete": function () {
+                    window.location = "/Client/DeleteAssignement?aid=" + id;
+                },
+                "Cancel": function () { },
+            }
+        });
+    }
+
+    function signeoff(id) {
+        $.confirm({
+            title: "Information",
+            content: "Are you sure you want to sign off this Assingment?",
+            type: "orange",
+            buttons: {
+                "Yes": function () {
+                    //window.location = "/Client/SignoffAssignment?aid=" + id;
+                    $("#__aid").val(id);//add the id
+                    $("#modalrating").modal("show");//show the rating modal
+                    //show modal for rating
+
+                },
+                "No": function () { }
+            }
+        });
+
+    }
+
+
+    $("#modaldispute").appendTo("body");
+    $("#modalrating").appendTo("body");
+    function openDispute(id) {
+        $("#modaldispute").modal("show");
+        $("#aid_").val(id);
+    }
+
+    function closeDispute(id) {
+        $.confirm({
+            title: "Confirmation",
+            content: "Are you sure you want to remove the dispute?",
+            type: "orange",
+            buttons: {
+                "Yes": function () {
+                    window.location = "/Client/CloseDispute?aid=" + id;
+                }, "No": function () { }
+            }
+        });
+
+    }
+
+    $('.brating').barrating({
+        theme: 'fontawesome-stars'
+    });
+</script>

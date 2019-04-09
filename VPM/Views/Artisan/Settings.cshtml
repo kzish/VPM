@@ -1,0 +1,109 @@
+﻿@{Layout = "_Layout";}
+@{ var user = (VPM.Models.mUser)ViewBag.user;}
+
+
+@*switch*@
+<link href="~/assets/css/switch.css" rel="stylesheet" />
+@*alerts*@
+<script src="~/assets/libs/jquery_alerts/jquery-confirm.min.js"></script>
+<link href="~/assets/libs/jquery_alerts/jquery-confirm.min.css" rel="stylesheet" />
+
+
+@if(ViewBag.msg!=null&&ViewBag.msg!="")
+{
+    <script>
+        $.alert({
+            title: "Information",
+            content: "@ViewBag.msg",
+            type:"@ViewBag.type"
+        });
+    </script>
+
+}
+
+<form id="fsettings" action="/Account/Settings" method="POST">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Settings</div>@*panel heading*@
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Email Notifications</label>
+                                <br />
+                                <label class="switch">
+                                    <input type="checkbox" name="emialNotifications" id="emialNotifications" checked="@(user.settings.emialNotifications)">
+                                    <span class="slider round"></span>
+                                </label>
+                                <br />
+                                <small><a href="/Account/AccountSettings">change email? @user.email</a></small>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>SMS Notifications</label>
+                                <br />
+                                <label class="switch">
+                                    <input type="checkbox" name="smsNotifications" id="smsNotifications" checked="@(user.settings.smsNotifications)">
+                                    <span class="slider round"></span>
+                                </label>
+                                <br />
+                                <small><a href="/Account/AccountSettings">change mobile? @user.mobile</a></small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Notify me when I get a new enquiry</label>
+                                <label class="switch">
+                                    <input type="checkbox" name="notifyWhenNewEnquiry" id="notifyWhenNewEnquiry" checked="@(user.settings.notifyWhenNewEnquiry)">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Notify Me when I get an applicant on the waiting list</label>
+                                <label class="switch">
+                                    <input type="checkbox" name="notifyWhenNewWaitingListApplicant" id="notifyWhenNewWaitingListApplicant" checked="@(user.settings.notifyWhenNewWaitingListApplicant)">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Notify Me When I get new messages</label>
+                                <label class="switch">
+                                    <input type="checkbox" name="notifyWhenNewMessageArrives" id="notifyWhenNewMessageArrives" checked="@(user.settings.notifyWhenNewMessageArrives)">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>@*panel content*@
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary">SAVE</button>
+                </div>@*panel footer*@
+            </div>@*panel*@
+        </div>@*col-md-12*@
+    </div>@*row*@
+</form>

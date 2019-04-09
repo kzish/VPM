@@ -1,0 +1,867 @@
+﻿<!DOCTYPE html>
+@{
+    var user = (VPM.Models.mUser)ViewBag.user;
+}
+<html>
+<head>
+    <script src="~/assets/js/check_browser.js"></script>
+    @*remove ie support*@
+    <script>
+        if (ie()) {
+            window.location = "/Home/UpdateBrowser";
+        }
+        else {
+            //console.log("ok");
+        }
+    </script>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <title>@ViewBag.title</title>
+    <link rel="icon" href="~/assets/img/klogo.png" />
+
+    @*jquery*@
+    <script src="~/assets/js/jquery.min.js"></script>
+
+
+    @*glyphicons*@
+    <link href="~/assets/bs4glyphicons/css/bootstrap-glyphicons.min.css" rel="stylesheet" />
+
+    @*jalerts*@
+    <script src="~/assets/libs/jquery_alerts/jquery-confirm.min.js"></script>
+    <link href="~/assets/libs/jquery_alerts/jquery-confirm.min.css" rel="stylesheet" />
+
+    @*busy load*@
+    <link href="~/assets/libs/busyload/bl.css" rel="stylesheet" />
+    <script src="~/assets/libs/busyload/bl.js"></script>
+
+    @*validate*@
+    <script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+
+    @*backstretch*@
+    <script src="~/assets/js/jquery.backstretch.min.js"></script>
+
+    @*font awesome*@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    @*simplex theme*@
+    <script src="~/assets/libs/bootstrap/popper.js"></script>
+    <script src="~/assets/libs/bootstrap/bootstrap.min.js"></script>
+    <link href="~/assets/libs/simplex_theme/simplex.css" rel="stylesheet" />
+    <script src="~/assets/libs/simplex_theme/simplex.js"></script>
+
+    @*mystyle*@
+    <link href="~/assets/css/mystyle.css" rel="stylesheet" />
+
+    @*mega menu*@
+    <link href="~/assets/css/megaMenu.css" rel="stylesheet" />
+
+    @*pagination*@
+    <link href="~/assets/css/pagination.css" rel="stylesheet" />
+
+
+
+    @*jqury auto complete for the home page*@
+    <script src="~/assets/libs/jquery_autoComplete/jquery.autocomplete.js"></script>
+    <link href="~/assets/libs/jquery_autoComplete/jquery.autocomplete.css" rel="stylesheet" />
+
+
+    <style>
+        .list-inline {
+        }
+
+            .list-inline li {
+                display: inline;
+                margin-right: 11px !important;
+            }
+    </style>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin:0px!important;">
+        <a class="navbar-brand" href="#">
+            @* <img src="~/assets/img/klogo.png" class="klogo" />*@
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="/Home">
+                        <img src="~/assets/img/klogo.png" height="25" width="25" />
+                        Home
+                    </a>
+                </li>
+                @*
+                    <li class="nav-item">
+                        <div class="nav-link" href="#">
+                            <div class="dropdown_">
+                                <button class="dropbtn">
+                                    Buy
+                                </button>
+                                <div class="dropdown_-content">
+                                    <br />
+                                    @*begin content
+                                    <div class="container" style="font-size:16px!important;">
+
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <b>Home For Sale</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="/Properties/SearchProperties?type=house&p=b">Homes for Sale</a></li>
+                                                    <li><a href="/Properties/SearchProperties?type=building&p=b">Buildings for Sale</a></li>
+                                                    <li><a href="/Properties/SearchProperties?type=fc&p=b">Foreclosures</a></li>
+                                                    <li><a href="/Properties/SearchProperties?type=all&p=b">All buildings for Sale</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <b>Resources</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="">Buyers Guide</a></li>
+                                                    <li><a href="">Foreclosure center</a></li>
+                                                    <li><a href="">Real estate app</a></li>
+                                                    <li><a href="">Resource center</a></li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @*end content
+                        </div>
+                    </li>
+                *@
+
+
+                <li class="nav-item">
+                    <div class="nav-link" href="#">
+                        <div class="dropdown_">
+                            <button class="dropbtn">
+                                Rent
+                            </button>
+                            <div class="dropdown_-content">
+                                <br />
+                                @*begin content*@
+                                <div class="container" style="font-size:16px!important;">
+
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <b>Search For Rentals</b>
+                                            <ul class="header-ul">
+                                                <li><a href="/Properties/SearchProperties?type1=1&type2=1&type3=1&type4=1&type5=1&p=r">All Rental listings</a></li>
+                                                <li><a href="/Properties/SearchProperties?type2=1&p=r">Rental Offices</a></li>
+                                                <li><a href="/Properties/SearchProperties?type3=1&p=r">Rental Cottages</a></li>
+                                                <li><a href="/Properties/SearchProperties?type4=1&p=r">Bording House</a></li>
+                                                <li><a href="/Properties/SearchProperties?type5=1&p=r">Apartments for rent</a></li>
+                                                <li><a href="/Properties/SearchProperties?type1=1&p=r">Houses for rent</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <b>I'm a Rental Manager</b>
+                                            <ul class="header-ul">
+                                                <li><a href="/Account/CreateProperty">List a rental (it's free)</a></li>
+                                                <li><a href="/Account/Revenue">Rent payments</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <b>I'm a Client</b>
+                                            <ul class="header-ul">
+                                                <li><a href="/Client/PaymentHistory">My rent payments</a></li>
+                                                <li><a href="/Client/Account">Client profile</a></li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*end content*@
+                    </div>
+                </li>
+
+
+                @*    <li class="nav-item">
+                        <div class="nav-link" href="#">
+                            <div class="dropdown_">
+                                <button class="dropbtn">
+                                    Sell
+                                </button>
+                                <div class="dropdown_-content">
+                                    <br />
+                                    @*begin content
+                                    <div class="container" style="font-size:16px!important;">
+
+                                        <div class="row">
+
+                                            <div class="col-md-4">
+                                                <b>Selling Tools</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="">Homes for Sale</a></li>
+                                                    <li><a href="">Buildings for Sale</a></li>
+                                                    <li><a href="">Foreclosures</a></li>
+                                                    <li><a href="">All buildings for Sale</a></li>
+                                                </ul>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <b>Post a Home For Sale</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="">Post Home</a></li>
+                                                    <li><a href="">Post Building</a></li>
+                                                    <li><a href="">Help me move</a></li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @*end content
+                        </div>
+                    </li>
+                *@
+                <li class="nav-item">
+                    <div class="nav-link" href="#">
+                        <div class="dropdown_">
+                            <button class="dropbtn">
+                                Professionals
+                            </button>
+                            <div class="dropdown_-content">
+                                <br />
+                                @*begin content*@
+                                <div class="container" style="font-size:16px!important;">
+
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <b>I'm a Professional</b>
+                                            <ul class="header-ul">
+                                                <li><a href="/RegisterSkills">Register my skills</a></li>
+                                                <li><a href="/Artisan/Dashboard">Professional Dashboard</a></li>
+                                                <li><a href="/Artisan/Bidding">Look for Jobs</a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <b>Search for a Professional</b>
+                                            <ul class="header-ul">
+                                                <li><a href="/Properties/SearchArtisan">I need something to be fixed</a></li>
+                                                <li><a href="/Client/Maintenance">Request Inspection</a></li>
+                                            </ul>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*end content*@
+
+                    </div>
+                </li>
+
+                @*  <li class="nav-item">
+                    <div class="nav-link" href="#">
+                        <div class="dropdown_">
+                            <button class="dropbtn">
+                                More
+                            </button>
+                            <div class="dropdown_-content">
+                                <br />
+                                @*begin content
+                                <div class="container" style="font-size:16px!important;">
+
+                                    <div class="row">
+
+                                       @* <div class="col-md-3">
+                                            <b>News</b>
+                                            <ul class="header-ul">
+                                                <li><a href="">Housing news</a></li>
+                                                <li><a href="">Regional news</a></li>
+                                                <li><a href="">Housing policy</a></li>
+                                                <li><a href="">Urban Housing</a></li>
+                                            </ul>
+                                        </div>
+                *@
+                @* <div class="col-md-3">
+                        <b>Housing Trends</b>
+                        <ul class="header-ul">
+                            <li><a href="">Housing trends</a></li>
+                            <li><a href="">Mortgage trends</a></li>
+                        </ul>
+                    </div>
+                *@
+                @*
+                                            <div class="col-md-3">
+                                                <b>Government & Policy</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="">Housing policy</a></li>
+                                                </ul>
+                                            </div>
+
+
+                                            <div class="col-md-3">
+                                                <b>Services</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="">Laundry</a></li>
+                                                    <li><a href="">Home & Office Cleaning</a></li>
+                                                    <li><a href="">Home Repairs</a></li>
+                                                    <li><a href="">Landscaping</a></li>
+                                                    <li><a href="">All Services</a></li>
+                                                </ul>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @*end content
+
+                        </div>
+                    </li>*@
+
+
+
+                <li class="nav-item">
+                    <div class="nav-link" href="#">
+                        <div class="dropdown_">
+                            <button class="dropbtn">
+                                About
+                            </button>
+                            <div class="dropdown_-content">
+                                <br />
+                                @*begin content*@
+                                <div class="container" style="font-size:16px!important;">
+
+                                    <div class="row">
+
+                                        <div class="col-md-3">
+                                            <b>Resources</b>
+                                            <ul class="header-ul">
+                                                <li><a href="/Terms">Terms of use</a></li>
+                                                <li><a href="/Privacy">Privacy</a></li>
+                                            </ul>
+                                        </div>
+
+                                        @*   <div class="col-md-3">
+                                                <b>Real Estate Apps</b>
+                                                <ul class="header-ul">
+                                                    <li><a href="">Android app</a></li>
+                                                    <li><a href="">IOS app</a></li>
+                                                    <li><a href="">Windows app</a></li>
+                                                </ul>
+                                            </div>
+
+                                        *@
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*end content*@
+                    </div>
+                </li>
+
+
+
+
+            </ul>
+
+
+            <div class="form-inline my-2 my-lg-0">
+                <ul class="navbar-nav mr-auto">
+                    @*<li class="nav-item">
+                            <a class="nav-link" href="#">List your property</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Advertise</a>
+                        </li>*@
+                    <li class="nav-item">
+
+
+                        <div href="">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
+                                    Sign in
+                                </a>
+                                <div class="dropdown-menu login_form" x-placement="bottom-start" style="padding:0!important;width:400px!important;position: absolute; transform: translate3d(0px, 50px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                    @*tabs for sign in*@
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active show" data-toggle="tab" href="#owner">Property Owner</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#Client">Client</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-toggle="tab" href="#artisan">Professional</a>
+                                        </li>
+                                    </ul>
+                                    <div id="myTabContent" class="tab-content">
+                                        <div class="tab-pane fade active show" id="owner" style="padding:30px!important;">
+
+                                            <h4>Property Owner Sign in</h4>
+                                            <form id="osi" style="width:100%;color:red;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input type="text" name="email" id="osi_email" class="form-control" required style="width:100%!important;" placeholder="email or mobile" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input type="password" name="password" id="osi_password" class="form-control" required style="width:100%!important;" placeholder="password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input class="btn btn-sm btn-primary btn-block" type="submit" value="Sign in" style="height:35px!important;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <center><br /><a href="/Home/forgotpassword1">Forgot Password</a></center>
+                                                <br />
+                                                <center><br /><label id="omsg"></label></center>
+                                            </form>
+                                        </div>
+                                        <div class="tab-pane fade" id="Client" style="padding:30px!important;">
+
+                                            <h4>Client Sign in</h4>
+                                            <form id="rsi" style="width:100%;color:red;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input type="text" name="email" id="rsi_email" class="form-control" required style="width:100%!important;" placeholder="email or mobile" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input type="password" name="password" id="rsi_password" class="form-control" required style="width:100%!important;" placeholder="password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input class="btn btn-sm btn-primary btn-block" type="submit" value="Sign in" style="height:35px!important;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <center><br /><a href="/Home/forgotpassword2">Forgot Password</a></center>
+                                                <center>  <br /> <label id="rmsg"></label></center>
+                                            </form>
+
+                                        </div>
+                                        <div class="tab-pane fade" id="artisan" style="padding:30px!important;">
+
+                                            <h4>Professional Sign in</h4>
+                                            <form id="asi" style="width:100%;color:red!important;">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input type="text" name="email" id="asi_email" class="form-control" required style="width:100%!important;" placeholder="email or mobile" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input type="password" name="password" id="asi_password" class="form-control" required style="width:100%!important;" placeholder="password" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <input class="btn btn-sm btn-primary btn-block" type="submit" value="Sign in" style="height:35px!important;" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <center><br /><a href="/Home/forgotpassword3">Forgot Password</a></center>
+                                                <center><br /><label id="amsg"></label></center>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                    @*end tabs for sign in*@
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Join">Join</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="navbar_.">
+
+    </div>
+    <div style="min-height: 80vh;padding:0px!important;margin:0px!important;" class="d-flex flex-column" id="bg">
+        @RenderBody()
+    </div>
+
+
+    <!-- FOOTER -->
+    <footer>
+
+        <br />
+
+        <div>
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <h4>LINKS</h4>
+                        <div class="more_">
+                            <ul class="footer-ul">
+                                <li><a href='/Home'>Home</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h4>BROWSE APARTMENTS</h4>
+                        <div class="more_">
+                            <ul class="footer-ul">
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=gwarinpa'>Gwarinpa</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=garki'>Garki</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=jabi'>Jabi</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=asokoro'>Asokoro</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=maitama'>Maitama</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=abaji'>Abaji</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=gwagwalada'>Gwagwalada</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=kuje'>Kuje</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=bwari'>Bwari</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type5=1&location=kwali'>Kwali</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h4>BROWSE OFFICES</h4>
+                        <div class="more_">
+                            <ul class="footer-ul">
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=gwarinpa'>Gwarinpa</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=garki'>Garki</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=jabi'>Jabi</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=asokoro'>Asokoro</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=maitama'>Maitama</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=abaji'>Abaji</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=gwagwalada'>Gwagwalada</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=kuje'>Kuje</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=bwari'>Bwari</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type2=1&location=kwali'>Kwali</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h4>BROWSE HOMES</h4>
+                        <div class="more_">
+                            <ul class="footer-ul">
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=gwarinpa'>Gwarinpa</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=garki'>Garki</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=jabi'>Jabi</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=asokoro'>Asokoro</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=maitama'>Maitama</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=abaji'>Abaji</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=gwagwalada'>Gwagwalada</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=kuje'>Kuje</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=bwari'>Bwari</a></li>
+                                <li><a href='/Properties/SearchProperties?p=r&type1=1&location=kwali'>Kwali</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <hr style="background:#fff" />
+        </div>
+
+        <div class="container">
+            <center>
+                <ul class="list-inline">
+                    <li><a href="/About">ABOUT</a></li>
+                    @*<li><a href="#">NEWS</a></li>
+                        <li><a href="#">CAREERS</a></li>
+                        <li><a href="#">HELP</a></li>
+                        <li><a href="#">ADVERTISE</a></li>*@
+                    <li><a href="/Terms">TERMS OF USE</a></li>
+                    <li><a href="/Privacy">PRIVACY</a></li>
+                </ul>
+            </center>
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <div class="container">
+            @*<hr style="background:#fff" />*@
+        </div>
+
+        @*
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-md-4 mx-auto">
+                        <div>
+                            <h3>Links</h3>
+                            <br />
+                            <ul class="footer-ul">
+                                @*<li><a href="">List your rental</a></li>
+                                    <li><a href="">Advertise</a></li>
+                                <li><a href="/Home/Join">Join</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <center>
+                                    <h3>Follow</h3>
+                                </center>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <center>
+                                    <a class="facebookBtn smGlobalBtn" href="#"></a>
+                                    <a class="twitterBtn smGlobalBtn" href="#"></a>
+                                    <a class="googleplusBtn smGlobalBtn" href="#"></a>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mx-auto">
+                        <div style="margin-left:auto!important;margin-right:auto!important;text-align:left!important;width:100px!important;">
+                            <h3>Contact</h3>
+                            <br />
+                            kayvpm@gmail.com
+                        </div>
+                    </div>
+                </div>
+            </div>
+        *@
+        <br />
+        <br />
+
+    </footer>
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <style>
+
+        .showmore-button {
+            text-align: left;
+            margin-bottom: 20px !important;
+            clear: both !important;
+        }
+
+        .showmore-button-inner {
+            line-height: 14px;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
+
+
+    <script src="~/assets/libs/showmore/jquery.showmore.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            /* $('.more_').showmore({
+                 closedHeight: 80,
+                 buttonTextMore: 'Show more...',
+                 buttonTextLess: 'Show less ',
+                 buttonCssClass: 'showmore-button',
+                 animationSpeed: 0.5
+             });*/
+        });
+
+
+
+
+
+        //for the drop downs to stay down
+        jQuery('.dropdown-toggle').on('click', function (e) {
+            $(this).next().toggle();
+        });
+        jQuery('.dropdown-menu.keep-open').on('click', function (e) {
+            e.stopPropagation();
+        });
+
+        if (1) {
+            $('body').attr('tabindex', '0');
+        }
+        else {
+            alertify.confirm().set({ 'reverseButtons': true });
+            alertify.prompt().set({ 'reverseButtons': true });
+        }
+
+
+        jQuery(function ($) {
+            //Client login
+            $("#rsi").validate();
+            $("#rsi").on("submit", function (e) {
+                $.busyLoadFull("show");
+                e.preventDefault();
+                var email = $("#rsi_email").val();
+                var pass = $("#rsi_password").val();
+                $.ajax({
+                    url: "/Home/ClientLogin",
+                    data: { email: email, password: pass },
+                    method: "post",
+                    success: function (res) {
+                        console.log(res);
+                        if (res == "ok") {
+                            window.location = "/Client/Dashboard";
+                        }
+                        else {
+                            $("#rmsg").html("invalid credetials");
+                            $.busyLoadFull("hide");
+                        }
+                    },
+                    error: function () {
+                        $("#rmsg").html("error");
+                        $.busyLoadFull("hide");
+                    },
+
+                });
+            });
+
+
+            //owner login
+            $("#osi").validate();
+            $("#osi").on("submit", function (e) {
+                e.preventDefault();
+                $.busyLoadFull("show");
+                var email = $("#osi_email").val();
+                var pass = $("#osi_password").val();
+                $.ajax({
+                    url: "/Home/PropertyOwnerLogin",
+                    data: { email: email, password: pass },
+                    method: "post",
+                    success: function (res) {
+                        console.log(res);
+                        if (res == "ok") {
+                            window.location = "/Account/Dashboard";
+                        }
+                        else {
+                            $("#omsg").html("invalid credetials");
+                            $.busyLoadFull("hide");
+                        }
+                    },
+                    error: function () {
+                        $("#omsg").html("error");
+                        $.busyLoadFull("hide");
+                    },
+
+                });
+            });
+
+
+            //artisan login
+            $("#asi").validate();
+            $("#asi").on("submit", function (e) {
+                e.preventDefault();
+                $.busyLoadFull("show");
+                var email = $("#asi_email").val();
+                var pass = $("#asi_password").val();
+                $.ajax({
+                    url: "/Home/Artisanlogin",
+                    data: { email: email, password: pass },
+                    method: "post",
+                    success: function (res) {
+                        console.log(res);
+                        if (res == "ok") {
+                            window.location = "/Artisan/Dashboard";
+                        }
+                        else {
+                            $("#amsg").html("invalid credetials");
+                            $.busyLoadFull("hide");
+
+                        }
+                    },
+                    error: function () {
+                        $("#amsg").html("error");
+                        $.busyLoadFull("hide");
+                    },
+
+                });
+            });
+        });//jQuery(function($) {
+
+
+        function nav(url) {
+            window.location = url;
+
+        }
+    </script>
+
+    @*chat support*@
+    @if (user != null)
+    {
+        @Html.Raw(globals.chatSupportWithEmail.Replace("<!--replace_me_with_Email-->", user.email));
+    }
+    else
+    {
+        @Html.Raw(globals.chatSupport);
+    }
+
+
+    <script>
+        window.onbeforeunload = function () {
+            $.busyLoadFull("show");
+        };
+    </script>
+
+
+   
+
+
+</body>
+</html>
+
+
+

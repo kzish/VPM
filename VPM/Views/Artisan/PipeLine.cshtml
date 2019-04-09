@@ -1,0 +1,81 @@
+﻿@{Layout = "_Layout";}
+@{var ass = (IPagedList<VPM.Models.mAssignments>)ViewBag.ass;}
+@{var user = (VPM.Models.mArtisan)ViewBag.u;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+@*selectize*@
+<script src="~/assets/libs/selectize/js/standalone/selectize.js"></script>
+@*highcharts*@
+<link href="~/assets/libs/highcharts/css/themes/grid-light.css" rel="stylesheet" />
+<script src="~/assets/libs/highcharts/js/highcharts.js"></script>
+
+@*timeline*@
+<link href="~/assets/css/timeline.css" rel="stylesheet" />
+
+@if (ass.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h6 style="margin:0px!important;">Pipeline</h6>
+            <table class="table tblsm table-striped" style="margin-bottom:0px!important;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var n in ass)
+                    {
+                        <tr>
+                            <td>@n.date.ToString("dd MMM yyyy")</td>
+                            <td title="@n.description">@n.description</td>
+                            <td>@n.getAssignmentStatus()</td>
+                            <td>
+                                @if (n.assignmentStatus == VPM.Models.AssignmentStatus.signedOff)
+                                {
+                                    <b style="color:lightseagreen;">Signed off</b>
+                                }
+                                else if (n.assignmentStatus == VPM.Models.AssignmentStatus.dispute)
+                                {
+                                    <b style="color:red;">Disputed</b>
+                                }
+                                else
+                                {
+                                    <a href="/Artisan/AssignmentDetails?aid=@n._id">
+                                        <span class="fa fa-envelope-open-o" title="open"></span>
+                                        Open
+                                    </a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <pager class="pager-container"
+                   list="@ass"
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                   asp-action="Pipeline"
+                   asp-controller="Artisan"
+                   asp-route-keyword="" />
+
+
+        </div>@*col-md-6*@
+
+    </div>@*row*@
+}
+else
+{
+    <center>
+        <h1>No Tasks Yet</h1>
+    </center>
+}
+

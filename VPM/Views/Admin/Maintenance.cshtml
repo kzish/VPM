@@ -1,0 +1,118 @@
+﻿@{Layout = "_Layout";}
+@{ var props = (List<VPM.Models.mProperty>)ViewBag.props;}
+
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var ass = (IPagedList<VPM.Models.mAssignments>)ViewBag.ass;}
+
+@*
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">Maintenance Settings</div>
+                <div class="panel-body">
+
+                </div>
+            </div>@*panel
+        </div>@*col
+    </div>@*row*
+*@
+
+<form id="dd" method="get" action="/Admin/Maintenance">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="input-group">
+                <select id="Select1" class="form-control" style="height:40px!important;" name="pid">
+                    <option value="">All</option>
+                    @foreach (var p in props)
+                    {
+                        <option selected="@(ViewBag.pid==p._id)" value="@p._id">@p.propertyName (@p.getOwner().name  @p.getOwner().surname  )    </option>
+                    }
+                </select>
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                        <span>Select Property</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <select class="form-control" name="AssignmentStatus"  style="height:40px!important;">
+                    <option value="pending">All</option>
+                    <option value="pending" selected="@(ViewBag.AssignmentStatus=="pending")">Pending</option>
+                    <option value="started" selected="@(ViewBag.AssignmentStatus=="started")">Started</option>
+                    <option value="completed" selected="@(ViewBag.AssignmentStatus=="completed")">Completed</option>
+                </select>
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary">
+                        <span>Maintenance Status</span>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+    </div>@*row*@
+</form>
+
+
+<br />
+<br />
+
+@if (ass.Count > 0)
+{<div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered tblsm">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Completion Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var a in ass)
+                    {
+                        <tr>
+                            <td>
+                                @a.date.ToString("dd MMM yyyy");
+                            </td>
+
+                            <td>
+                                @a.getAssignmentStatus();
+                            </td>
+
+                            <td title="@a.description">
+                                @a.description
+                            </td>
+
+                            <td>
+                                @a.completetionDate.ToString("dd MMM yyyy");
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
+else
+{
+    <center>
+        <h3>
+            No Outstanding Maintenace
+        </h3>
+    </center>
+
+}

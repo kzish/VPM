@@ -1,0 +1,192 @@
+﻿@{ Layout = "_Layout";}
+@{
+    var user = (VPM.Models.mArtisan)ViewBag.user;
+}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+@*zebra datepicker*@
+<link href="~/assets/libs/zebra_datepicker/css/bootstrap/zebra_datepicker.css" rel="stylesheet" />
+<script src="~/assets/libs/zebra_datepicker/zebra_datepicker.min.js"></script>
+
+@*high charts*@
+<link href="~/assets/libs/highcharts/css/themes/sand-signika.css" rel="stylesheet" />
+<script src="~/assets/libs/highcharts/js/highcharts.js"></script>
+<script src="~/assets/libs/highcharts/js/modules/solid-gauge.js"></script>
+<script src="~/assets/libs/highcharts/js/highcharts-more.js"></script>
+
+@*moment and ko dependancies for date range picker*@
+<script src="~/assets/libs/daterangepicker/knockout-3.4.2.js"></script>
+<script src="~/assets/libs/daterangepicker/moment.js"></script>
+
+@*date range picker*@
+<link href="~/assets/libs/daterangepicker/daterangepicker.css" rel="stylesheet" />
+<script src="~/assets/libs/daterangepicker/daterangepicker.js"></script>
+
+@*year picker*@
+<script src="~/assets/libs/daterangepicker/yearpicker.js"></script>
+<link href="~/assets/libs/daterangepicker/yearpicker.css" rel="stylesheet" />
+
+
+@*date range picker*@
+<div class="row">
+    <div class="col-md-12">
+        <form id="fdrange" method="get" action="/Artisan/Dashboard">
+            <div class="input-group">
+                <input type="text" data-bind="daterangepicker: dateRange" class="form-control" readonly id="dateRange" name="dateRange" value="@ViewBag.dateRange" />
+                <div class="input-group-append" id="button-addon4">
+                    <button class="btn btn-outline-secondary _active" type="submit">
+                        Filter Dates
+                    </button>
+                    <button class="btn btn-outline-secondary _active" type="submit">
+                        <span class="fa fa-refresh"></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@*end daterange picker*@
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="gauge1">
+            <center>
+                <h1>YTD Revenue</h1>
+                <h1>@ViewBag.ytd</h1>
+            </center>
+        </div>
+    </div>
+</div>
+<hr />
+
+<br />
+<br />
+<br />
+<br />
+@if (!user.registered)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <center>
+                <h6>Your account is not yet registered, It will become active when your details have been verified by the Admin</h6>
+            </center>
+        </div>
+    </div>
+}
+
+
+
+@*year picker
+    <div class="row">
+        <div class="col-md-12">
+            <form method="get" action="/Artisan/Dashboard" id="fyear">
+                <div class="input-group">
+                    <input type="text"
+                           class="yearpicker form-control"
+                           value="@ViewBag.year" id="year" name="year" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">
+                            Select Year
+                        </button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="fa fa-refresh"></span>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    @*guage*@
+
+@*revenue bar*@
+<div class="row">
+    <div class="col-md-12">
+        <div id="bar1">
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    ko.applyBindings({
+        dateRange: ko.observable([moment().subtract(1, 'month'), moment()])
+    });
+</script>
+
+<script>
+    Highcharts.chart('bar1', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Monthly Revenue & Target'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec'
+            ],
+            crosshair: true
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Revenue'
+            }
+        },
+        tooltip: {
+            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f} mm</b></td></tr>',
+            footerFormat: '</table>',
+            shared: true,
+            useHTML: true
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0
+            }
+        },
+        series: [{
+            name: 'Revenue',
+            data: @ViewBag.monthlyRevenue
+
+        }, {
+            name: 'Target',
+            data: @ViewBag.monthlyTarget
+
+        }]
+    });
+
+    $('#year').yearpicker({
+    });
+
+
+
+</script>

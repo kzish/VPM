@@ -1,0 +1,544 @@
+﻿@{Layout = "_Layout";}
+@{var ass = (IPagedList<VPM.Models.mAssignments>)ViewBag.ass;}
+@{var countrys = (List<VPM.Models.mCountry>)ViewBag.countrys;}
+@{var user = (VPM.Models.mArtisan)ViewBag.user;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+
+
+
+@*Swipebox gallery*@
+<link href="~/assets/libs/swipeBox/css/swipebox.min.css" rel="stylesheet" />
+<script src="~/assets/libs/swipeBox/js/jquery.swipebox.min.js"></script>
+
+@*bar rating*@
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+
+
+<style>
+    html {
+        font-size: 12px !important;
+        color: #000 !important;
+    }
+</style>
+
+<div class="container">
+    @*row*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default" style="padding:10px;">
+                <form class="form" action="/Artisan/Bidding" method="get">
+                    <div class="row">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="form-control" name="param" placeholder="state, city, address, description, job type" value="@ViewBag.param" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <span class="glyphicon glyphicon-search"> Search</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @*row*@
+
+    @if (ass.Count > 0)
+    {
+        <div class="" style="background-color:lightgray;border-radius:2px;margin-bottom:20px;">
+            <div class="container houses_">
+
+                <div class="row">
+                    <div class="col-md-12">
+
+
+                        <pager class="pager-container"
+                               list="@ass"
+                               options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                               asp-action="Properties"
+                               asp-controller="Account"
+                               asp-route-keyword="" />
+
+                    </div>
+                </div>
+
+                @foreach (var p in ass)
+                {
+                    <div class="row panel panel-default">
+                        <div class="col-md-12" style="padding:0px;">
+                            <table style="min-width:100%;">
+                                <tr>
+                                    <td width="50%;">
+
+                                        @if (p.images.Count == 0)
+                                        {
+                                            <img src="~/assets/img/hlogo.jpg" style="width:100%!important; height:200px!important;object-fit:scale-down;" />
+                                        }
+                                        else
+                                        {
+                                            <img src="@p.images[0]" style="width:100%!important; height:200px!important;object-fit:cover;" />
+                                        }
+                                        <div style="position:absolute;bottom:0;left:0;">
+                                            <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" onclick="openImages('@p._id')">View Images</a>
+                                            @if (p.getNumBids() > 0)
+                                            {
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" onclick="showBids('@p._id')">Show Bids (@p.getNumBids())</a>
+                                            }
+                                            else
+                                            {
+                                                //no bids popup will show if there are no bids by removing the onclick
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill">Show Bids (@p.getNumBids())</a>
+                                            }
+
+                                            @if (p.isArtisanInBid(user._id))
+                                            {
+                                                <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-fill" onclick="revokeBid('@p._id')">&nbsp;&nbsp;&nbsp;Revoke Bid&nbsp;&nbsp;&nbsp;</a>
+                                            }
+                                            else
+                                            {
+                                                <a href="javascript:void(0);" class="btn btn-primary btn-sm btn-fill" onclick="offerBid('@p._id')">&nbsp;&nbsp;&nbsp;Offer Bid&nbsp;&nbsp;&nbsp;</a>
+                                            }
+                                        </div>
+                                    </td>
+
+                                    <td width="50%">
+
+                                        <table class="table">
+                                            <tr>
+                                                <td>@p.date.ToString("d MMM yyyy")</td>
+                                                <td><label style="color:white;background:red;padding:2px;border-radius:2px;"> @p.getSkillType() </label> </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div style="min-height:80px;width:100%; overflow-y:scroll;">
+                                                        @p.description.Replace(" ", "").Trim().TrimStart()
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    @p.city
+                                                    @p.state
+                                                    @p.streetaddress
+                                                </td>
+                                            </tr>
+                                        </table>
+
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+                    </div>@*row*@
+
+                }
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <pager class="pager-container"
+                               list="@ass"
+                               options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                               asp-action="Properties"
+                               asp-controller="Account"
+                               asp-route-keyword="" />
+                    </div>
+                </div>
+
+            </div>@*container*@
+        </div>
+    }
+    else
+    {
+        <center>
+            <h1>No Matches Found</h1>
+        </center>
+    }
+
+
+
+
+</div>@*top container*@
+
+
+
+
+
+<!-- modal offer bid -->
+<div id="modalBid" class="modal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="font-size:15px;">Offer your bid for this Job</h4>
+                <hr />
+            </div>
+            <div class="modal-body">
+                <form action="/Artisan/OfferBidding" method="post" style="color:red;" id="fid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="color:black;">Start date <span style="color:red;">*</span></label>
+                                <input type="text" class="form-control" name="proposed_start_date" id="proposed_start_date" required style="width:100%!important;" placeholder="Select Date" />
+                                <input type="hidden" class="form-control" name="aid" id="aid" required style="width:100%!important;" placeholder="Select Date" />
+                                <small style="color:black;">When can you start?</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="color:black;">Estimated Days to complete the task <span style="color:red;">*</span></label>
+                                <input type="number" min="1" value="1" id="estimatedDays" name="estimatedDays" required class="form-control" />
+                                <small style="color:black;">how many days to will you need to complete this task</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="color:black;">Price <span style="color:red;">*</span></label>
+                                <input type="number" min="0" class="form-control" name="bidding_price" id="bidding_price" required style="width:100%!important;" placeholder="10000" />
+                                <small style="color:black;">How much will you charge</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="color:black;">Billing Rate <span style="color:red;">*</span></label>
+                                <select name="bidding_rate" class="form-control" style="min-height:40px!important;" required>
+                                    <option value="Whole Job">Whole Job</option>
+                                    <option value="Per Hour">Per Hour</option>
+                                    <option value="Per Day">Per Day</option>
+                                    <option value="Per Week">Per Week</option>
+                                    <option value="Per Month">Per Month</option>
+                                    <option value="Per Year">Per Year</option>
+                                </select>
+                                <small style="color:black;">How will you charge</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label style="color:black;">Discription <span style="color:red;">*</span></label>
+                                <textarea class="form-control" id="bidding_description" name="bidding_description" required></textarea>
+                                <small style="color:black;">Describe in brief how you will do this job and what materials may be needed</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="modalBids" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">View Bids</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="mybid_">
+                        @*first is my bidding provided its there*@
+
+                        <hr />
+                    </div>
+                    <div class="col-md-12" id="bids" style="max-height:400px;overflow-y:auto;overflow-x:hidden;">
+
+                        @*other bids will appear here*@
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+
+
+
+    function showBids2(id) {
+        $('.arating').barrating({
+            theme: 'fontawesome-stars',
+            readonly: true
+
+        });
+        $("#modalBids").modal("show");
+    }
+
+    function offerBid(id) {
+        $("#modalBid").modal("show");
+        $("#aid").val(id);
+    }
+    $("#proposed_start_date").Zebra_DatePicker({
+        show_icon: false,
+        direction: 1
+    });
+
+    $("#fid").validate();
+    $("#fid").on("submit", function () {
+        var valid = $("#fid").valid();
+        if (valid) {
+            $.busyLoadFull("show");
+        }
+    });
+    $("#modalBid").appendTo("body");
+
+
+    //function to view the images
+    function openImages(id) {
+        $.busyLoadFull("show");
+        var images = "";
+        $.ajax({
+            url: "/Artisan/getAssignmentImages?aid=" + id,
+            method: "get",
+            success: function (images) {
+                images = JSON.parse(images);
+                $.busyLoadFull("hide");
+                if (images.length > 0) {
+                    $.swipebox(
+                        /*
+                    [
+                       { href: 'big/image1.jpg', title: 'My Caption' },
+                       { href: 'big/image2.jpg', title: 'My Second Caption' }
+
+                        ]
+                        */
+                        images
+                    );
+                }
+                else {
+                    $.toast({
+                        heading: 'Error',
+                        text: 'There are no images for this job',
+                        showHideTransition: 'fade',
+                        icon: 'error'
+                    })
+                }
+            },
+            error: function () {
+                $.busyLoadFull("hide");
+                $.alert({
+                    title: "Information",
+                    content: "error fetching images",
+                    type: "red"
+                });
+            }
+        });
+
+
+    }
+
+
+
+    function revokeBid(aid) {
+        $.alert({
+            title: "Confirmation",
+            content: "Revoke your bid?",
+            type: "red",
+            buttons: {
+                "Revoke": function () {
+                    window.location = "/Artisan/RevokeBid?aid=" + aid;
+                }
+                ,
+                "Cancel": function () {
+
+                }
+            }
+        })
+
+    }
+</script>
+
+
+
+
+<script>
+    $(function () {
+
+        /*  $('.thumbnail').viewbox();
+          $('.thumbnail-2').viewbox({ fullscreenButton: true });
+
+          (function () {
+              var vb = $('.popup-link').viewbox();
+              $('.popup-open-button').click(function () {
+                  vb.trigger('viewbox.open');
+              });
+              $('.close-button').click(function () {
+                  vb.trigger('viewbox.close');
+              });
+          })();*/
+
+    });
+
+
+    //get other bids
+    function showBids(id) {
+        $.busyLoadFull("show");
+        $.ajax({
+            url: "/Artisan/fetchOtherBids?aid=" + id,
+            method: "get",
+            success: function (value) {
+                $.busyLoadFull("hide");
+                value = JSON.parse(value);
+                var bids = "";
+                var mybid = "";
+                $.each(value, function (index, res) {
+                    if (res.artisan == null) return;
+                    if (res.artisan.email =='@user.email') {
+
+                        mybid += "<table style='border-bottom:1px solid black;width:100%;'>";
+                                    mybid += "<tr>";
+                                    mybid +=     "<td>";
+                                    if (res.artisan != null) {
+                                        if (res.artisan.image != null) {
+                                            mybid += "<img src='" + res.artisan.image + "' style='object-fit:cover;height:100px;width:100px;' /></td>";
+                                        }
+
+                                    }
+                                    else {
+
+                                        mybid += "<img src='~/assets/img/h1.png' style='object-fit:cover;height:100px;width:100px;' /></td>";
+
+                                    }
+
+                                    mybid +=               "<td>";
+                                    mybid +=                     "<table style='width:100%;'>";
+                                    mybid +=                         "<tr>";
+                                    mybid +=                             "<td>Name:</td>";
+                                    mybid +=                           "<td>"+res.artisan.name +" "+ res.artisan.surname+"</td>";
+                                    mybid +=                         "</tr>";
+                                    mybid +=                        "<tr>";
+                                    mybid +=                             "<td>Price:</td>";
+                                    mybid +=                             "<td>"+res.bidding_price+"</td>";
+                                    mybid +=                         "</tr>";
+                                    mybid +=                         "<tr>";
+                                    mybid +=                             "<td>Estimated time:</td>";
+                                    mybid +=                             "<td>"+res.estimatedDays+" days</td>";
+                                    mybid +=                         "</tr>";
+                                    mybid +=                         "<tr>";
+                                    mybid +=                              "<td>Billing rate:</td>";
+                                    mybid +=                              "<td>"+res.bidding_rate+"</td>";
+                                    mybid +=                          "</tr>";
+                                    mybid +=                          "<tr>";
+                                    mybid +=                              "<td colspan='2'>";
+                                    mybid +=                                 "<select class='arating'>";
+
+                                    //this will increase the rating
+                                    for(var i=0;i<res.artisan.myrating;i++)
+                                    mybid +=                                     "<option value='5'>5</option>";
+
+
+
+
+                                    mybid +=                                 "</select>";
+                                    mybid +=                             "</td>";
+                                    mybid +=                         "</tr>";
+                                    mybid +=                  "</table>";
+                                    mybid +=      "</td>";
+                                    mybid +=    "</tr>";
+                                    mybid += "</table>"
+
+                    }
+                    else {
+                                    bids += "<table style='border:1px solid black;width:100%;'>";
+                                    bids += "<tr>";
+                                    bids +=     "<td>";
+                                    if (res.artisan != null) {
+                                        if (res.artisan.image != null) {
+                                            bids += "<img src='" + res.artisan.image + "' style='object-fit:cover;height:100px;width:100px;' /></td>";
+                                        }
+
+                                    }
+                                    else {
+
+                                        bids += "<img src='~/assets/img/h1.png' style='object-fit:cover;height:100px;width:100px;' /></td>";
+
+                                    }
+
+                                    bids +=               "<td>";
+                                    bids +=                     "<table style='width:100%;'>";
+                                    bids +=                         "<tr>";
+                                    bids +=                             "<td>Name:</td>";
+                                    bids +=                           "<td>"+res.artisan.name +" "+ res.artisan.surname+"</td>";
+                                    bids +=                         "</tr>";
+                                    bids +=                        "<tr>";
+                                    bids +=                             "<td>Price:</td>";
+                                    bids +=                             "<td>"+res.bidding_price+"</td>";
+                                    bids +=                         "</tr>";
+                                    bids +=                         "<tr>";
+                                    bids +=                             "<td>Estimated time:</td>";
+                                    bids +=                             "<td>"+res.estimatedDays+" days</td>";
+                                    bids +=                         "</tr>";
+                                    bids +=                         "<tr>";
+                                    bids +=                              "<td>Billing rate:</td>";
+                                    bids +=                              "<td>"+res.bidding_rate+"</td>";
+                                    bids +=                          "</tr>";
+                                    bids +=                          "<tr>";
+                                    bids +=                              "<td colspan='2'>";
+                                    bids +=                                 "<select class='arating'>";
+
+                                    //this will increase the rating
+                                    for(var i=0;i<res.artisan.myrating;i++)
+                                    bids +=                                     "<option value='5'>5</option>";
+
+
+                                    bids +=                                 "</select>";
+                                    bids +=                             "</td>";
+                                    bids +=                         "</tr>";
+                                    bids +=                  "</table>";
+                                    bids +=      "</td>";
+                                    bids +=    "</tr>";
+                                    bids += "</table>"
+                    }
+
+                });
+
+
+                $("#modalBids").modal("show");
+
+                $("#bids").empty();//clear it
+                $("#bids").html(bids);//add it
+
+                $("#mybid_").empty();//clear it
+                $("#mybid_").html(mybid);//add it
+
+                $('.arating').barrating({//init the rating
+                    theme: 'fontawesome-stars'
+                });
+
+             },
+            error: function () {
+                $.busyLoadFull("hide");
+             }
+        });
+
+    }
+
+</script>

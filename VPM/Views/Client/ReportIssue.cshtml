@@ -1,0 +1,86 @@
+﻿@{ Layout = "_Layout";}
+@{var ass = (VPM.Models.mAssignments)ViewBag.ass;}
+
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading" style="background:#000;color:#fff">Report Issue</div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <label>TenantID</label>
+                                <input id="tenantID" name="tenantID" type="text" class="form-control" placeholder="" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <label>Issue</label>
+                                <textarea class="form-control" placeholder="..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        @*col-md-6 for right column*@
+                        <div class="col-md-6" style="border-right: 1px solid #000000;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    Upload Property Images
+                                    <input id="fimages" type="file" accept="image/*" multiple style="visibility:hidden;" />
+                                </div>
+                            </div>
+                            @*gallery images*@
+                            <div class="row" id="pimages">
+
+                                <div class="col-md-4">
+                                    <div class="divImageHolder">
+                                        <a href="javascript:void(0);" onclick="openFimages();">
+                                            <div class="divImageItem firstProduct">
+                                                <img src="~/account/assets/img/img_add_more.png" />
+                                                <span class="text-content"><span>CLICK TO UPLOAD <br />IMAGE</span></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                                @foreach (var i in ass.images)
+                                {
+                                    <div class="col-md-4" id="@i">
+                                        <div class="divImageHolder">
+                                            <a href="javascript:void(0);">
+                                                <div class="divImageItem firstProduct">
+                                                    <img src="@i" style="object-fit:cover" />
+                                                    <span class="text-content">
+                                                        <span>
+                                                            <i class="fa fa-trash" title="delete" onclick="removeAssignmentImage('@ass._id','@i')"></i>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div><!-- /.row -->
+                        </div>
+                        @*col-md-12 for images*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

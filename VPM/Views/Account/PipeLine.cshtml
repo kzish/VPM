@@ -1,0 +1,357 @@
+﻿@{Layout = "_Layout";}
+@{var props = (List<VPM.Models.mProperty>)ViewBag.props;}
+@{var selectedProperty = (VPM.Models.mProperty)ViewBag.selectedProperty;}
+@{var notifications = (IPagedList<VPM.Models.Notifications>)ViewBag.notifications;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+@*selectize*@
+<script src="~/assets/libs/selectize/js/standalone/selectize.js"></script>
+@*highcharts*@
+<link href="~/assets/libs/highcharts/css/themes/grid-light.css" rel="stylesheet" />
+<script src="~/assets/libs/highcharts/js/highcharts.js"></script>
+
+@*timeline*@
+<link href="~/assets/css/timeline.css" rel="stylesheet" />
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="fprop" action="/Account/Pipeline">
+
+
+            <div class="input-group">
+                <select id="pid" name="pid" class="form-control">
+                    @foreach (var p in props)
+                    {
+                        <option value="@p._id" selected="@(ViewBag.pid == p._id)">@p.propertyName</option>
+                    }
+                </select>
+                <div class="input-group-append" id="button-addon4">
+                    <button class="btn btn-outline-secondary _active" type="submit">Select Property</button>
+                    <button class="btn btn-outline-secondary _active" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>@*col-md-12*@
+</div>@*row*@
+
+@if (ViewBag.rejected > 0 ||
+ ViewBag.accepted > 0 ||
+ ViewBag.adminReview > 0 ||
+ ViewBag.landLordReview > 0 ||
+ ViewBag.eligible > 0 ||
+ ViewBag.pending > 0
+)
+{
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="bar"></div>
+        </div>
+        <div class="col-md-6">
+            <div id="pie_"></div>
+        </div>
+    </div>
+
+}
+
+@if (selectedProperty!=null && selectedProperty.timeLine!=null &&  selectedProperty.timeLine.Count > 0)
+{
+
+<h4>Timeline</h4>
+<div class="row">
+    <div class="col-md-12">
+        <div class="timelineholder">
+            <div class="timeline">
+                @if (selectedProperty != null)
+                {
+                    @foreach (var t in selectedProperty.timeLine)
+                    {
+                        <div class="_container left">
+                            <div class="content">
+                                <h6>@t.date.ToString("dd MMM yyyy")</h6>
+                                <p class="timeline_p">
+                                    @t.message
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>@*timeline*@
+        </div>@*timeline holder*@
+    </div>
+    @*col-md-12*@
+</div>@*row*@
+}
+else
+{
+    <hr />
+    <center>
+        <h4>
+            No data on timeline
+        </h4>
+    </center>
+
+}
+
+@if (notifications != null && notifications.Count > 0)
+{
+    <div class="row">
+
+        @{
+            var a = new Dictionary<string, string> { { "pid", @selectedProperty._id } };
+        }
+        <div class="col-md-12">
+            <h4>Notifications</h4>
+            <table class="table tblsm table-striped" style="margin-bottom:0px!important;">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>Message</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (notifications != null)
+                    {
+                        @foreach (var n in notifications)
+                        {
+                            <tr>
+                                <td>@n.date.ToString("dd MMM yyyy")</td>
+                                <td title="@n.from">@n.from</td>
+                                <td title="@n.message">@n.message</td>
+                                <td>
+                                    <span class="fa fa-envelope-open-o" title="open"></span>
+                                    <span class="fa fa-envelope" title="mark as un read"></span>
+                                    <span class="fa fa-trash" title="delete"></span>
+                                </td>
+                            </tr>
+
+                        }
+                    }
+                </tbody>
+            </table>
+            <pager class="pager-container"
+                   list="@notifications"
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                   asp-action="Pipeline"
+                   asp-all-route-data="a"
+                   asp-controller="Account"
+                   asp-route-keyword="" />
+
+
+        </div>
+        @*col-md-12*@
+
+    </div>@*row*@
+}
+else
+{
+    <hr />
+    <center>
+        <h4>No notifications</h4>
+    </center>
+
+}
+
+
+
+@if (selectedProperty!=null && selectedProperty.waitingList!=null && selectedProperty.waitingList.Count() > 0)
+{
+    <br />
+    <h4>Waiting list</h4>
+    @*pipeline for waiting list*@
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Stage</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var w in selectedProperty.waitingList)
+                    {
+                        <tr>
+                            <td>@w.name @w.surname</td>
+                            <td>
+
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                         aria-valuenow="@w.getStage()" aria-valuemin="0" aria-valuemax="100" style="width:@w.getStage()%">
+                                        @w.getStage()
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <hr />
+    <center>
+        <h4>No one on waiting list</h4>
+    </center>
+
+}
+
+@*pie*@
+<script>
+    // $('#pid').selectize();
+
+    // Radialize the colors
+   /* Highcharts.setOptions({
+        colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+            return {
+                radialGradient: {
+                    cx: 0.5,
+                    cy: 0.3,
+                    r: 0.7
+                },
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        })
+    });*/
+
+    // Build the chart
+    Highcharts.chart('pie_', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: ''
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    },
+                    connectorColor: 'silver'
+                }
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Share',
+            data: [
+                { name: 'Rejected', y: @ViewBag.rejected },
+                { name: 'Pending', y: @ViewBag.pending },
+                { name: 'Admin Review', y: @ViewBag.adminReview },
+                { name: 'My Review', y: @ViewBag.landLordReview },
+                { name: 'Eligible', y: @ViewBag.eligible },
+                { name: 'Accepted', y:@ViewBag.accepted }
+            ]
+        }]
+    });
+</script>
+
+@*bar*@
+<script>
+    // Create the chart
+    Highcharts.chart('bar', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Pipeline'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: ''
+            }
+
+        },
+        credits: {
+            enabled: false
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+
+        "series": [
+            {
+                "name": "Pipeline",
+                "colorByPoint": true,
+                "data": [
+                    {
+                        "name": "Rejected",
+                        "y": @ViewBag.rejected,
+                    },
+                    {
+                        "name": "Pending",
+                        "y":@ViewBag.pending,
+                    },
+                    {
+                        "name": "Admin Review",
+                        "y": @ViewBag.adminReview,
+                    },
+                    {
+                        "name": "My Review",
+                        "y": @ViewBag.landLordReview,
+                    },
+                    {
+                        "name": "Eligible",
+                        "y": @ViewBag.eligible,
+                    },
+                    {
+                        "name": "Accepted",
+                        "y": @ViewBag.accepted,
+                    }
+                ]
+            }
+        ],
+    });
+</script>

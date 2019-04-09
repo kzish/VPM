@@ -1,0 +1,69 @@
+﻿@{ Layout = "../Client/_Layout";}
+@{var user = (VPM.Models.mClient)ViewBag.user;}
+@{var msgs = (List<VPM.Models.mMessages>)ViewBag.msgs;}
+@{var chats = (List<VPM.Models.chat>)ViewBag.chats;}
+
+@*bk button override*@
+<link href="~/account/assets/css/chat.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="messaging.">
+        <div class="inbox_msg" id="inbox_msg" style="max-width:700px!important;margin:auto!important;padding:40px!important;height:450px!important;overflow-y:auto!important;">
+            <div class="mesgs." ">
+                <div class="msg_history." id="msg_history">
+                    @foreach (var c in chats)
+                    {
+                        if (c.to == user.email)
+                        {
+                            <div class="incoming_msg">
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+                                        <i><small>@globals.supportEmail</small></i><br />
+                                        <p>
+                                            @c.message
+                                        </p>
+                                        <span class="time_date"> @c.date.ToString("HH:mm tt")    |    @c.date.ToString("MMMM d")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <p>
+                                        @c.message
+                                    </p>
+                                    <span class="time_date"> @c.date.ToString("HH:mm tt")    |    @c.date.ToString("MMMM d")</span>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>@*chats*@
+            </div>
+
+        </div>
+        <div style="padding:20px!important;max-width:700px!important;margin:auto;">
+            <div class="type_msg">
+                <form method="post" id="fmsg" action="/ClientMessage/postMessage">
+                    <input type="hidden" value="@ViewBag.user.email" name="from" />
+                    <input type="hidden" value="@(globals.supportEmail)" name="to" />
+                    <input type="hidden" value="@ViewBag.msgId" name="msgId" />
+                    <div class="input_msg_write">
+                        <input type="text" class="write_msg" placeholder="Type a message" name="message" id="message" required />
+                        <button class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var objDiv = document.getElementById("inbox_msg");
+    objDiv.scrollTop = objDiv.scrollHeight;
+    $("#message").focus();
+</script>

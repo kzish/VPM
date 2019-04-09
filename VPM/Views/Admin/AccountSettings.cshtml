@@ -1,0 +1,91 @@
+﻿@{Layout = "_Layout";}
+@{ var user = (VPM.Models.mUser)ViewBag.user;}
+
+
+@*switch*@
+<link href="~/assets/css/switch.css" rel="stylesheet" />
+@*alerts*@
+<script src="~/assets/libs/jquery_alerts/jquery-confirm.min.js"></script>
+<link href="~/assets/libs/jquery_alerts/jquery-confirm.min.css" rel="stylesheet" />
+@*validate*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+
+
+@if (ViewBag.msg != null && ViewBag.msg != "")
+{
+    <script>
+        $.alert({
+            title: "Information",
+            content: "@ViewBag.msg",
+            type:"@ViewBag.type"
+        });
+    </script>
+
+}
+
+<form id="faccount" action="/Admin/AccountSettings" method="POST" style="color:red;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading" style="background:#000;color:#fff;">Account Settings</div>@*panel heading*@
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Email</label>
+                               <input type="email" name="email" id="email" class="form-control" value="@user.email" required/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label  class="black">Mobile</label>
+                                <input type="number" name="mobile" id="mobile" class="form-control"  value="@user.mobile" required />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label  class="black">Name</label>
+                                <input type="text" name="name" id="name" class="form-control" value="@user.name" required/>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label  class="black">Surname</label>
+                                <input type="text" name="surname" id="surname" class="form-control" value="@user.surname" required/>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                               <a href="/Admin/ChangePassword"><small>Change Password>></small></a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>@*panel content*@
+                <div class="panel-footer">
+                    <button type="submit" class="btn btn-primary">SAVE</button>
+                </div>@*panel footer*@
+            </div>@*panel*@
+        </div>@*col-md-12*@
+    </div>@*row*@
+</form>
+
+<script>
+    $("#faccount").validate();
+</script>

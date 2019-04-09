@@ -1,0 +1,78 @@
+﻿@{ Layout = "_Layout";}
+@{ var user = (VPM.Models.mUser)ViewBag.user;}
+
+
+<br />
+<div id="bg" style="min-width:100%!important;min-height:100vh!important;">
+    <div class="container" style="max-width:500px!important;margin:auto;">
+        <div class="card mb-3">
+            <h3 class="card-header">Property Owner Sign up</h3>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="login-form" action="/home/RegisterProperty" method="post" id="freg" style="color:red;">
+                            <b style="color:red;">@ViewBag.msg</b>
+                            <div class="form-group">
+                                <label class="black">Mobile <span style="color:red">*</span></label>
+                                <input type="number" name="mobile" class="form-control" required  value="@user.mobile"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="black">Email <span style="color:red"></span></label>
+                                <input type="email" name="email" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="black">Password <span style="color:red">*</span></label>
+                                <input type="password" name="password" id="password" class="form-control" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="black">Confirm Password <span style="color:red">*</span></label>
+                                <input type="password" name="password_again" id="password_again" class="form-control" required />
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="checkbox" id="chk_terms" onclick="enable_disable_registration(this)" /><b style="color:#000;"> I agree to the <a href="/ArtisanPolicy">Terms and Conditions</a></b>
+                                </div>
+                            </div>
+                            <br />
+
+                            <button type="submit" class="btn btn-primary btn-sm btn-block" style="height:30px!important;" id="btnsignup">Sign up</button>
+                            <br /><small id="lbl_info_1" style="color:red">First agree to <a href="/ArtisanPolicy">terms and conditions</a></small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    //check if agreed
+    function enable_disable_registration(cbox)
+    {
+        if (cbox.checked) {
+            $("#btnsignup").removeAttr("disabled");
+            $("#lbl_info_1").hide();
+        }
+        else {
+            $("#btnsignup").attr("disabled", true);
+            $("#lbl_info_1").show();
+        }
+    }
+
+
+
+    $("#freg").validate({
+        rules: {
+            password: "required",
+            password_again: {
+                equalTo: "#password"
+            }
+        }
+    });
+    $("#bg").backstretch("/assets/img/blur.jpg");
+</script>

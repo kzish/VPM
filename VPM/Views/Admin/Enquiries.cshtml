@@ -1,0 +1,89 @@
+﻿@{ Layout = "_Layout";}
+@{var en = (IPagedList<VPM.Models.mEnquiry>)ViewBag.enqs;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-inline" action="/Admin/Enquiries" method="get">
+            <div class="form-group">
+                <select class="form-control" id="filterstatus" name="status">
+                    <option value="">Filter Status (All)</option>
+                    <option value="open" selected="@(ViewBag.status=="open")">Open</option>
+                    <option value="closed" selected="@(ViewBag.status=="closed")">Closed</option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Filter" />
+        </form>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card ">
+            <div class="card-header ">
+                <h4 class="card-title">Enquiries</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-condensed tblsm table-striped">
+                    <tr>
+                        <td>name</td>
+                        <td>mobile</td>
+                        <td>email</td>
+                        <td>date</td>
+                        <td>enquiry</td>
+                        <td>state</td>
+                        <td>action</td>
+                    </tr>
+                    @foreach (var e in en)
+                    {
+                        <tr>
+                            <td>@e.name</td>
+                            <td>@e.mobile</td>
+                            <td>@e.email</td>
+                            <td>@e.date.ToString("d MMM yyyy")</td>
+                            <td>@e.getStatus()</td>
+                            <td>@e.enquiry</td>
+                            <td>
+                                <a href="/Admin/ViewEnquiry?eid=@e._id">open&nbsp;|</a>
+                                <a href="javascript:void(0);" onclick="DeleteEnquiry('@e._id')">&nbsp;delete</a>
+                            </td>
+                        </tr>
+                    }
+                </table>
+
+                <pager class="pager-container"
+                       list="@en"
+                       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                       asp-action="Properties"
+                       asp-controller="Admin"
+                       asp-route-keyword="" />
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function DeleteEnquiry(eid)
+    {
+    $.confirm({
+        title: "Confirmation",
+        content: "Are you sure you want to delete this enquiry?",
+        type: "orange",
+        buttons: {
+            "delete": function () { 
+                window.location="DeleteEnquiry?eid="+eid
+            },
+            "cancel": function () { }
+        }
+    });
+    }
+</script>

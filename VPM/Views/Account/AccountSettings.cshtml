@@ -1,0 +1,100 @@
+﻿@{Layout = "_Layout";}
+@{ var user = (VPM.Models.mUser)ViewBag.user;}
+
+
+@*switch*@
+<link href="~/assets/css/switch.css" rel="stylesheet" />
+@*alerts*@
+<script src="~/assets/libs/jquery_alerts/jquery-confirm.min.js"></script>
+<link href="~/assets/libs/jquery_alerts/jquery-confirm.min.css" rel="stylesheet" />
+@*validate*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+
+
+@if (ViewBag.msg != null && ViewBag.msg != "")
+{
+    <script>
+        $.alert({
+            title: "Information",
+            content: "@ViewBag.msg",
+            type:"@ViewBag.type"
+        });
+    </script>
+
+}
+
+<form id="faccount" action="/Account/AccountSettings" method="POST" style="color:red;margin:auto!important;">
+
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <div class="card bshadow" style="min-height:500px;">
+                <div class="card-header _active">Email & Mobile</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" value="@user.email" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Mobile</label>
+                                <input type="number" name="mobile" id="mobile" class="form-control" value="@user.mobile" />
+                            </div>
+                        </div>
+                    </div>
+                    <small>WE DO NOT SHARE YOUR PERSONAL DETAILS</small>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-danger _active" style="border:1px solid black;">SAVE</button>
+                </div>@*panel footer*@
+            </div>
+        </div>
+
+        <div class="col-md-6">
+           <div class="card _active bshadow" style="min-height:500px;">
+               <div class="card-header">Name</div>
+               <div class="card-body">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="form-group">
+                               <label class="black">Name</label>
+                               <input type="text" name="name" id="name" class="form-control" value="@user.name" />
+                           </div>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="form-group">
+                               <label class="black">Surname</label>
+                               <input type="text" name="surname" id="surname" class="form-control" value="@user.surname" />
+                           </div>
+                       </div>
+                   </div>
+               </div>
+               <div class="card-footer">
+                   <div class="row">
+                       <div class="col-md-12">
+                           <div class="form-group">
+                               <a href="/Account/ChangePassword"  style="color:#fff!important;"><small>Change Password >></small></a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+        </div>
+
+
+    </div>
+
+               
+</form>
+
+<script>
+    $("#faccount").validate();
+</script>

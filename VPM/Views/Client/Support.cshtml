@@ -1,0 +1,276 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var ass = (VPM.Models.mAssignments)ViewBag.ass;}
+@{ var skills = (List<VPM.Models.mSkills>)ViewBag.skills;}
+@{ var bids = (IPagedList<VPM.Models.bid>)ViewBag.bids;}
+
+
+<link href="~/account/assets/css/imageHoverSmall.css" rel="stylesheet" />
+<script src="~/viewmodels/tenant/Support/support.js"></script>
+
+@*brating*@
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+<form action="/Client/CreateAssignment" method="post" style="color:red!important;" id="fid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">Report Issue</div>
+                <div class="card-body">
+                    <input type="hidden" value="@ass._id" name="aid" id="aid" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label style="color:#000!important;">Maintanance Type<span style="color:red!important;">*</span></label>
+                                    <select class="form-control" name="skillType">
+                                        @foreach (var s in skills)
+                                        {
+                                            <option value="@s._id" selected="@(ass.skillType==s._id)">@s.skill</option>
+                                        }
+                                        <option value="other" selected="@(ass.skillType=="other")">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label style="color:#000!important;">Maintanance Description <span style="color:red!important;">*</span></label>
+                                    <textarea id="description" required name="description" class="form-control" rows="5" style="min-height:100px;" value="@ass.description">@ass.description</textarea>
+                                    <small style="color:#000!important;">Enter the full description of the problem you want fixed</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">State & City</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="color:#000!important;">State <span style="color:red!important;">*</span></label>
+                                <input type="text" class="form-control" name="state" required value="@ass.state" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label style="color:#000!important;">City <span style="color:red!important;">*</span></label>
+                                <input type="text" class="form-control" name="city" required value="@ass.city" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label style="color:#000!important;">Street Address <span style="color:red!important;">*</span></label>
+                                <input type="text" class="form-control" name="streetAddress" required value="@ass.streetaddress" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header">
+                    Upload Images of the Problem
+                </div>
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12" style="color:#000!important;">
+                                Upload Images
+                                <input id="fimages" type="file" accept="image/*" multiple style="visibility:hidden;" />
+                            </div>
+                        </div>
+                        @*gallery images*@
+                        <div class="row" id="pimages">
+
+                            <div class="col-md-4">
+                                <div class="divImageHolder">
+                                    <a href="javascript:void(0);" onclick="openFimages();">
+                                        <div class="divImageItem firstProduct">
+                                            <img src="~/assets/img/img_add_more.png" />
+                                            <span class="text-content"><span>CLICK TO UPLOAD <br />IMAGE</span></span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+
+
+                            @foreach (var i in ass.images)
+                            {
+                                var img = i.Replace(".jpg", "").Replace("/uploads/", "");
+                                <div class="col-md-4" id="@img">
+                                    <div class="divImageHolder">
+                                        <a href="javascript:void(0);">
+                                            <div class="divImageItem firstProduct">
+                                                <img src="@i" style="object-fit:cover" />
+                                                <span class="text-content">
+                                                    <span>
+                                                        <i class="fa fa-trash" title="delete" onclick="removeAssignmentImage('@ass._id','@img')"></i>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+
+                        </div><!-- /.row -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <br />
+    <br />
+  
+    <div class="row">
+        <div class="col-md-12">
+            <input id="btnsave" type="submit" value="Submit" class="btn btn-success" style="cursor:pointer;" />
+            <a href="/Client/Maintenance" class="btn btn-outline-danger _active">Close</a>
+        </div>
+    </div>
+</form>
+
+<br />
+<br />
+
+
+@*  these are bids
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="color:#fff;background:#000;">Bids (@bids.Count)</div>
+            <div class="panel-body">
+                @foreach (var b in bids)
+                {
+                    var artisan = b.getArtisan();
+                    <div class="row">
+                        <table style="min-width:100%;margin:2px;">
+                            <tr>
+                                <td width="10%">
+                                    <img src="@artisan.image" height="50" width="50" style="object-fit:cover;margin:5px;" />
+                                </td>
+                                <td width="60%">
+                                    <table class="tblsm" style="min-width:100%!important;" border="0">
+                                        <tr>
+                                            <td width="20%">Name</td>
+                                            <td width="80%" title="@artisan.name @artisan.surname">&nbsp;&nbsp;@artisan.name @artisan.surname</td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%">Number of Jobs</td>
+                                            <td width="80%" title="@(artisan.numJobs)">&nbsp;&nbsp;@(artisan.numJobs)</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td width="20%">Price</td>
+                                            <td width="80%" title="@(globals.getLocalCurrencyNG(b.bidding_price))">&nbsp;&nbsp;@(globals.getLocalCurrencyNG(b.bidding_price))</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" title="@b.bidding_description">@(globals.trimString(b.bidding_description,50))</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="30%">
+
+                                    @if (ass._artisan_id != null && ass._artisan_id != "")
+                                    {
+                                        if (ass._artisan_id == b.artisan._id)
+                                        {
+                                            <a href="/Client/deAssignTaskToArtisan?artisan_id=@b.artisan_id&assignment_id=@ass._id" style="font-size:10px;color:red;">de-Assign Task</a>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <a href="/Client/AssignTaskToArtisan?artisan_id=@b.artisan_id&assignment_id=@ass._id" style="font-size:10px;">Assign Task</a>
+                                    }
+                                    |
+                                    <a href="/Client/ViewArtisanFullProfile?aid=@b.artisan_id" style="font-size:10px;">View Profile</a>
+                                </td>
+                            </tr>
+                        </table>
+                        <table style="width:100%;margin:5px;">
+                            <tr>
+                                <td title="@artisan.getRating()">
+                                    <select class="brating" disabled>
+                                        <option selected="@(artisan.getRating()==1)">1</option>
+                                        <option selected="@(artisan.getRating()==2)">2</option>
+                                        <option selected="@(artisan.getRating()==3)">2</option>
+                                        <option selected="@(artisan.getRating()==4)">4</option>
+                                        <option selected="@(artisan.getRating()==5)">5</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+                @{
+                    var rd = new Dictionary<string, string>();
+                    rd.Add("aid", ass._id);
+                }
+                <pager class="pager-container"
+                       list="@bids"
+                       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                       asp-action="Support"
+                       asp-all-route-data="@rd"
+                       asp-controller="Client"
+                       asp-route-keyword="" />
+            </div>
+
+        </div>
+    </div>*@
+
+</div>
+
+<script>
+    function openFimages() {
+        $("#fimages").click();
+
+    }
+
+
+    $("#fid").validate();
+    function assignTask(aid) {
+
+
+    }
+
+    $(".brating").barrating({
+        theme: 'fontawesome-stars',
+        readonly: true
+    });
+
+</script>

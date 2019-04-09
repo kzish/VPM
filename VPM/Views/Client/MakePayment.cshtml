@@ -1,0 +1,207 @@
+﻿@{ Layout = "_Layout";}
+@{ var user = (VPM.Models.mClient)ViewBag.user;}
+@{ var prop = (VPM.Models.mProperty)ViewBag.property;}
+@{ var ass = (List<VPM.Models.mAssignments>)ViewBag.ass;}
+@*live script
+    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+*@
+@*test script*@
+<script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+<style>
+    form label {
+        color: red !important;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">Make a payment</div>
+                <div class="card-body">
+                    <form id="fid" style="color:red!important;">
+
+                        <div class="row">
+                            <div class="col-md-6" style="border-right:1px solid red;">
+                                <div class="form-group">
+                                    <label style="color:black!important;">Select payment type</label>
+                                    <select class="form-control" id="PaymentType" name="PaymentType">
+                                        <option value="artisanService">Pay Artisan Service</option>
+                                        <option value="rentalPayment">Pay Rent</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group" id="AssignmentID_">
+                                    <label style="color:black!important;">Select Assignment Your Paying For <span style="color:red!important;">*</span></label>
+                                    <select class="form-control" id="AssignmentID" name="AssignmentID" required>
+                                        @foreach (var a in ass)
+                                        {
+                                            <option value="@(a._id)">@(globals.trimString(a.description, 70))</option>
+                                        }
+                                    </select>
+                                    <small style="color:#fff!important;">You may only pay for an assignment which you have assigned to an artisan</small>
+                                </div>
+
+                                <div class="form-group" id="PropertyID_">
+                                    <label style="color:black!important;">Property Your Paying Rent For <span style="color:red!important;">*</span></label>
+                                    @if (prop != null)
+                                    {
+                                        <input type="text" required class="form-control" readonly id="PropertyID" name="PropertyID" value="@prop.propertyName" />
+                                    }
+                                    else
+                                    {
+
+                                        <input type="text" required class="form-control" readonly id="PropertyID" name="PropertyID" placeholder="You do not have a property to pay rent for" />
+                                    }
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label style="color:black!important;">Enter payment Reference <span style="color:red;">*</span></label>
+                                    <input type="text" placeholder="eg. payment for rent" class="form-control" id="paymentRef" name="paymentRef" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label style="color:black!important;">Enter payment amount <span style="color:red;">*</span></label>
+                                    <input type="number" step="any" min="0" placeholder="eg. 100000" class="form-control" id="paymentAmount" name="paymentAmount" required />
+                                    <br /><small style="color:white!important;">A transaction fee of 1.4% will be charged for local currency, 3.4% for foreign currency</small>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </form>
+
+
+
+                </div>
+                <div class="card-footer">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-outline-success btn-block">Pay Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+
+<script>
+
+    $("#AssignmentID_").show(0);
+    $("#PropertyID_").hide(0);
+
+
+    var pt = "";
+    $("#PaymentType").on("change", function () {
+        pt = $("#PaymentType").val();
+        console.log(pt);
+        if (pt == "rentalPayment") {
+            $("#AssignmentID_").hide(1000);
+            $("#PropertyID_").show(1000);
+
+        }
+        else {
+
+            $("#AssignmentID_").show(1000);
+            $("#PropertyID_").hide(1000);
+        }
+
+
+    });
+</script>
+
+
+<script>
+   // const API_publicKey = "FLWPUBK-27765de03cf4e262c850356fe395d115-X"; //live
+    const API_publicKey = "FLWPUBK-002565847dd0b6199bbc831eee3f48fc-X";//test
+
+    function payWithRave() {
+        var x = getpaidSetup({
+            PBFPubKey: API_publicKey,
+            customer_email: "@user.email",
+            amount:_amount ,
+            customer_phone: "@user.mobile",
+            currency: "NGN",
+            //redirect_url:"http://localhost:63029/Client/MakePayment",
+            txref: _txref,
+            meta: [{
+                metaname: "flightID",
+                metavalue: "AP1234"
+            }],
+            onclose: function () { },
+            callback: function (response) {
+                var txref = response.tx.txRef; // collect txRef returned and pass to a server page to complete status check.
+                console.log("This is the response returned after a charge", response);
+                var AssignmentID = $("#AssignmentID").val();
+                var amount = $("#paymentAmount").val();
+                var flwRef = response.tx.flwRef;
+                if (
+                    response.tx.chargeResponseCode == "00" ||
+                    response.tx.chargeResponseCode == "0"
+                ) {
+                    @*send this to the server*@
+                    $.ajax({
+                        url: "/Client/SavePaymentDetails",
+                        method: "post",
+                        success: function () { },
+                        error: function () { },
+                        data: { txref: txref, pt: $("#PaymentType").val(), flwRef: flwRef, AssignmentID: AssignmentID,amount:amount}
+                    });
+
+                    $.confirm({
+                        title: "Information",
+                        content: "The payment was successful, you will recieve a confirmation email",
+                        type: "green",
+                        buttons: {
+                            "OK": function () {
+                                window.location="/Client/PaymentHistory"
+                             }
+                        }
+                    });
+                } else {
+                    $.alert({
+                        title: "Information",
+                        content: "The payment was unsuccessful, please try again after a few minutes",
+                        type: "red"
+                    });
+                }
+                x.close(); // use this to close the modal immediately after payment.
+            }
+        });
+    }
+</script>
+
+<script>
+    var error = "";
+    var _amount = 0;
+    var _txref = "";
+    $("#fid").validate();
+    $("#fid").on("submit", function (e) {
+        e.preventDefault();
+        _amount = $("#paymentAmount").val();
+        _txref = $("#paymentRef").val();
+        var valid = $("#fid").valid();
+        if (valid) {
+
+            try {
+                payWithRave();
+            } catch (e) {
+                $.alert({
+                    title: "Information",
+                    content: "An error occurred " + e,
+                    type: "red",
+                });
+                console.log(e);
+                error = e;
+            }
+        }
+    });
+
+    ///window.onbeforeunload = function () {
+     //   return false;
+    //}
+</script>

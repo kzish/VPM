@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\VPM",
+    "\\VPM\\obj",
+    "\\VPM\\obj\\Release",
+    "\\VPM\\obj\\Release\\netcoreapp2.1",
+    "\\VPM\\obj\\Release\\netcoreapp2.1\\PubTmp",
+    "\\VPM\\obj\\Release\\netcoreapp2.1\\PubTmp\\Out",
+    "\\VPM\\obj\\Release\\netcoreapp2.1\\PubTmp\\Out\\wwwroot",
+    "\\VPM\\Views",
+    "\\VPM\\Views\\Client"
+  ],
+  "SelectedNode": "\\VPM\\Views\\Client\\Maintenance.cshtml",
+  "PreviewInSolutionExplorer": false
+}

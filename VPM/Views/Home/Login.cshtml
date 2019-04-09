@@ -1,0 +1,207 @@
+﻿@{ Layout = "_Layout";}
+@*backstretch*@
+<script src="~/assets/js/jquery.backstretch.min.js"></script>
+
+<style>
+
+   .login-page {
+        width: 50%;
+        padding: 8% 0 0;
+        margin: auto;
+        height: auto;
+
+    }
+
+    .form {
+        position: relative;
+        z-index: 1;
+        background: #FFFFFF;
+        max-width: 460px;
+        margin: 0 auto 100px;
+        padding: 45px;
+        text-align: center;
+        box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    }
+
+        .form input {
+            font-family: "Roboto", sans-serif;
+            outline: 0;
+            background: #f2f2f2;
+            width: 100%;
+            border: 0;
+            margin: 0 0 15px;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .form button {
+            font-family: "Roboto", sans-serif;
+            text-transform: uppercase;
+            outline: 0;
+            background: #4CAF50;
+            width: 100%;
+            border: 0;
+            padding: 15px;
+            color: #FFFFFF;
+            font-size: 14px;
+            -webkit-transition: all 0.3 ease;
+            transition: all 0.3 ease;
+            cursor: pointer;
+        }
+
+            .form button:hover, .form button:active, .form button:focus {
+                background: #43A047;
+            }
+
+        .form .message {
+            margin: 15px 0 0;
+            color: #b3b3b3;
+            font-size: 12px;
+        }
+
+            .form .message a {
+                color: #4CAF50;
+                text-decoration: none;
+            }
+
+        .form .register-form {
+            display: none;
+        }
+
+    ._container {
+        position: relative;
+        z-index: 1;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+        ._container:before, ._container:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        ._container .info {
+            margin: 50px auto;
+            text-align: center;
+        }
+
+            ._container .info h1 {
+                margin: 0 0 15px;
+                padding: 0;
+                font-size: 36px;
+                font-weight: 300;
+                color: #1a1a1a;
+            }
+
+            ._container .info span {
+                color: #4d4d4d;
+                font-size: 12px;
+            }
+
+                ._container .info span a {
+                    color: #000000;
+                    text-decoration: none;
+                }
+
+                ._container .info span .fa {
+                    color: #EF3B3A;
+                }
+
+    body {
+        background: #fff; /* fallback for old browsers */
+        background: -webkit-linear-gradient(right, #fff, #8DC26F);
+        background: -moz-linear-gradient(right, #fff, #8DC26F);
+        background: -o-linear-gradient(right, #76b852, #8DC26F);
+        background: linear-gradient(to left, #76b852, #8DC26F);
+        font-family: "Roboto", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        
+        background-image: url("/assets/img/lagos.jpg");
+        background-size:cover;
+        height:100vh!important;
+        width:100%!important;
+    }
+
+    label {
+        color: red !important;
+    }
+    .hold {
+        background-image: url('~assets/img/lagos3.jpg') !important;
+        background-position: center !important;
+        background-size: cover !important;
+        height:100vh!important;
+        width:100%!important;    
+    
+</style>
+
+
+@*js validater*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+<script src="~/assets/libs/validate/jquery_validator/additional-methods.js"></script>
+@*page script*@
+<script src="~/viewmodels/login/login.js"></script>
+
+
+@if (ViewBag.msg != null)
+{
+    <script>
+        $.alert({
+            title: "Information",
+            content: "@ViewBag.msg",
+            type:"@ViewBag.type"
+
+        });
+    </script>
+}
+
+<div class="hold">
+    <div class="login-page">
+        <div class="row" style="height:100px!important;">
+            <div class="col-md-6" style="border-right: 0px solid #000000;">
+
+                <div class="form">
+                    <form class="login-form" method="post" action="/home/login" id="flog0">
+                        <h4>LandLord Login</h4>
+                        <input type="email" placeholder="email" name="email" id="email0" required class="black" value="zishumbak@gmail.com" />
+                        <input type="password" placeholder="password" name="password" id="password0" required class="black" value="12345" />
+                        <button type="submit">login</button>
+                        <p class="message"><a href="/home/forgotpassword1">Forgot Password</a></p>
+                        <p class="message tlink">Not registered? <a href="/home/RegisterProperty">Create an account</a></p>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="col-md-6">
+
+                <div class="form">
+                    <form class="login-form" method="post" action="/home/Artisanlogin" id="flog1">
+                        <h4>Artisan Login</h4>
+                        <input type="email" placeholder="email" name="email" id="email1" required class="black" value="zishumbak@gmail.com" />
+                        <input type="password" placeholder="password" name="password" id="password1" required class="black" value="12345" />
+                        <button type="submit">login</button>
+                        <p class="message"><a href="/home/forgotpassword2">Forgot Password</a></p>
+                        <p class="message tlink">Not registered? <a href="/home/RegisterSkills">Create an account</a></p>
+                    </form>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+<br />
+<script>
+        //$.backstretch("~/assets/img/lagos3.jpg");
+</script>

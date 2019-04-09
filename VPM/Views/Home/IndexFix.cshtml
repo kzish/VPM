@@ -1,0 +1,48 @@
+﻿@{Layout = "_Layout";}
+@{ var props = (List<VPM.Models.mProperty>)ViewBag.props;}
+
+<div class="row" style="height: 50%;margin:auto!important;">
+    <div class="col-md-12">
+        <form action="" method="get" id="fid">
+            <div class="bg center-block">
+                <h4 style="text-align:center;color:#fff;font-weight:400;font-size:28px!important;background:rgba(0,0,0,0.2);padding:10px!important;">Need something fixed?</h4>
+                <div class="btn-group">
+                    <button onclick="nav('/Home/IndexBuy')" type="button" class="btn btn-primary btn_center">Buy</button>
+                    <button onclick="nav('/Home/IndexRent')" type="button" class="btn btn-primary btn_center">Rent</button>
+                    <button onclick="nav('/Home/indexFix')" type="button" class="btn btn-primary btn_center">Fix</button>
+                    <button onclick="nav('/Home/indexSell')" type="button" class="btn btn-primary btn_center">Sell</button>
+                </div>
+
+                <br />
+                <div class="input-group mb-3" style="margin-top:10px!important;">
+                    <input style="" type="text" class="form-control sbox" placeholder="eg. window fitting" name="param" id="param">
+                    <div class="input-group-append">
+                        <button class="btn btn-success btn_center" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<script>
+    $("#bg").backstretch("/assets/img/h_6.jpg");
+    $("#param").autocomplete({
+        serviceUrl: '/Properties/SearchArtisans_Ajax',
+        onSelect: function (suggestion) {
+            // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            navtoClientSupport();//  window.location = suggestion.data;
+        }
+    });
+
+    function navtoClientSupport()
+    {
+        $.busyLoadFull("show");
+        var param = $("#param").val();
+        window.location = "/SpecialRoute/ClientSearchItemToBeFixed?mtype='" + param + "'";
+    }
+
+    $("#fid").on("submit", function (e) {
+        e.preventDefault();
+    });
+</script>

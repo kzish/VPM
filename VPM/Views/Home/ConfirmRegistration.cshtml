@@ -1,0 +1,21 @@
+﻿<script src="~/assets/js/jquery.min.js"></script>
+<script src="~/assets/js/bootstrap.min.js"></script>
+<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/assets/libs/jquery_alerts/jquery-confirm.min.css" rel="stylesheet" />
+<script src="~/assets/libs/jquery_alerts/jquery-confirm.min.js"></script>
+@if (ViewBag.msg != null)
+{
+    <script>
+        $.confirm({
+            title: "Information",
+            content: "@ViewBag.msg",
+            type: "@ViewBag.type",
+            buttons: {
+                ok: function () {
+                    window.location = "/Home/Login";
+                }
+            }
+        });
+    </script>
+
+}

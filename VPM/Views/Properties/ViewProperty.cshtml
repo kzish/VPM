@@ -1,0 +1,521 @@
+﻿@{Layout = "../Home/_Layout";}
+@{ var p = (VPM.Models.mProperty)ViewBag.property;}
+@{ var props = (List<VPM.Models.mProperty>)ViewBag.otherProps;}
+
+@*virtical slider*@
+<link href="~/assets/libs/virtical_slider/ninja-slider.css" rel="stylesheet" />
+<script src="~/assets/libs/virtical_slider/ninja-slider.js"></script>
+
+<link href="~/assets/libs/virtical_slider/thumbnail-slider.css" rel="stylesheet" />
+<script src="~/assets/libs/virtical_slider/thumbnail-slider.js"></script>
+
+
+
+@*zebra date*@
+<script src="~/assets/libs/zebra_datepicker/zebra_datepicker.min.js"></script>
+<link href="~/assets/libs/zebra_datepicker/css/bootstrap/zebra_datepicker.css" rel="stylesheet" />
+
+@*rating*@
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+
+
+@*tomtom maps*@
+<link href="~/assets/libs/tomtomMaps/map.css" rel="stylesheet" />
+<script src="~/assets/libs/tomtomMaps/tomtom.min.js"></script>
+
+<br />
+<div class="container">
+
+    @if (ViewBag.msg != null)
+    {
+        <script>
+            $.alert({
+                title: "Info",
+                type: "blue",
+                content:'@ViewBag.msg'
+            });
+        </script>
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="width:100%;">
+                <div id="ninja-slider" style="float:left;">
+                    <div class="slider-inner">
+                        <ul>
+                            @if (p.PImages.Count == 0)
+                            {
+                                <li><a class="ns-img" href="~/assets/img/hlogo.jpg"></a></li>
+                                <li><a class="ns-img" href="~/assets/img/hlogo.jpg"></a></li>
+                                <li><a class="ns-img" href="~/assets/img/hlogo.jpg"></a></li>
+                            }
+                            @foreach (var pi in p.PImages)
+                            {
+                                <li><a class="ns-img" href="@pi.path"></a></li>
+                            }
+                        </ul>
+                        <div class="fs-icon" title="Expand/Close"></div>
+                    </div>
+                </div>
+                <div id="thumbnail-slider" style="float:left;">
+                    <div class="inner">
+                        <ul>
+                            @if (p.PImages.Count == 0)
+                            {
+                                <a class="thumb" href="~/assets/img/hlogo.jpg"></a>
+                                <a class="thumb" href="~/assets/img/hlogo.jpg"></a>
+                                <a class="thumb" href="~/assets/img/hlogo.jpg"></a>
+                            }
+                            @foreach (var pi in p.PImages)
+                            {
+                                <li>
+                                    <a class="thumb" href="@pi.path"></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>@*col-md-12*@
+    </div>@*row*@
+
+    <div class="row">
+        <div class="col-md-2">
+            <button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalenq">Submit Enquiry</button>
+            @if (p.adminApproved)
+            {
+                <button type="button" class="btn btn-info btn-sm btn-block" data-toggle="modal" data-target="#modalAddtoWaitingList">Join waiting list</button>
+            }
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <div id="map" style="height:200px;width:100%;border:1px solid black;"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h2>More information</h2>
+            <table class="table">
+                <tr>
+                    <td>@p.propertyName</td>
+                </tr>
+                <tr>
+                    <td>NAIRA @p.price / @p.billingRate</td>
+                </tr>
+                <tr>
+                    <td>@p.streetAddress</td>
+                </tr>
+                <tr>
+                    <td style="text-align:justify">@p.description</td>
+                </tr>
+            </table>
+            @*detials*@
+        </div>
+
+        <div class="col-md-6" style="border-left:1px solid black;">
+            <h2>Other houses nearby</h2>
+            @*other houses*@
+
+
+            @foreach (var h in props)
+            {
+                @if (h.PImages.Count == 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/Properties/ViewProperty?pid=@h._id">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <img src="~/assets/img/hlogo.jpg" height="50" width="50" />
+                                        </td>
+                                        <td>
+                                            <table style="color:black;width:100%!important;font-size:10px;margin-left:2px!important;">
+                                                <tr>
+                                                    <td>@h.price @h.billingRate</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@h.streetAddress</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @h.TrimDescription(50)
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="/Properties/ViewProperty?pid=@h._id">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <img src="@h.PImages[0].path" height="50" width="50" />
+                                        </td>
+                                        <td>
+                                            <table style="color:black;width:100%!important;font-size:10px;margin-left:2px!important;">
+                                                <tr>
+                                                    <td>@h.price @h.billingRate</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@h.streetAddress</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        @h.TrimDescription(50)
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+
+
+
+        </div>
+    </div>
+    <br />
+  @*  <h3>
+        Neighborhood
+    </h3>
+    <div class="row">
+        <div class="col-md-6" style="text-align:justify">
+            @*neiborood info
+
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+        </div>
+        <div class="col-md-6">
+            @*neighborhood metrix and rating
+            <table class="table">
+                <tr>
+                    <td>Security</td>
+                    <td>
+
+                        <select id="security">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Transportation</td>
+                    <td>
+                        <select id="transportation">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Electricity Availability</td>
+                    <td>
+                        <select id="electricity">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Water Availability</td>
+                    <td>
+                        <select id="water">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nearby Schools</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>Nearby Medical Centers</td>
+                    <td>5</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+      *@
+</div>@*container*@
+
+
+
+@*modal add to wainting list*@
+
+<!-- Modal -->
+<div id="modalAddtoWaitingList" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Join Waiting List</h3>
+            </div>
+            <div class="modal-body">
+
+                <form id="fwl" method="post" action="/properties/JoinWaitingList" style="color:red;">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Firstname <span style="color:red">*</span></label>
+                                <input type="text" name="name" id="_name" class="form-control" required />
+                                <input type="hidden" name="pid" id="_pid" class="form-control" value="@p._id" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Surname <span style="color:red">*</span></label>
+                                <input type="text" name="surname" id="_surname" class="form-control" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Mobile <span style="color:red">*</span></label>
+                                <input type="number" name="mobile" id="_mobile" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Email <span style="color:red">*</span></label>
+                                <input type="email" name="email" id="_email" class="form-control" required/>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (p.eligibilityFormLink != "" && p.eligibilityFormLink != null)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <a class="btn btn-primary btn-block btn-sm" href="@p.eligibilityFormLink" target="_blank">@p.eligibilityFormLink</a>
+                                    <br />
+                                    <small>Click on the above link and kindly take the time to fill in the form as it will assist your application</small>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Address <span style="color:red"></span></label>
+                                <textarea name="address" id="_address" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">From Date <span style="color:red"></span></label>
+                                <input type="text" name="fromDate" id="_fromDate" class="form-control" style="width:100%!important;" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">To Date <span style="color:red"></span></label>
+                                <input type="text" name="toDate" id="_toDate" class="form-control"  />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-sm">Submit Application</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@*modal submit enquiry*@
+<!-- Modal -->
+<div id="modalenq" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Enquire about this property</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="form" id="fenquiry" style="color:red;" action="/Properties/makeEnquiry" method="post">
+                            <div class="form-group">
+                                <input type="hidden" name="property_id" id="property_id" value="@p._id" />
+                                <label class="black">Name <span style="color:red;">*</span></label>
+                                <input type="text" required class="form-control" placeholder="name" id="name" name="name" />
+                                <br /><label class="black">Mobile <span style="color:red;">*</span></label>
+                                <input type="number" required class="form-control" placeholder="mobile" id="mobile" name="mobile" />
+                                <br /><label class="black">Email </label>
+                                <input type="email" class="form-control" placeholder="email" id="email" name="email" />
+                                <br /><label class="black">Enquiry <span style="color:red;">*</span></label>
+                                <textarea placeholder="I would like to make an enquiry..." rows="5" required class="form-control" id="enquiry" name="enquiry"></textarea>
+                                <br />
+                                <input id="btnsubmit" type="submit" value="Submit Enquiry" class="btn btn-success btn-sm" />
+                                <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+
+
+                            </div>
+                        </form> @*contact form*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    (function ($) {
+        $("#fenquiry").validate();
+        $("#fwl").validate();
+
+        $('#_fromDate').Zebra_DatePicker({
+            direction: true,
+            pair: $('#_toDate'),
+            show_icon: false
+        });
+
+        $('#_toDate').Zebra_DatePicker({
+            direction: 1,
+            icon_position: "left",
+            inside: false,
+            show_icon: false
+        });
+
+
+        $('#security').barrating({
+            theme: 'fontawesome-stars'
+        });
+
+        $('#transportation').barrating({
+            theme: 'fontawesome-stars'
+        });
+
+        $('#electricity').barrating({
+            theme: 'fontawesome-stars'
+        });
+
+        $('#water').barrating({
+            theme: 'fontawesome-stars'
+        });
+
+    })(jQuery);
+
+
+    var map, marker;
+    tomtom.setProductInfo('VPM', '4.44.7');
+    tomtom.key('kDBGrc2tROkfTL2jlCBl26GLscDVhEZL');
+    tomtom.searchKey('kDBGrc2tROkfTL2jlCBl26GLscDVhEZL');
+
+    map = tomtom.map('map', {
+        basePath: '/assets/libs/tomtomMaps/',
+    }).setView([@p.lat, @p.lon], 12);
+
+    var markerOptions = {
+        icon: tomtom.L.icon({
+            iconUrl: '/assets/img/map_marker.png',
+            iconSize: [25, 25],
+            iconAnchor: [25, 25]
+        })
+    };
+
+
+
+</script>
+
+
+
+@if (p.PImages.Count == 0)
+{
+    <script>
+        marker = tomtom.L.marker([@p.lat, @p.lon], markerOptions).bindPopup(
+            '<table style="color:black;">' +
+            '<tr><td><img src="/assets/img/hlogo.jpg" height="25" width="25"></td></tr>'+
+                '<tr>'+
+                    '<td>N @p.price / @p.billingRate</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.bathType Bathroom</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.numBeds rooms</td>'+
+                '</tr>'+
+            '</table>'
+        ).addTo(map);
+    </script>
+}
+else
+{
+    <script>
+        marker = tomtom.L.marker([@p.lat, @p.lon], markerOptions).bindPopup(
+            '<table style="color:black;">' +
+            '<tr><td><img src="@p.PImages[0].path" height="25" width="25"></td></tr>'+
+                '<tr>'+
+                    '<td>N @p.price / @p.billingRate</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.bathType Bathroom</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.numBeds rooms</td>'+
+                '</tr>'+
+            '</table>'
+        ).addTo(map);
+    </script>
+}

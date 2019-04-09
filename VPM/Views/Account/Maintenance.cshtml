@@ -1,0 +1,90 @@
+﻿@{Layout = "_Layout";}
+@{var props = (List<VPM.Models.mProperty>)ViewBag.props;}
+@{var selectedProperty = (VPM.Models.mProperty)ViewBag.selectedProperty;}
+@{ var mantanance = (IPagedList<VPM.Models.MaintananceList>)ViewBag.maintananceList;}
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="fprop" action="/Account/Maintenance">
+            <div class="input-group">
+                <select id="pid" name="pid" class="form-control">
+                    @foreach (var p in props)
+                    {
+                        <option value="@p._id" selected="@(ViewBag.pid == p._id)">@p.propertyName</option>
+                    }
+                </select>
+                <div class="input-group-append" id="button-addon4">
+                    <button class="btn btn-outline-secondary _active" type="submit">
+                        <span>Select Property</span>
+                    </button>
+                    <button class="btn btn-outline-secondary _active" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>@*col-md-12*@
+</div>@*row*@
+@if (selectedProperty != null)
+{
+    @if (selectedProperty.maintananceList.Count > 0)
+    {
+
+        <br />
+        <br />
+        <br />
+        <div class="row">
+
+            <div class="col-md-12">
+                <h6>@selectedProperty.propertyName Maintenance </h6>
+                <table class="table">
+                    <tbody>
+                        @foreach (var n in mantanance)
+                        {
+                            <tr>
+                                <td>@n.date.ToString("dd MMM yyyy")</td>
+                                <td>@n.description</td>
+                                <td>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                                             aria-valuenow="@n.getStage()" aria-valuemin="0" aria-valuemax="100" style="width:@n.getStage()%">
+                                            @n.getStage()%
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+            </div>@*col-md-6*@
+
+
+        </div>
+
+        <pager class="pager-container"
+               list="@mantanance"
+               options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+               asp-action="Maintenance"
+               asp-controller="Account"
+               asp-route-keyword="" />
+    }
+    else
+    {
+        <center>
+            <br />
+            <br />
+            <br />
+            <h2>No Maintenance<br />Outstanding</h2>
+        </center>
+    }
+}

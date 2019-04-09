@@ -1,0 +1,58 @@
+﻿@{ Layout = "_Layout";}
+@{var en = (VPM.Models.mEnquiry)ViewBag.enq;}
+
+
+@if(ViewBag.msg!=null)
+{
+    <script>
+        $.alert({
+            title: "Info",
+            type: "blue",
+            content:"@ViewBag.msg"
+        });
+    </script>
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>View Enquiry</h3>
+        <br />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <tr>
+                <td>@en.name</td>
+                <td>@en.date.ToString("d MMM yyyy")</td>
+                <td>@en.email</td>
+                <td>@en.mobile</td>
+            </tr>
+            <tr>
+                <td colspan="4">@en.enquiry</td>
+            </tr>
+
+
+            <tr>
+                <td colspan="4">property :<a href="/Account/CreateProperty?pid=@en.property_id">click to open</a></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <form method="post" action="/Account/setEnquiryStatus" class="form-inline">
+                        status:
+                        <select class="form-control" name="enqStatus">
+                            <option value="Under Admin Review" selected="@(en.getStatus()=="Under Admin Review")">Under Admin Review</option>
+                            <option value="accepted" selected="@(en.getStatus()=="accepted")">Accepted</option>
+                            <option value="rejected" selected="@(en.getStatus()=="rejected")">Rejected</option>
+                        </select>
+                        <input type="hidden" name="eid" id="eid" value="@en._id" />&nbsp;
+                        <button class="btn btn-primary" type="submit">Save Status</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

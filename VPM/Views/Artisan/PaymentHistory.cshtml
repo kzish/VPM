@@ -1,0 +1,92 @@
+﻿@{ Layout = "_Layout";}
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+
+@{ var payments = (IPagedList<VPM.Models.mPayments>)ViewBag.payments;}
+@{ var index = 1;}
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <form class="" action="/Artisan/PaymentHistory" method="get">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Date From</label>
+                            <input type="text" class="form-control" name="from" id="from" value="@ViewBag.from"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Date To</label>
+                            <input type="text" class="form-control" name="to" id="to" value="@ViewBag.to" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <input id="Submit1" type="submit" value="submit" class="btn btn-outline-secondary btn-sm form-control _active" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <table class="table tblsm">
+                <tr>
+                    <th>ID</th>
+                    <th>DATE</th>
+                    <th>REFERENCE</th>
+                    <th>ARTISAN/PROPERTY</th>
+                    <th>PAYMENT TYPE</th>
+                    <th>AMOUNT</th>
+                    <th>TXREF</th>
+                </tr>
+                <tbody>
+                    @foreach (var p in payments)
+                    {
+                        <tr>
+                            <td title="@index">@index</td>
+                            <td title="@p.date.ToShortDateString()">@p.date.ToShortDateString()</td>
+                            <td title="@p.reference">@p.reference</td>
+                            <td title="@p.artisanID@p.propertyID">@p.artisanID@p.propertyID</td>@*either on of them will show up*@
+                            <td title="@p.getpaymentType()">@p.getpaymentType()</td>
+                            <td title="@p.amount">@p.amount</td>
+                            <td title="@p.flwRef">@p.flwRef</td>
+                        </tr>
+                        index++;
+                    }
+
+                </tbody>
+            </table>
+
+            <pager class="pager-container"
+                   list="@payments"
+                   options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+                   asp-action="PaymentHistory"
+                   asp-controller="Client"
+                   asp-route-keyword="" />
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#from").Zebra_DatePicker({
+        direction: false,
+    });
+    $("#to").Zebra_DatePicker({
+        direction: false,
+        pair: $('#from')
+    });
+</script>

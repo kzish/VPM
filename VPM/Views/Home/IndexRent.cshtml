@@ -1,0 +1,55 @@
+﻿@{Layout = "_Layout";}
+@{ var props = (List<VPM.Models.mProperty>)ViewBag.props;}
+
+    <div class="row" style="height: 50%;margin:auto!important;">
+        <div class="col-md-12">
+            <form action="/Properties/SearchProperties?t=rent" method="get" id="fid">
+                <div class="bg center-block">
+                    <h4 style="text-align:center;color:#fff;font-weight:400;font-size:28px!important;background:rgba(0,0,0,0.2);padding:10px!important;">Find a home to rent</h4>
+                    <div class="btn-group">
+                        <button onclick="nav('/Home/IndexBuy')" type="button" class="btn btn-primary btn_center">Buy</button>
+                        <button onclick="nav('/Home/IndexRent')" type="button" class="btn btn-primary btn_center">Rent</button>
+                        <button onclick="nav('/Home/IndexFix')" type="button" class="btn btn-primary btn_center">Fix</button>
+                        <button onclick="nav('/Home/IndexSell')" type="button" class="btn btn-primary btn_center">Sell</button>
+                    </div>
+                    <br />
+                    <div class="input-group mb-3" style="margin-top:10px!important;">
+                        <input type="hidden" name="type1" value="1" />
+                        <input type="hidden" name="type2" value="1" />
+                        <input type="hidden" name="type3" value="1" />
+                        <input type="hidden" name="type4" value="1" />
+                        <input type="hidden" name="type5" value="1" />
+                        <input type="hidden" name="t" value="rent" />
+                        <input type="hidden" name="p" value="r" />
+                        <input style="" type="text" class="form-control sbox" placeholder="Enter an address, neighborhood, city or ZIP" name="location" id="param">
+                        <div class="input-group-append">
+                            <button class="btn btn-success btn_center" type="submit">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<br />
+<script>
+    $("#bg").backstretch("/assets/img/h_4.jpg");
+    $("#param").autocomplete({
+        serviceUrl: '/Properties/SearchProperties_Ajax?t=rent',
+        onSelect: function (suggestion) {
+           // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            window.location = suggestion.data;
+        }
+    });
+
+
+    $("#fid").on("submit", function (e) {
+        var param = $("#param").val();
+        if (param != "") {
+            $.busyLoadFull("show");
+            $("#fid").submit();
+        }
+        else {
+            //e.preventDefault();//dont submit if this is null
+        }
+    });
+</script>

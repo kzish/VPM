@@ -1,0 +1,696 @@
+﻿@{Layout = "../Home/_Layout";}
+@{var props = (IPagedList<VPM.Models.mProperty>)ViewBag.props;}
+@{var countrys = (List<VPM.Models.mCountry>)ViewBag.countrys;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+@*leaflet
+    <link href="~/assets/libs/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="~/assets/libs/leaflet/leaflet.js"></script>
+*@
+
+@*tomtom maps*@
+<link href="~/assets/libs/tomtomMaps/map.css" rel="stylesheet" />
+<script src="~/assets/libs/tomtomMaps/tomtom.min.js"></script>
+
+<style>
+    form.example input[type=text] {
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid black;
+        float: left;
+        width: 90%;
+        background: #f1f1f1;
+    }
+
+    form.example button {
+        float: left;
+        width: 10%;
+        padding: 10px;
+        background: #f00;
+        color: white;
+        font-size: 17px;
+        border: 1px solid grey;
+        border-left: none;
+        cursor: pointer;
+    }
+
+        form.example button:hover {
+            background: #f01;
+        }
+
+    form.example::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    html, body {
+        height: 100vh !important;
+        overflow-y: hidden !important;
+        position: relative;
+    }
+
+    .dropdown-menu {
+        z-index: 999999999 !important;
+    }
+</style>
+<form action="/Properties/SearchProperties?t=@ViewBag.t" method="get">
+    <input type="hidden" value="@ViewBag.t" name="t"/>
+    <div class="row" style="background:#fff;border:1px solid black;">
+        <input type="hidden" value="@ViewBag.p" name="p" />
+        <div class="col-md-4">
+            <br />
+            <div class="form-group">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        &nbsp; <input type="text" value="@ViewBag.location" name="location" class="form-control" style="height:50px!important;" placeholder="address, neighbourhood, ZIP code">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" style="height:50px!important;width:80px!important;">
+                                <i class="fa fa-search" style="font-size:20px;margin:auto!important;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 padding-0">
+            <div class="nav-item dropdown" style="font-size:12px!important">
+                <a class="nav-link dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="javascript:void(0);" role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    Home Type
+                </a>
+                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 50px, 0px);">
+                    <div class="row" style="padding:20px!important;">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck1" checked="@(ViewBag.type1==1)" name="type1" value="1">
+                                <label class="custom-control-label" for="customCheck1">House</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2" name="type2" value="1" checked="@(ViewBag.type2==1)">
+                                <label class="custom-control-label" for="customCheck2">Office</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck3" name="type3" value="1" checked="@(ViewBag.type3==1)">
+                                <label class="custom-control-label" for="customCheck3">Cottage</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck4" name="type4" value="1" checked="@(ViewBag.type4==1)">
+                                <label class="custom-control-label" for="customCheck4">Bording House</label>
+                            </div>
+
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck5" name="type5" value="1" checked="@(ViewBag.type5==1)">
+                                <label class="custom-control-label" for="customCheck5">Apartment</label>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-1 padding-0">
+
+            <div class="nav-item dropdown" style="font-size:12px!important">
+                <a class="nav-link dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="javascript:void(0);" role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    Beds
+                </a>
+                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 50px, 0px);">
+
+                    <div class="row" style="padding:20px!important;">
+
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="cr1" checked="@(ViewBag.beds==1)" name="beds" value="1">
+                                <label class="custom-control-label" for="cr1">1+</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="cr2" name="beds" value="2" checked="@(ViewBag.beds==2)">
+                                <label class="custom-control-label" for="cr2">2+</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="cr3" name="beds" value="3" checked="@(ViewBag.beds==3)">
+                                <label class="custom-control-label" for="cr3">3+</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="cr4" name="beds" value="4" checked="@(ViewBag.beds==4)">
+                                <label class="custom-control-label" for="cr4">4+</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="cr5" name="beds" value="5" checked="@(ViewBag.beds==5)">
+                                <label class="custom-control-label" for="cr5">5+</label>
+                            </div>
+
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="cr6" name="beds" value="6" checked="@(ViewBag.beds==6)">
+                                <label class="custom-control-label" for="cr6">6+</label>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-1 padding-0">
+
+            <div class="nav-item dropdown" style="font-size:12px!important">
+                <a class="nav-link dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="javascript:void(0);" role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    Baths
+                </a>
+                <div class="dropdown-menu" x-placement="bottom-start" style="z-index:999999999!important;position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 50px, 0px);">
+
+                    <div class="row" style="padding:20px!important;">
+
+                        <div class="form-group">
+                            <select class="custom-select" style="width:200px!important;" name="bathType">
+                                <option value="0" selected="@(ViewBag.bathType==0)">Ensuite</option>
+                                <option value="1" selected="@(ViewBag.bathType==1)">Shared</option>
+                                <option value="-1" selected="@(ViewBag.bathType==-1)">Both</option>
+                            </select>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-1 padding-0">
+
+            <div class="nav-item dropdown" style="font-size:12px!important">
+                <a class="nav-link dropdown-toggle"
+                   data-toggle="dropdown"
+                   href="javascript:void(0);" role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false">
+                    Price Range
+                </a>
+                <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 50px, 0px);">
+
+                    <div class="row" style="padding:20px!important;width:300px!important;">
+                        <div class="col-md-12">
+                            <input id="price_range" type="text" name="price_range" value="@ViewBag.price_range" style="width:500px!important;" />
+                            <br />
+
+
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="ct1" checked="@(ViewBag.price_max=="on")" name="price_max">
+                                    <label class="custom-control-label" for="ct1">MAX</label>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</form>
+
+<div class="container.">
+    <div class="row" style="margin-left:-13.1px!important;">
+        <div class="col-md-6" style="height:75vh!important;overflow-y:scroll;padding-right:0!important;overflow-x:hidden!important;">
+            @*houses list*@
+            <center>
+                @if (ViewBag.location != "" && ViewBag.location != null)
+                {
+                    @if (ViewBag.t == "rent")
+                    {
+                        <h1>"@ViewBag.location" properties for rent</h1>
+                    }
+                    else
+                    {
+                        <h1>"@ViewBag.location" properties for sale</h1>
+                    }
+                }
+                else
+                {
+                    @if (ViewBag.t == "rent")
+                    {
+                        <h1>properties for rent</h1>
+                    }
+                    else
+                    {
+                        <h1>properties for sale</h1>
+                    }
+                }
+                <h3>(@ViewBag.numProps) results</h3>
+            </center>
+            <div class="row" style="padding-left:13px!important;border:1px solid black;">
+                @{
+                    int index = 0;
+                }
+                @foreach (var p in props)
+                {
+                    @if (p.PImages.Count == 0)
+                    {
+                        <div class="col-md-6">
+                            <a href="/Properties/ViewProperty?pid=@p._id">
+                                <div onmouseover="showPopup(@index)" onmouseout="map.closePopup();" class="property_search" style="background-image:url('/assets/img/hlogo.jpg');background-size:contain;margin:1px;">
+                                    <div style="position:absolute;background-color:rgba(0,0,0,.4);height:100%!important;width:100%!important;top:0;left:0;border:1px solid white;">
+                                        <table class="desc_property">
+                                            <tr>
+                                                <td>@p.propertyName</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@p.price @p.billingRate</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@p.PropertyStatus @p.streetAddress</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    @p.TrimDescription(80)
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-6">
+                            <a href="/Properties/ViewProperty?pid=@p._id">
+                                <div onmouseover="showPopup(@index)" onmouseout="map.closePopup();" class="property_search" style="background-image:url('@p.PImages[0].path');background-size:contain;margin:1px">
+                                    <div style="position:absolute;background-color:rgba(0,0,0,.4);height:100%!important;width:100%!important;top:0;left:0;border:1px solid white;">
+                                        <table class="desc_property">
+                                            <tr>
+                                                <td>@p.propertyName</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@p.price @p.billingRate</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@p.PropertyStatus @p.streetAddress</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@p.TrimDescription(80)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                    index++;
+                }
+
+
+            </div>
+            <center>
+                @{ 
+                    var dic = new Dictionary<string, string>();
+                    dic.Add("t", (string)ViewBag.t.ToString());
+                    dic.Add("type1", (string)ViewBag.type1.ToString());
+                    dic.Add("type2", (string)ViewBag.type2.ToString());
+                    dic.Add("type3", (string)ViewBag.type3.ToString());
+                    dic.Add("type4", (string)ViewBag.type4.ToString());
+                    dic.Add("type5", (string)ViewBag.type5.ToString());
+                    dic.Add("price_max", (string)ViewBag.price_max);
+                    dic.Add("bathType", (string)ViewBag.bathType.ToString());
+                    dic.Add("location", (string)ViewBag.location);
+                    dic.Add("price_range", (string)ViewBag.price_range);
+                    dic.Add("beds", (string)ViewBag.beds.ToString());
+
+                }
+
+                <pager class="pagination pagination-lg"
+                       list="@props"
+                       options="@PagedList.Core.Mvc.PagedListRenderOptions.Classic"
+                       asp-action="SearchRentals"
+                       asp-controller="Properties"
+                       asp-all-route-data="@dic"
+                       asp-route-keyword="" />
+            </center>
+
+            <footer>
+
+                <br />
+
+                <div>
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-md-3">
+                                <h4>BROWSE ALL PROPERTIES</h4>
+                                <div class="more_">
+                                    <ul class="footer-ul">
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=gwarinpa'>Gwarinpa</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=garki'>Garki</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=jabi'>Jabi</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=asokoro'>Asokro</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=maitama'>Maitama</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=abaji'>Abaji</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=gwagwalada'>Gwagwalada</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=kuje'>kuje</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=bwari'>Bwari</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&type2=1&type3=1&type4=1&type5=1&location=kwali'>Kwali</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h4>BROWSE APARTMENTS</h4>
+                                <div class="more_">
+                                    <ul class="footer-ul">
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=gwarinpa'>Gwarinpa</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=garki'>Garki</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=jabi'>Jabi</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=asokoro'>Asokoro</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=maitama'>Maitama</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=abaji'>Abaji</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=gwagwalada'>Gwagwalada</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=kuje'>Kuje</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=bwari'>Bwari</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type5=1&location=kwali'>Kwali</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h4>BROWSE OFFICES</h4>
+                                <div class="more_">
+                                    <ul class="footer-ul">
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=gwarinpa'>Gwarinpa</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=garki'>Garki</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=jabi'>Jabi</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=asokoro'>Asokoro</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=maitama'>Maitama</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=abaji'>Abaji</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=gwagwalada'>Gwagwalada</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=kuje'>Kuje</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=bwari'>Bwari</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type2=1&location=kwali'>Kwali</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <h4>BROWSE HOMES</h4>
+                                <div class="more_">
+                                    <ul class="footer-ul">
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=gwarinpa'>Gwarinpa</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=garki'>Garki</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=jabi'>Jabi</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=asokoro'>Asokoro</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=maitama'>Maitama</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=abaji'>Abaji</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=abuja municipal'>Abuja Municipal</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=gwagwalada'>Gwagwalada</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=kuje'>Kuje</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=bwari'>Bwari</a></li>
+                                        <li><a href='/Properties/SearchProperties?p=r&type1=1&location=kwali'>Kwali</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <hr style="background:#fff" />
+                </div>
+
+                <div class="container">
+                    <center>
+                        <ul class="list-inline">
+                            <li><a href="/About">ABOUT</a></li>
+                            @*<li><a href="#">NEWS</a></li>
+                                <li><a href="#">CAREERS</a></li>
+                                <li><a href="#">HELP</a></li>
+                                <li><a href="#">ADVERTISE</a></li>*@
+                            <li><a href="/Terms">TERMS OF USE</a></li>
+                            <li><a href="/Privacy">PRIVACY</a></li>
+                        </ul>
+                    </center>
+                </div>
+
+                <br />
+                <br />
+                <br />
+                <div class="container">
+                    @*<hr style="background:#fff" />*@
+                </div>
+
+                @*
+                    <div class="container">
+                        <div class="row">
+
+
+                            <div class="col-md-4 mx-auto">
+                                <div>
+                                    <h3>Links</h3>
+                                    <br />
+                                    <ul class="footer-ul">
+                                        @*<li><a href="">List your rental</a></li>
+                                    <li><a href="">Advertise</a></li>
+                                        <li><a href="/Home/Join">Join</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <center>
+                                            <h3>Follow</h3>
+                                        </center>
+                                        <br />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <center>
+                                            <a class="facebookBtn smGlobalBtn" href="#"></a>
+                                            <a class="twitterBtn smGlobalBtn" href="#"></a>
+                                            <a class="googleplusBtn smGlobalBtn" href="#"></a>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mx-auto">
+                                <div style="margin-left:auto!important;margin-right:auto!important;text-align:left!important;width:100px!important;">
+                                    <h3>Contact</h3>
+                                    <br />
+                                    kayvpm@gmail.com
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                <br />
+                <br />
+
+            </footer>
+            <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+            <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+            <style>
+
+                .showmore-button {
+                    text-align: left;
+                    margin-bottom: 20px !important;
+                    clear: both !important;
+                }
+
+                .showmore-button-inner {
+                    line-height: 14px;
+                    font-size: 14px;
+                    color: #fff;
+                    cursor: pointer;
+                }
+            </style>
+
+
+            <script src="~/assets/libs/showmore/jquery.showmore.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('.more_').showmore({
+                        closedHeight: 180,
+                        buttonTextMore: 'Show more...',
+                        buttonTextLess: 'Show less ',
+                        buttonCssClass: 'showmore-button',
+                        animationSpeed: 0.5
+                    });
+                });
+            </script>
+
+
+        </div>
+        <div class="col-md-6" style="padding-left:0!important;">
+            @*map*@
+            <div id="map" style="width:100%!important;height:100%!important;border:1px solid black;position:relative;top:0;left:0;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    /* var map = L.map('map').setView([51.505, -0.09], 13);
+
+     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+     }).addTo(map);
+
+     L.marker([51.5, -0.09]).addTo(map)
+         .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+         .openPopup();
+ */
+
+
+    //for the drop downs to stay down its working without it
+    /*  jQuery('.dropdown-toggle').on('click', function (e) {
+          $(this).next().toggle();
+      });
+      jQuery('.dropdown-menu.keep-open').on('click', function (e) {
+          e.stopPropagation();
+      });
+
+      if (1) {
+          $('body').attr('tabindex', '0');
+      }
+      else {
+          alertify.confirm().set({ 'reverseButtons': true });
+          alertify.prompt().set({ 'reverseButtons': true });
+      }*/
+
+
+</script>
+
+@*ange slider*@
+<script src="~/assets/libs/rangeSlider/js/ion.rangeSlider.min.js"></script>
+<link href="~/assets/libs/rangeSlider/css/ion.rangeSlider.min.css" rel="stylesheet" />
+
+<script>
+    //init the range slider
+    $("#price_range").ionRangeSlider({
+        type: "single",
+        grid: true,
+        min: 0,
+        max: 100000,
+        from: @ViewBag.price_range,
+        to: 8000,
+        prefix: "$"
+    });
+
+
+    var map, marker;
+    tomtom.setProductInfo('VPM', '4.44.7');
+    tomtom.key('kDBGrc2tROkfTL2jlCBl26GLscDVhEZL');
+    tomtom.searchKey('kDBGrc2tROkfTL2jlCBl26GLscDVhEZL');
+
+    map = tomtom.map('map', {
+        basePath: '/assets/libs/tomtomMaps/',
+    }).setView([@ViewBag.lat, @ViewBag.lon], 12);
+
+    var markerOptions = {
+        icon: tomtom.L.icon({
+            iconUrl: '/assets/img/red_dot.png',
+            iconSize: [15, 15],
+            iconAnchor: [15, 15]
+        })
+    };
+    //open the pop up on the map on hover over the house description
+    function showPopup(index) {
+        markers[index].openPopup();
+    }
+
+    //holder array for the markers
+    var markers = {};
+    //counter looper
+    var counter = 0;
+</script>
+
+
+@foreach (var p in props)
+{
+    if (p.PImages.Count == 0)
+    {
+        <script>
+        markers[counter] = tomtom.L.marker([@p.lat, @p.lon], markerOptions).bindPopup(
+            '<table style="color:black;">' +
+            '<tr><td><img src="/assets/img/hlogo.jpg" height="25" width="25"></td></tr>'+
+                '<tr>'+
+                    '<td>N @p.price / @p.billingRate</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.bathType Bathroom</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.numBeds rooms</td>'+
+                '</tr>'+
+            '</table>'
+        ).addTo(map);
+        </script>
+    }
+    else
+    {
+        <script>
+        markers[counter] = tomtom.L.marker([@p.lat, @p.lon], markerOptions).bindPopup(
+            '<table style="color:black;">' +
+            '<tr><td><img src="@p.PImages[0].path" height="25" width="25"></td></tr>'+
+                '<tr>'+
+                    '<td>N @p.price / @p.billingRate</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.bathType Bathroom</td>'+
+                '</tr>'+
+                '<tr>'+
+                    '<td>@p.numBeds rooms</td>'+
+                '</tr>'+
+            '</table>'
+        ).addTo(map);
+        </script>
+    }
+    <script>
+        counter++;
+    </script>
+
+}

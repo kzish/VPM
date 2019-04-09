@@ -1,0 +1,149 @@
+﻿@{Layout = "_Layout";}
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var vassistants = (IPagedList<VPM.Models.mVirtualAssistant>)ViewBag.vassistants;}
+<script src="~/viewmodels/admin/Vassistant.js"></script>
+
+
+@if (ViewBag.msg != null)
+{
+    <script>
+        $.alert({
+            content: "@ViewBag.msg",
+            title:""
+        });
+    </script>
+
+}
+
+
+@*modal*@
+<!-- Trigger the modal with a button -->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <form id="fv" method="POST" action="/Admin/CreateVirtualAssistant" style="color:red;">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Surname</label>
+                                <input type="text" class="form-control" id="surnmae" name="surname" required />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="black">Password</label>
+                                <input type="text" class="form-control" id="password" name="password" readonly value="pass123" />
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+    <span class="fa fa-plus"></span>
+    Add Assistant
+</button>
+<br />
+
+
+<pager class="pager-container"
+       list="@vassistants"
+       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+       asp-action="Properties"
+       asp-controller="Account"
+       asp-route-keyword="" />
+
+<div class="row">
+
+
+    <div class="col-md-12">
+        <table class="table table-condensed table-striped tblsm">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Surname</td>
+                    <td>Email</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in vassistants)
+                {
+                    <tr>
+                        <td>@v.name</td>
+                        <td>@v.surname</td>
+                        <td>@v.email</td>
+                        <td><span class="fa fa-trash" title="delete" onclick="deleteVAssistant('@v._id')" style="cursor:pointer;"></span></td>
+                    </tr>
+
+                }
+                <tr></tr>
+            </tbody>
+        </table>
+    </div>@*col-md-12*@
+</div>@*row*@
+<pager class="pager-container"
+       list="@vassistants"
+       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+       asp-action="Properties"
+       asp-controller="Account"
+       asp-route-keyword="" />
+
+
+<script>
+    $(document).ready(function () {
+        $("#fv").validate();
+    })
+
+</script>

@@ -1,0 +1,73 @@
+﻿@{ Layout = "_Layout";}
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var property = (IPagedList<VPM.Models.mProperty>)ViewBag.property;}
+
+
+
+
+@*imagehover*@
+<link href="~/template_themes/sidebar_/css/imageHover.css" rel="stylesheet" />
+
+
+<pager class="pager-container"
+       list="@property"
+       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+       asp-action="Properties"
+       asp-controller="Account"
+       asp-route-keyword="" />
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="divImageHolder">
+            <a href="/Account/CreateProperty">
+                <div class="divImageItem firstProduct">
+                    <img src="~/assets/img/img_add_more.png" class="bshadow" />
+                    <span class="text-content"><span>CLICK TO ADD <br />NEW PROPERTY</span></span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    @foreach (var p in property)
+    {
+        <div class="col-md-3">
+            <div class="divImageHolder">
+                <a href="/Account/CreateProperty?pid=@p._id">
+                    <div class="divImageItem firstProduct">
+                        @if (p.PImages.Count > 0)
+                        {
+                            <img src="@p.PImages[0].path" style="object-fit:cover" class="bshadow"/>
+                        }
+                        else
+                        {
+                            <img src="~/account/assets/img/placeholder_property.png"  style="object-fit:cover" class="bshadow"/>
+                        }
+                        <span class="text-content">
+                            <span>
+                                Created: @p.dateCreated.ToString("d MMM yyyy")
+                                <br />
+                                @p.propertyName
+                                <br />
+                                @p.PropertyStatus
+                            </span>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+</div>
+
+
+<pager class="pager-container"
+       list="@property"
+       options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+       asp-action="Properties"
+       asp-controller="Account"
+       asp-route-keyword="" />

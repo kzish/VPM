@@ -1,0 +1,131 @@
+﻿@{ Layout = "_Layout";}
+@{var user = (VPM.Models.mUser)ViewBag.user;}
+@{var msgs = (List<VPM.Models.mMessages>)ViewBag.msgs;}
+@{var chats = (List<VPM.Models.chat>)ViewBag.chats;}
+
+@*bk button override*@
+<script src="~/assets/js/back_button_override.js"></script>
+
+<div class="container">
+    <h3 class=" text-center">Messaging</h3>
+    <div class="messaging">
+        <div class="inbox_msg">
+            <div class="inbox_people">
+                <div class="headind_srch">
+                    <div class="recent_heading">
+                        <h4>Recent</h4>
+                    </div>
+                    <div class="srch_bar">
+                        <div class="stylish-input-group">
+                            <form id="fsearch" method="post" action="/AdminMessage">
+                                <input type="text" class="search-bar" placeholder="Search" name="search" value="@ViewBag.search">
+                                <span class="input-group-addon">
+                                    <button type="submit"> <i class="fa fa-search" aria-hidden="true"></i> </button>
+                                </span>
+                            </form>
+                        </div>
+                    </div>
+                    <a href="/Admin/Dashboard" class="btn btn-primary btn-sm">
+                        Close Messaging
+                    </a>
+
+                </div>
+                <div class="inbox_chat">
+                    @*chats*@
+                    @foreach (var m in msgs)
+                    {
+                        <a href="/AdminMessage?msgId=@m._id&to=@m.userEmail">
+                            <div class="chat_list active_chat" style="cursor:pointer;">
+                                <div class="chat_people">
+                                    <div class="chat_img">
+                                        <img src="~/assets/img/user-profile.png" />
+                                    </div>
+                                    <div class="chat_ib">
+                                        <h5>@m.userEmail<span class="chat_date">@m.chats[m.chats.Count - 1].date.ToString("dd MMM yyyy")</span></h5>
+                                        
+                                        <table style="width:100%;">
+                                            <tr>
+                                                <td width="90%">
+                                                    <p>
+                                                        @(m.chats[m.chats.Count - 1].message.Length > 120 ? m.chats[m.chats.Count - 1].message.Substring(0, 120) : m.chats[m.chats.Count - 1].message)...
+                                                    </p>
+                                                </td>
+                                                <td style="color:blue!important;text-transform:lowercase;" width="10%">
+                                                    @m.userType
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+
+                    }
+
+
+                </div>
+            </div>
+            <div class="mesgs">
+                <div class="msg_history" id="msg_history">
+                    @*messages in the chats*@
+                    @foreach (var c in chats)
+                    {
+                        if (c.to == user.email)
+                        {
+                            <div class="outgoing_msg">
+                                <div class="sent_msg">
+                                    <p>
+                                        @c.message
+                                    </p>
+                                    <span class="time_date"> @c.date.ToString("HH:mm tt")    |    @c.date.ToString("MMMM d")</span>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="incoming_msg">
+                                <div class="incoming_msg_img">
+                                    <img src="~/assets/img/user-profile.png" />
+                                </div>
+                                <div class="received_msg">
+                                    <div class="received_withd_msg">
+                                        <p>
+                                            @c.message
+                                        </p>
+                                        <span class="time_date"> @c.date.ToString("HH:mm tt")    |    @c.date.ToString("MMMM d")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+
+                </div>@*chats*@
+                <div class="type_msg">
+                    <form method="post" id="fmsg" action="/AdminMessage/postMessage">
+                        <input type="hidden" value="@ViewBag.user.email" name="from" />
+                        <input type="hidden" value="@ViewBag.to" name="to" />
+                        <input type="hidden" value="@ViewBag.msgId" name="msgId" />
+                        <div class="input_msg_write">
+                            <input type="text" class="write_msg" placeholder="Type a message" name="message" id="message" required @(ViewBag.msgId==null?"disabled":"")/>
+                            <button class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () { 
+        var objDiv = document.getElementById("msg_history");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        $("#message").focus();
+    });
+    
+</script>

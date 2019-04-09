@@ -1,0 +1,439 @@
+﻿@{Layout = "_Layout";}
+@{var property = (VPM.Models.mProperty)ViewBag.property;}
+@{var countrys = (List<VPM.Models.mCountry>)ViewBag.countrys;}
+
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+
+@*validate*@
+<script src="~/assets/libs/validate/jquery_validator/jquery.validate.js"></script>
+@*bl*@
+<script src="~/assets/libs/busyload/bl.js"></script>
+<link href="~/assets/libs/busyload/bl.css" rel="stylesheet" />
+
+<link href="~/template_themes/sidebar_/css/imageHoverSmall.css" rel="stylesheet" />
+
+
+@*jalert*@
+<script src="~/assets/libs/jquery_alerts/jquery-confirm.min.js"></script>
+<link href="~/assets/libs/jquery_alerts/jquery-confirm.min.css" rel="stylesheet" />
+
+@*page script*@
+<script src="~/viewmodels/account/CreateProperty.js"></script>
+@*jconfirm*@
+<script src="~/assets/libs/jconfirm/messagebox.js"></script>
+<link href="~/assets/libs/jconfirm/messagebox.css" rel="stylesheet" />
+
+@*selectize*@
+<script src="~/assets/libs/selectize/js/standalone/selectize.js"></script>
+<link href="~/assets/libs/selectize/css/selectize.css" rel="stylesheet" />
+
+
+
+
+
+<form method="post" action="/Account/CreateProperty" id="fcp" style="color:red;background:#fff!important;">
+    <input type="hidden" value="@ViewBag.pid" id="pid" name="pid" />
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">
+                    Basic Details
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Property Name</label>
+                                <br />
+                                <input type="text" value="@property.propertyName" name="propertyName" id="propertyName" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Property Type</label>
+                                <br />
+
+                                <select name="propertyType" id="propertyType" class="">
+                                    <option value="@(VPM.Models.PropertyType.house)" selected="@(property.propertyType==VPM.Models.PropertyType.house)">House</option>
+                                    <option value="@(VPM.Models.PropertyType.office)" selected="@(property.propertyType==VPM.Models.PropertyType.office)">Office</option>
+                                    <option value="@(VPM.Models.PropertyType.cottage)" selected="@(property.propertyType==VPM.Models.PropertyType.cottage)">Cottage</option>
+                                    <option value="@(VPM.Models.PropertyType.boarding_house)" selected="@(property.propertyType==VPM.Models.PropertyType.boarding_house)">Boarding House</option>
+                                    <option value="@(VPM.Models.PropertyType.apartment)" selected="@(property.propertyType==VPM.Models.PropertyType.apartment)">Apartment</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Country</label>
+                                <br />
+                                <select name="propertyCountry" id="propertyCountry" class="">
+                                    @foreach (var c in countrys)
+                                    {
+                                        <option value="@c.name">@c.name</option>
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">State/Province</label>
+                                <br />
+                                <input type="text" name="stateOrPorvince" class="form-control" placeholder="Abuja" value="@property.stateOrPorvince" />
+
+                            </div>
+                        </div>
+
+
+                    </div>@*ROW*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">
+                    Basic Details
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">City/Town</label>
+                                <br />
+                                <input type="text" class="form-control" id="cityOrTown" name="cityOrTown" value="@property.cityOrTown" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Street Address</label>
+                                <br />
+                                <input type="text" name="streetAddress" id="streetAddress" class="form-control" required value="@property.streetAddress" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Billing Rate</label>
+                                <br />
+                                <select name="billingRate" id="billingRate" class="">
+                                    <option value="Monthly" selected="@(property.billingRate=="Monthly")">Monthly</option>
+                                    <option value="Hourly" selected="@(property.billingRate=="Hourly")">Hourly</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Price</label>
+                                <br />
+                                <input type="number" step="any" name="price" id="price" class="form-control" required value="@property.price" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>@*ROW*@
+
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">
+                    Property Details
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Property Status</label>
+                                <br />
+                                <select name="PropertyStatus" id="PropertyStatus" class="">
+                                    <option value="Available" selected="@(property.PropertyStatus=="Available")">Available</option>
+                                    <option value="Not Available" selected="@(property.PropertyStatus=="Not Available")">Not Available</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Number Of occupants</label>
+                                <br />
+                                <select name="numberOfOccupants" id="numberOfOccupants" class="form-control" style="font-size:14px!important;height:38px!important;">
+                                    <option value="Un Specified" selected="@(property.numberOfOccupants=="Un Specified")">Un Specified</option>
+                                    <option value="1" selected="@(property.numberOfOccupants=="1")">1</option>
+                                    <option value="2" selected="@(property.numberOfOccupants=="2")">2</option>
+                                    <option value="3" selected="@(property.numberOfOccupants=="3")">3</option>
+                                    <option value="4" selected="@(property.numberOfOccupants=="4")">4</option>
+                                    <option value="5" selected="@(property.numberOfOccupants=="5")">5</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Number Of Bedrooms</label>
+                                <br />
+                                <input type="number" min="1" value="@property.numBeds" class="form-control" name="numBeds" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="black">Number of heads</label>
+                                <br />
+                                <input type="number" class="form-control" id="qtyOfThisProperty" name="qtyOfThisProperty" value="@property.qtyOfThisProperty" required />
+                                <small style="color:blue!important;">Only Applicable to boarding houses</small>
+                            </div>
+                        </div>
+                    </div>@*row*@
+                </div>
+            </div>
+        </div>
+    </div>@*row*@
+
+    <br />
+    <br />
+    <br />
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">
+                    Property Description
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Description</label>
+                                <br />
+                                <textarea placeholder="Two bedroom flat with nice balcony view..." rows="8" style="height:100px;" type="text" name="description" id="description" class="form-control">@property.description</textarea>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="black">Bathroom Type</label>
+                                <br />
+                                <select name="bathType" class="form-control" style="height:36px!important;">
+                                    <option value="@(VPM.Models.BathRoomType.ensuite)" selected="@(property.bathType==VPM.Models.BathRoomType.ensuite)">Ensuite</option>
+                                    <option value="@(VPM.Models.BathRoomType.shared)" selected="@(property.bathType==VPM.Models.BathRoomType.shared)">Shared</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="black">Property is for:</label>
+                                <br />
+                                <select name="propertyPurpose" class="form-control" style="height:36px!important;">
+                                    <option value="@(VPM.Models.PropertyPurpose.forRent)" selected="@(property.propertyPurpose==VPM.Models.PropertyPurpose.forRent)">For Rent</option>
+                                    <option value="@(VPM.Models.PropertyPurpose.forSale)" selected="@(property.propertyPurpose==VPM.Models.PropertyPurpose.forSale)">For Sale</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>@*row*@
+
+    <br />
+    <br />
+    <br />
+
+    @*eligibiity form*@
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card bshadow">
+                <div class="card-header _active">
+                    Eligibillity Form
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" id="eligibilityFormLink" class="form-control" value="@property.eligibilityFormLink" placeholder="click create to begin..." />
+                                    <div class="input-group-append" id="button-addon4">
+
+                                        <button type="button" class="btn btn-outline-secondary _active" onclick="openGoogleForm();">
+                                            CREATE ELIGIBILITY FORM
+                                        </button>
+
+                                        <button type="button" class="btn btn-outline-secondary _active" onclick="deleteEligibilityForm('@ViewBag.pid')">
+                                            <span class="fa fa-times"></span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input type="submit" value="SAVE" class="btn btn-outline-success  btn-block" />
+                        </div>
+                        <div class="col-md-3">
+                            <input type="button" value="DELETE" class="btn btn-outline-danger btn-block" onclick="deleteProperty();" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>@*row*@
+
+</form>
+<br />
+<br />
+<br />
+<div class="bshadow" style="padding:20px!important;">
+    <div class="row">
+
+        @*col-md-6 for right column*@
+        <div class="col-md-6" style="border-right: 1px solid #000000;">
+            <div class="row">
+                <div class="col-md-12">
+                    Upload Property Images
+                    <input id="fimages" type="file" accept="image/*" multiple style="visibility:hidden;" />
+                </div>
+            </div>
+            @*gallery images*@
+            <div class="row" id="pimages">
+
+                <div class="col-md-4">
+                    <div class="divImageHolder">
+                        <a href="javascript:void(0);" onclick="openFimages();">
+                            <div class="divImageItem firstProduct">
+                                <img src="~/assets/img/img_add_more.png" />
+                                <span class="text-content"><span>CLICK TO UPLOAD <br />IMAGE</span></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                @foreach (var i in property.PImages)
+                {
+                    <div class="col-md-4" id="@i._id">
+                        <div class="divImageHolder">
+                            <a href="javascript:void(0);">
+                                <div class="divImageItem firstProduct">
+                                    <img src="@i.path" style="object-fit:cover" />
+                                    <span class="text-content">
+                                        <span>
+                                            <i class="fa fa-trash" title="delete" onclick="removePropertyImage('@ViewBag.pid','@i._id')"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+
+            </div><!-- /.row -->
+        </div>
+        @*col-md-6 for left column*@
+
+        @*col-md-6 for right column*@
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-12">
+                    Upload Title Deed Images
+                    <input id="tfiles" type="file" accept="image/*" multiple style="visibility:hidden; height:0px; width:0px;" />
+                </div>
+            </div>
+
+            @*gallery images*@
+            <div class="row" id="tdfiles">
+
+                <div class="col-md-4">
+                    <div class="divImageHolder" onclick="openTFiles();">
+                        <a href="javascript:void(0);">
+                            <div class="divImageItem firstProduct">
+                                <img src="~/assets/img/img_add_more.png" />
+                                <span class="text-content"><span>CLICK TO UPLOAD <br />IMAGE</span></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+                @foreach (var i in property.TdFiles)
+                {
+                    <div class="col-md-4" id="@i._id">
+                        <div class="divImageHolder">
+                            <a href="javascript:void(0);">
+                                <div class="divImageItem firstProduct">
+                                    <img src="@i.path" style="object-fit:cover" />
+                                    <span class="text-content">
+                                        <span>
+                                            <i class="fa fa-trash" title="delete" onclick="removeTitleDeed('@ViewBag.pid','@i._id')"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>@*col-md-6 for right column*@
+    </div>
+</div>
+
+
+
+
+<script>
+    var availableTags = [];
+
+    $("#cityOrTown").on("keyup", function () {
+        var country_ = $("#country").val();
+        var state_ = $("#state").val();
+        $.getJSON("/Account/getcities?country=" + country_ + "&state=" + state_, function (data) {
+            availableTags = data;
+            console.log(data);
+            try {
+                $("#cityOrTown").autocomplete({
+                    source: availableTags
+                });
+            } catch (e) {
+                console.log("error" + e);
+
+            }
+
+        });
+
+    });
+
+</script>
+
+
+
+
+
+
