@@ -638,19 +638,23 @@ namespace VPM.Controllers
         }
 
 
+      
+
+
         [Route("Artisans")]
         public IActionResult Artisans(int page = 1, string registered = "notregistered", string name = "", string surname = "", string mobile = "", string city = "")
         {
-            if(registered!=null)
-            registered = registered.ToLower();
-            if(name!=null)
-            name = name.ToLower();
-            if(surname!=null)
-            surname = surname.ToLower();
-            if(mobile!=null)
-            mobile = mobile.ToLower();
-            if(city!=null)
-            city = city.ToLower();
+            
+            if (registered != null)
+                registered = registered.ToLower();
+            if (name != null)
+                name = name.ToLower();
+            if (surname != null)
+                surname = surname.ToLower();
+            if (mobile != null)
+                mobile = mobile.ToLower();
+            if (city != null)
+                city = city.ToLower();
             ViewBag.title = "Artisans";
             ViewBag.user = getuser();
             var acol = globals.getDB().GetCollection<mArtisan>("mArtisan");
@@ -679,7 +683,7 @@ namespace VPM.Controllers
         }
 
         [Route("ViewArtisanFullProfile")]
-        public IActionResult ViewArtisanFullProfile(string aid,string msg="",string type="")//artisan profile =aid
+        public IActionResult ViewArtisanFullProfile(string aid, string msg = "", string type = "")//artisan profile =aid
         {
             ViewBag.user = getuser();
             var acol = globals.getDB().GetCollection<mArtisan>("mArtisan");
@@ -702,7 +706,7 @@ namespace VPM.Controllers
         {
             var acol = globals.getDB().GetCollection<mArtisan>("mArtisan");
             var update = Builders<mArtisan>.Update.Set(x => x.registered, true);
-            acol.UpdateOne(x=>x._id==aid,update);//update it
+            acol.UpdateOne(x => x._id == aid, update);//update it
             var artisan = acol.Find(x => x._id == aid).FirstOrDefault();
             //send email
             var email = new globals.emailMessage();
@@ -710,10 +714,11 @@ namespace VPM.Controllers
             email.message = email.message.Replace("{{message}}", "Your account is now active.");
             email.to = artisan.email;
             email.subject = "Porchlyt Account Notification";
-            Task.Run(()=> {
+            Task.Run(() =>
+            {
                 globals.sendEmail(email);//send email async
             });
-            return RedirectToAction("ViewArtisanFullProfile", "Admin", new { msg = "Enabled", type = "green" ,aid=aid});
+            return RedirectToAction("ViewArtisanFullProfile", "Admin", new { msg = "Enabled", type = "green", aid = aid });
         }
 
         [Route("disableAccount")]
@@ -729,10 +734,11 @@ namespace VPM.Controllers
             email.message = email.message.Replace("{{message}}", "Your account has been deactivated.");
             email.to = artisan.email;
             email.subject = "Porchlyt Account Notification";
-            Task.Run(() => {
+            Task.Run(() =>
+            {
                 globals.sendEmail(email);//send email async
             });
-            return RedirectToAction("ViewArtisanFullProfile", "Admin", new { msg = "Disabled", type = "orange",aid=aid });
+            return RedirectToAction("ViewArtisanFullProfile", "Admin", new { msg = "Disabled", type = "orange", aid = aid });
         }
 
 

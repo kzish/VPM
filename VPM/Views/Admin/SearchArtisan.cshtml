@@ -1,0 +1,138 @@
+﻿@{ Layout = "../Home/_Layout";}
+@using PagedList.Core;
+@using PagedList;
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, PagedList.Core.Mvc
+
+@{ var artisans = (IPagedList<VPM.Models.mArtisan>)ViewBag.artisans;}
+@*pagination*@
+<link href="~/assets/css/pagination.css" rel="stylesheet" />
+
+@*bar rating*@
+<link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
+<script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
+
+
+<br />
+<br />
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="fid" action="/Properties/SearchArtisan" method="get">
+                <div class="input-group mb-3" style="margin-top:10px!important;">
+                    <input style="" type="text" class="form-control sbox" placeholder="Need something fixed? eg. window fitting" name="param" id="param" value="@ViewBag.param">
+                    <div class="input-group-append">
+                        <button class="btn btn-success btn_center" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+
+        @if(artisans.Count==0)
+        {
+            <div style="width:500px;margin:auto;">
+                <center>
+                    We could not find any matches for ypur search<br />
+                    Login or <a href="/Home/Join">sign up</a> under <b>Client option</b> and specify the work that you want done, you will be notified when a match is found
+                </center>
+            </div>
+
+        }
+
+
+        @foreach (var a in artisans)
+        {
+            <div class="col-md-4">
+                <a href="/Properties/ViewArtisanFullProfile?aid=@a._id" style="text-decoration:none;">
+                    <div class="card mb-3">
+                        <h3 class="card-header" title="@(a.name  +" "+  a.surname)">@(globals.trimString( a.name  +" "+  a.surname , 25 ) )</h3>
+                        <div class="card-body.">
+                            <div style="width:100%;padding:15px!important;background:rgba(0,0,0,0.5);width:100%;position:absolute;bottom:0;left:0;color:#fff;">
+                                <table style="width:100%;height:100%;" class="">
+                                    <tr>
+                                        <td colspan="2">
+                                            <select class="brating">
+                                                @for (var i = 0; i < a.getRating(); i++)
+                                                {
+                                                    <option value="1">1</option>
+                                                }
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jobs</td>
+                                        <td>@a.numJobs</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Rate / Hour</td>
+                                        <td>@(globals.getLocalCurrencyNG(a.hourlyRate) )</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" title="@a.mobile | @a.email">@a.mobile | @a.email </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" title="@a.streetAddress">@( globals.trimString(a.streetAddress, 25) )</td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                        @if (a.image != "" && a.image != null)
+                        {
+                        <img style="height: 200px; width: 100%; display: block;object-fit:cover;" src="@a.image">
+                        }
+                        else
+                        {
+                            <img src="~/assets/img/user-profile.png" style="height: 200px; width: 100%; display: block;object-fit:cover;" />
+                        }
+                        
+                    </div>
+                </a>
+            </div>
+        }
+    </div>@*row*@
+    @{
+        var rd = new Dictionary<string, string>();
+        rd.Add("param", ViewBag.param);
+     }
+
+    <pager class="pager-container"
+           list="@artisans"
+           options="@PagedList.Core.Mvc.PagedListRenderOptions.PageNumbersOnly"
+           asp-action="SearchArtisan"
+           asp-controller="Properties"
+           asp-all-route-data="rd"
+           asp-route-keyword="" />
+
+</div>@*container*@
+
+<script>
+     $("#param").autocomplete({
+        serviceUrl: '/Properties/SearchArtisans_Ajax',
+        onSelect: function (suggestion) {
+            // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+            window.location = suggestion.data;
+        }
+    });
+
+
+    $("#fid").on("submit", function (e) {
+            $.busyLoadFull("show");
+    });
+
+
+
+    $('.brating').barrating({
+        theme: 'fontawesome-stars',
+        readonly:true
+    });
+
+
+</script>
+

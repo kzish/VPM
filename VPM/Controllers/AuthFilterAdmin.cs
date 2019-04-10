@@ -53,7 +53,8 @@ namespace VPM.Controllers
         }
 
 
-
+        //auto matically populate the db with the admin account
+        //uses the support email as the username
         public void adminExists()
         {
             var ucol = globals.getDB().GetCollection<mUser>("mUser");

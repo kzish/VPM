@@ -12,12 +12,11 @@
 @*bar rating*@
 <script src="~/assets/libs/rating/jquery.barrating.min.js"></script>
 <link href="~/assets/libs/rating/themes/fontawesome-stars.css" rel="stylesheet" />
-
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
-            <div class="panel-heading" style="background:#000;color:#fff;">Result (@artisans.Count)</div>
-            <div class="panel-body">
+        <div class="card bshadow">
+            <div class="card-header _active">Result (@artisans.Count)</div>
+            <div class="card-body">
                 <form action="/Admin/Artisans" method="post">
                     <table class="table tblsm">
                         <thead>
@@ -28,10 +27,10 @@
                                         <option selected="@(ViewBag.registered=="registered")" value="registered">registered</option>
                                     </select>
                                 </th>
-                                <th><input type="text" name="name" value="@ViewBag.name" /></th>
-                                <th><input type="text" name="surname" value="@ViewBag.surname" /></th>
-                                <th><input type="text" name="mobile" value="@ViewBag.mobile" /></th>
-                                <th><input type="text" name="city" value="@ViewBag.city" /></th>
+                                <th><input placeholder="name" type="text" name="name" value="@ViewBag.name" /></th>
+                                <th><input placeholder="surname" type="text" name="surname" value="@ViewBag.surname" /></th>
+                                <th><input placeholder="mobile" type="text" name="mobile" value="@ViewBag.mobile" /></th>
+                                <th><input placeholder="city" type="text" name="city" value="@ViewBag.city" /></th>
                                 <th><button value="search" type="submit" style="height:20px"> &nbsp;&nbsp; search &nbsp;&nbsp;</button></th>
                             </tr>
 

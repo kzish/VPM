@@ -94,7 +94,7 @@ using PagedList;
             WriteLiteral("\r\n\r\n\r\n");
             EndContext();
             BeginContext(320, 78, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "ead955f5fcbc470b91351b51e06ef618", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "6371f7c14cd44233ab7169ab9d7ae4be", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -116,7 +116,7 @@ using PagedList;
             WriteLiteral("<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <div class=\"\" style=\"padding:10px;\">\r\n            ");
             EndContext();
             BeginContext(517, 2572, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "43bd3d391dd84204bd2ac9417752bd0c", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "73b74741028c4d6db6d50e8441cfb5f6", async() => {
                 BeginContext(576, 207, true);
                 WriteLiteral("\r\n                <div class=\"row\">\r\n                    <div class=\"input-group mb-3\">\r\n\r\n                        <input placeholder=\"city\" type=\"text\" class=\"form-control\" id=\"cityOrTown\" name=\"cityOrTown\"");
                 EndContext();
@@ -141,7 +141,7 @@ WriteAttributeValue("", 932, ViewBag.stateOrPorvince, 932, 24, false);
                 WriteLiteral(" />\r\n\r\n                        <select name=\"propertyType\" id=\"propertyType\" class=\"form-control\">\r\n                            ");
                 EndContext();
                 BeginContext(1085, 45, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2e1015b74a5c47d2ad5e9d40e1bba41a", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b9f18e859eb0451a837c6397b402d5af", async() => {
                     BeginContext(1102, 19, true);
                     WriteLiteral("All (Property Type)");
                     EndContext();
@@ -163,7 +163,7 @@ WriteAttributeValue("", 932, ViewBag.stateOrPorvince, 932, 24, false);
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(1160, 107, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7aa3d9f98429468fb70c547f7c7f62fc", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5e35ac6fd8774344b88c51a3575c382d", async() => {
                     BeginContext(1253, 5, true);
                     WriteLiteral("House");
                     EndContext();
@@ -199,7 +199,7 @@ AddHtmlAttributeValue("", 1219, ViewBag.propertyType=="house", 1219, 32, false);
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(1297, 110, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0aa7c5fbeebc4096bad26df4d955cde9", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dd5d61408a124529837638255494d60e", async() => {
                     BeginContext(1392, 6, true);
                     WriteLiteral("Office");
                     EndContext();
@@ -235,7 +235,7 @@ AddHtmlAttributeValue("", 1357, ViewBag.propertyType=="office", 1357, 33, false)
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(1437, 113, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f92b86871ce44db7b04de8669ce24d1e", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d22aaca71aa748dda3f0d7de188aee37", async() => {
                     BeginContext(1534, 7, true);
                     WriteLiteral("Cottage");
                     EndContext();
@@ -271,7 +271,7 @@ AddHtmlAttributeValue("", 1498, ViewBag.propertyType=="cottage", 1498, 34, false
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(1580, 134, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "89143eed87cf46a498ea41a2274a8390", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9e58f8da944d40b0be15c40f52c5b14a", async() => {
                     BeginContext(1691, 14, true);
                     WriteLiteral("Boarding House");
                     EndContext();
@@ -307,7 +307,7 @@ AddHtmlAttributeValue("", 1648, ViewBag.propertyType=="boarding_house", 1648, 41
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(1744, 119, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b9afafafc8464dfd86d7b9f2e8361bb3", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "9a1ec3b70ffb41ea90b71e407f621dbc", async() => {
                     BeginContext(1845, 9, true);
                     WriteLiteral("Apartment");
                     EndContext();
@@ -352,7 +352,7 @@ AddHtmlAttributeValue("", 1807, ViewBag.propertyType=="apartment", 1807, 36, fal
                 WriteLiteral("                                ");
                 EndContext();
                 BeginContext(2110, 78, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8f845838b0c84301a2c7605ace66fbe8", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "28a24f7e4acd43689aadfde6da3508a7", async() => {
                     BeginContext(2173, 6, false);
 #line 41 "C:\Users\samaritan\Documents\VPM\VPM\Views\Admin\Properties.cshtml"
                                                                                          Write(c.name);
@@ -402,7 +402,7 @@ AddHtmlAttributeValue("", 2145, ViewBag.propertyCountry, 2145, 24, false);
                 WriteLiteral("                        </select>\r\n\r\n                        <select name=\"adminApproved\" id=\"adminApproved\" class=\"form-control\">\r\n                            ");
                 EndContext();
                 BeginContext(2381, 53, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b3ab8977bce94f3a9a6ac992606f871f", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6888d90d3e0648c99e395ac5cd5c051f", async() => {
                     BeginContext(2398, 27, true);
                     WriteLiteral("All (Approved and Rejected)");
                     EndContext();
@@ -424,7 +424,7 @@ AddHtmlAttributeValue("", 2145, ViewBag.propertyCountry, 2145, 24, false);
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(2464, 90, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6ea51c881b434242a109da423e2293d7", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "652a5540effd49fd9bfb432781b3ac04", async() => {
                     BeginContext(2537, 8, true);
                     WriteLiteral("Approved");
                     EndContext();
@@ -453,7 +453,7 @@ AddHtmlAttributeValue("", 2499, ViewBag.adminApproved=="approved", 2499, 36, fal
                 WriteLiteral("\r\n                            ");
                 EndContext();
                 BeginContext(2584, 90, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "155c8f7c37c44361801a44075310a67e", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "38928a7d5b4d4cfd9ce78988b2145a07", async() => {
                     BeginContext(2657, 8, true);
                     WriteLiteral("Rejected");
                     EndContext();
@@ -517,7 +517,7 @@ AddHtmlAttributeValue("", 2619, ViewBag.adminApproved=="rejected", 2619, 36, fal
             WriteLiteral("\r\n\r\n");
             EndContext();
             BeginContext(3140, 229, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "afe7241e9fd5454193ac5f41efc2f57a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "3fa2c7cf021d40f5ad42f5f2854e8c81", async() => {
             }
             );
             __PagedList_Core_Mvc_PagerTagHelper = CreateTagHelper<global::PagedList.Core.Mvc.PagerTagHelper>();
@@ -607,7 +607,7 @@ WriteAttributeValue("", 3741, p.PImages[0].path, 3741, 18, false);
             WriteLiteral("                            ");
             EndContext();
             BeginContext(3932, 76, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "35d3dbccb6634eb99155f309c2e1919a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "c1c3043c498f48e987b846ebf64cf3b9", async() => {
             }
             );
             __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -687,7 +687,7 @@ WriteAttributeValue("", 3741, p.PImages[0].path, 3741, 18, false);
             WriteLiteral("</div>\r\n\r\n\r\n");
             EndContext();
             BeginContext(5385, 229, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "7579d965e985411fb37ae67840975b49", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("pager", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.SelfClosing, "270fe8fdabfe4a2fb33b428effb2dd9f", async() => {
             }
             );
             __PagedList_Core_Mvc_PagerTagHelper = CreateTagHelper<global::PagedList.Core.Mvc.PagerTagHelper>();

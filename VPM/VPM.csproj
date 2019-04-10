@@ -71,6 +71,9 @@
     <Content Update="Views - Copy\Message\_Layout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Admin\SearchArtisan.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Admin\ViewArtisanFullProfile.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -54,7 +54,7 @@ namespace VPM
 
             app.Run(async (context) =>
             {
-                //await context.Response.WriteAsync("<script>window.location='/Home/error404';</script>");
+                await context.Response.WriteAsync("<script>window.location='/Home/error404';</script>");
                 //await context.Response.Redirect("");
             });
         }

@@ -40,10 +40,6 @@
     label span {
         color: red;
     }
-
-    html {
-        font-size: 12px !important;
-    }
 </style>
 
 @*bar rating*@
@@ -60,11 +56,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background:#000!important;color:#fff;">Picture</div>
-                <div class="panel-body">
+            <div class="card bshadow">
+                <div class="card-header _active">Picture</div>
+                <div class="card-body">
                     <center>
-                        @if (a.image != null && a.image != "")
+                        @if (String.IsNullOrEmpty(a.image))
                         {
                             <img id="pimg" src="@a.image" alt="image" style="height:auto;width:100%;object-fit:cover;cursor:pointer;" />
                         }
@@ -83,7 +79,7 @@
                     </select>
                 </div>
             </div>
-            Account is currently: @(a.registered?"enabled":"disabled")
+            Account is currently: @(a.registered ? "enabled" : "disabled")
             <br />
             @if (a.registered)
             {
@@ -95,22 +91,22 @@
             }
         </div>
         <div class="col-md-9">
-            <div class="panel panel-default">
-                <div class="panel-heading" style="background:#000!important;color:#fff;">Artisans' Details</div>
-                <div class="panel-body">
+            <div class="card bshadow">
+                <div class="card-header _active">Artisans' Details</div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="black">Name</label>
                                 <br />
-                                <label>@a.name</label>
+                                <input type="text" readonly class="form-control" value="@a.name" />
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="black">Surname</label><br />
-                                <label>@a.surname</label>
+                                <input type="text" readonly class="form-control" value="@a.surname" />
                             </div>
                         </div>
                     </div>
@@ -119,7 +115,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="black">Mobile</label><br />
-                                <label>@a.mobile</label>
+                                <input type="text" class="form-control" value="@a.mobile" readonly />
                             </div>
                         </div>
 
@@ -135,7 +131,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="black">Employment Type</label><br />
-                                <label>@a.employmentType</label>
+                                <input type="text" readonly value="@a.employmentType" class="form-control" />
                             </div>
                         </div>
 
@@ -153,7 +149,7 @@
                             <div class="form-group">
                                 <label class="black">Street Address</label>
                                 <br />
-                                <label>@a.streetAddress</label>
+                                <small>@a.streetAddress</small>
                             </div>
                         </div>
                     </div>
@@ -161,20 +157,20 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="black">Referee1 Name</label><br />
-                                <label>@a.referees[0].refname</label>
+                                <label class="black">Referee1 Name</label>
+                                <input type="text" readonly value="@a.referees[0].refname" class="form-control" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="black">Referee1 Mobile</label><br />
-                                <label>@a.referees[0].refmobile</label>
+                                <label class="black">Referee1 Mobile</label>
+                                <input type="text" class="form-control" readonly value="@a.referees[0].refmobile" />
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="black">Referee1 Email </label><br />
-                                <label>@a.referees[0].refemail</label>
+                                <input type="text" readonly class="form-control" value="@a.referees[0].refemail" />
                             </div>
                         </div>
                     </div>
@@ -183,57 +179,66 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="black">Referee2 Name </label>
-                                <label>@a.referees[1].refname</label>
+                                <input type="text" readonly class="form-control" value="@a.referees[1].refname" />
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="black">Referee2 Mobile </label>
-                                <label>@a.referees[1].refmobile</label>
+                                <input type="text" readonly class="form-control" value="@a.referees[1].refmobile" />
                             </div>
                         </div>
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="black">Referee2 Email </label>
-                                <label>@a.referees[1].refemail</label>
+                                <input type="text" value="@a.referees[1].refemail" readonly class="form-control" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @*skills panel*@
     </div>
 
-    @if (a.skills_list != null && a.skills_list.Count > 0)
-    {
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-                <select multiple disabled class="chosen">
-                    @foreach (var s in skills)
-                    {
-                        if (a.skills_list.Contains(s._id))
-                        {
-                            <option selected>@s.skill</option>
-                        }
+    <div class="row">
+        <div class="col-md-9 offset-3">
+            <br />
+            <br />
+            <div class="card bshadow">
+                <div class="card-header _active">Skills</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @if (a.skills_list != null && a.skills_list.Count > 0)
+                            {
 
-                    }
-                </select>
+                                <select multiple disabled class="chosen">
+                                    @foreach (var s in skills)
+                                    {
+                                        if (a.skills_list.Contains(s._id))
+                                        {
+                                            <option selected>@s.skill</option>
+                                        }
 
+                                    }
+                                </select>
+
+                            }
+                            else
+                            {
+
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-    }
-    else
-    {
-
-    }
-
-    @*row*@
 </div>
+
 <br />
 <br />
 <!-- Initialize the plugin: -->

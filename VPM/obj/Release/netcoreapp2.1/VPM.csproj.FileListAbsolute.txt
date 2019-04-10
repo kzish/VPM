@@ -298,3 +298,4 @@ C:\Users\samaritan\Documents\VPM\VPM\obj\Release\netcoreapp2.1\VPM.Views.pdb
 C:\Users\samaritan\Documents\VPM\VPM\obj\Release\netcoreapp2.1\VPM.dll
 C:\Users\samaritan\Documents\VPM\VPM\obj\Release\netcoreapp2.1\VPM.pdb
 C:\Users\samaritan\Documents\VPM\VPM\obj\Release\netcoreapp2.1\VPM.csproj.CopyComplete
+C:\Users\samaritan\Documents\VPM\VPM\obj\Release\netcoreapp2.1\Razor\Views\Admin\SearchArtisan.g.cshtml.cs
